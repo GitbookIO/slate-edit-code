@@ -12,6 +12,7 @@ npm install slate-edit-code
 
 - Pressing <kbd>Enter</kbd> insert a new line starting with the right indentation
 - Pressing <kbd>Tab</kbd> insert the right indentation
+- Pressing <kbd>Delete</kbd> remove the indentation before cursor if possible
 - Pressing <kbd>Command+Enter</kbd> (<kbd>Ctrl+Enter</kbd> on Windows/Linux) exits the code block
 
 ### Simple Usage
@@ -23,3 +24,7 @@ const plugins = [
   EditCode()
 ]
 ```
+
+#### Arguments
+
+- ``[onlyIn: Function(Node)]`` — a filtering function to select code blocks.
