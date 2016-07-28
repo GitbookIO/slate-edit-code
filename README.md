@@ -8,6 +8,12 @@ A Slate plugin to handle keyboard events in code blocks.
 npm install slate-edit-code
 ```
 
+### Features
+
+- Pressing <kbd>Enter</kbd> insert a new line starting with the right indentation
+- Pressing <kbd>Tab</kbd> insert the right indentation
+- Pressing <kbd>Command+Enter</kbd> (<kbd>Ctrl+Enter</kbd> on Windows/Linux) exits the code block
+
 ### Simple Usage
 
 ```js
