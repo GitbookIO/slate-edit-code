@@ -1,5 +1,7 @@
 # slate-edit-code
 
+[![NPM version](https://badge.fury.io/js/slate-edit-code.svg)](http://badge.fury.io/js/slate-edit-code)
+
 A Slate plugin to handle keyboard events in code blocks.
 
 ### Install
