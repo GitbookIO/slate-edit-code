@@ -1,7 +1,7 @@
 # slate-edit-code
 
 [![NPM version](https://badge.fury.io/js/slate-edit-code.svg)](http://badge.fury.io/js/slate-edit-code)
-[![Linux Build Status](https://travis-ci.org/SamyPesse/slate-edit-code.png?branch=master)](https://travis-ci.org/SamyPesse/slate-edit-code)
+[![Linux Build Status](https://travis-ci.org/GitbookIO/slate-edit-code.png?branch=master)](https://travis-ci.org/GitbookIO/slate-edit-code)
 
 A Slate plugin to handle keyboard events in code blocks.
 
