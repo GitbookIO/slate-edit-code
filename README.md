@@ -17,6 +17,7 @@ npm install slate-edit-code
 - Pressing <kbd>Tab</kbd> insert the right indentation if selection is collapsed or indent all lines in selection
 - Pressing <kbd>Delete</kbd> remove the indentation before cursor if possible
 - Pressing <kbd>Command+Enter</kbd> (<kbd>Ctrl+Enter</kbd> on Windows/Linux) exits the code block
+- Pressing <kbd>Command+A</kbd> (<kbd>Ctrl+A</kbd> on Windows/Linux) select all the text in the block
 
 ### Simple Usage
 
