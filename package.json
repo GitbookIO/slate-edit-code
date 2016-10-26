@@ -22,7 +22,7 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "read-metadata": "^1.0.0",
-    "slate": "^0.13.6"
+    "slate": "^0.14.16"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
