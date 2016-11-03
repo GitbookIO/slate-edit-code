@@ -1,7 +1,7 @@
 {
   "name": "slate-edit-code",
   "description": "A Slate plugin to handle keyboard events in code blocks.",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "Apache-2.0",
   "repository": "git://github.com/GitbookIO/slate-edit-code.git",
   "main": "./dist/index.js",
