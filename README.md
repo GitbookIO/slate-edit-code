@@ -32,3 +32,4 @@ const plugins = [
 #### Arguments
 
 - ``[onlyIn: Function(Node)]`` — a filtering function to select code blocks.
+- ``[selectAll: Boolean]`` — enable/disable select all code blocks on <kbd>Command+A</kbd>
