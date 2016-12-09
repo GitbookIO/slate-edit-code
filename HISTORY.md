@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.7.0
+
+- Add option `selectAll`
+
 ### 0.6.2
 
 - Update slate peed dependency to prevent NPM warnings when used with `0.15.x`
