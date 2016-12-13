@@ -23,7 +23,11 @@ describe('slate-edit-code', function() {
 
             const newState = runTransform(plugin, stateInput);
 
-            const newDocJSon = Slate.Raw.serialize(newState, { terse: true });
+            const newDocJSon = Slate.Raw.serialize(newState, {
+                terse: true,
+                preserveSelection: Boolean(expected.selection)
+            });
+
             expect(newDocJSon).toEqual(expected);
         });
     });
