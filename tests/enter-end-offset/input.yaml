@@ -4,9 +4,12 @@ document:
     - kind: block
       type: code_block
       nodes:
-        - kind: text
-          key: 'cursor'
-          text: "Some code"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              key: 'cursor'
+              text: "Some code"
 selection:
   anchorKey: 'cursor'
   anchorOffset: 9
