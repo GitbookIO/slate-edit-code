@@ -30,7 +30,7 @@
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
     "lint": "eslint ./",
-    "test": "./node_modules/.bin/mocha ./tests/all.js --compilers js:babel-register --bail --reporter=list"
+    "test": "./node_modules/.bin/mocha ./tests/all.js --compilers js:babel-register --reporter=list"
   },
   "keywords": [
     "slate"
