@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.8.0
+
+- *Breaking change* : Changed the structure of code blocks. A code block is now made of a container, and a list of lines.
+  - Removed option `onlyIn`
+  - Add option `containerType`
+  - Add option `lineType`
+- Added option `shiftEnterBlockType` to determine the default block type when exiting a code block.
+- Added support for multi-lines Tab and Shift+Tab
+
 ### 0.7.0
 
 - Add option `selectAll`
