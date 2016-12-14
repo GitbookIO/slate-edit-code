@@ -53,5 +53,5 @@ const plugins = [
 
 - ``[containerType: String]`` — The type of the code containers
 - ``[lineType: String]`` — The type of the code lines
-- ``[shiftEnterExit: Boolean]`` — True to handle <kbd>Shift+Enter</kbd> to exit a code container
+- ``[shiftEnterBlockType: String]`` — Shift+Enter will exit the code container, into the given block type. Pass `null` to not handle this case.
 - ``[selectAll: Boolean]`` — True to select all code inside a code container on <kbd>Command+A</kbd>
