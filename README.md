@@ -3,7 +3,7 @@
 [![NPM version](https://badge.fury.io/js/slate-edit-code.svg)](http://badge.fury.io/js/slate-edit-code)
 [![Linux Build Status](https://travis-ci.org/GitbookIO/slate-edit-code.png?branch=master)](https://travis-ci.org/GitbookIO/slate-edit-code)
 
-A Slate plugin to handle keyboard events in code blocks.
+A Slate plugin to handle edition of code blocks.
 
 ### Install
 
@@ -19,6 +19,26 @@ npm install slate-edit-code
 - Pressing <kbd>Command+Enter</kbd> (<kbd>Ctrl+Enter</kbd> on Windows/Linux) exits the code block
 - Pressing <kbd>Command+A</kbd> (<kbd>Ctrl+A</kbd> on Windows/Linux) select all the text in the block
 
+### Structure
+
+This plugin uses the following structure for code blocks:
+
+``` yaml
+nodes:
+  - kind: block
+    type: code_block
+    nodes:
+      - kind: block
+        type: code_line
+        nodes:
+          - text: "A code block is made of..."
+      - kind: block
+        type: code_line
+        nodes:
+          - text: "...several code lines"
+
+```
+
 ### Simple Usage
 
 ```js
@@ -29,7 +49,9 @@ const plugins = [
 ]
 ```
 
-#### Arguments
+#### Options arguments
 
-- ``[onlyIn: Function(Node)]`` — a filtering function to select code blocks.
-- ``[selectAll: Boolean]`` — enable/disable select all code blocks on <kbd>Command+A</kbd>
+- ``[containerType: String]`` — The type of the code containers
+- ``[lineType: String]`` — The type of the code lines
+- ``[shiftEnterBlockType: String]`` — Shift+Enter will exit the code container, into the given block type. Pass `null` to not handle this case.
+- ``[selectAll: Boolean]`` — True to select all code inside a code container on <kbd>Command+A</kbd>

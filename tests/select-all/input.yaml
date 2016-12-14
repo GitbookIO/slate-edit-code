@@ -1,0 +1,29 @@
+document:
+  nodes:
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              key: 'a'
+              text: "Line 1"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              key: 'b'
+              text: "Line 2"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              key: 'c'
+              text: "Line 3"
+selection:
+  anchorKey: 'a'
+  anchorOffset: 2
+  focusKey: 'a'
+  focusOffset: 2
+  isFocused: true
