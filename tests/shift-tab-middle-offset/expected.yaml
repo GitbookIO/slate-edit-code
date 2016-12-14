@@ -6,7 +6,7 @@ nodes:
         type: code_line
         nodes:
           - kind: text
-            text: "    Line 1"
+            text: "  Line 1"
       - kind: block
         type: code_line
         nodes:
@@ -16,4 +16,4 @@ nodes:
         type: code_line
         nodes:
           - kind: text
-            text: "    Line 3"
+            text: "  Line 3"

@@ -7,14 +7,14 @@ nodes:
         type: code_line
         nodes:
           - kind: text
-            text: "Lin    e 1"
+            text: "Line 1"
       - kind: block
         type: code_line
         nodes:
           - kind: text
-            text: "Line 2"
+            text: "    Line 2"
       - kind: block
         type: code_line
         nodes:
           - kind: text
-            text: "Line 3"
+            text: "  Line 3"
