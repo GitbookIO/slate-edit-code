@@ -7,4 +7,9 @@ nodes:
         type: code_line
         nodes:
           - kind: text
-            text: "Some\n code"
+            text: "Some"
+      - kind: block
+        type: code_line
+        nodes:
+          - kind: text
+            text: " code"
