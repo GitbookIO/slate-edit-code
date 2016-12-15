@@ -5,7 +5,7 @@ module.exports = function(plugin, state) {
             preventDefault() {},
             stopPropagation() {}
         },
-        { key: 'enter', isShift: true },
+        { key: 'enter', isMod: true },
         state
     );
 };
