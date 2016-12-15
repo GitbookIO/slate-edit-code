@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.9.0
+
+- *Breaking change* Renamed option `shiftEnterBlockType` to `exitBlockType`.
+- Shift+Enter shortcut is now assigned to Mod+Enter, as before.
+
 ### 0.8.2
 
 - Fixed onPaste
