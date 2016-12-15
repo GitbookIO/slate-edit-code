@@ -289,7 +289,7 @@ var _require = require('slate'),
     Text = _require.Text;
 
 var onEnter = require('./onEnter');
-var onShiftEnter = require('./onShiftEnter');
+var onModEnter = require('./onModEnter');
 var onTab = require('./onTab');
 var onShiftTab = require('./onShiftTab');
 var onBackspace = require('./onBackspace');
@@ -342,8 +342,8 @@ function EditCode(opts) {
                 }
 
                 // User is pressing Shift+Enter
-                else if (data.key == KEY_ENTER && data.isShift && opts.shiftEnterBlockType) {
-                        return onShiftEnter.apply(undefined, args);
+                else if (data.key == KEY_ENTER && data.isMod && opts.exitBlockType) {
+                        return onModEnter.apply(undefined, args);
                     }
 
                     // User is pressing Enter
@@ -405,7 +405,7 @@ function EditCode(opts) {
 
 module.exports = EditCode;
 
-},{"./getCurrentCode":3,"./getLines":6,"./makeSchema":8,"./onBackspace":9,"./onEnter":10,"./onSelectAll":11,"./onShiftEnter":12,"./onShiftTab":13,"./onTab":14,"./options":15,"slate":361}],8:[function(require,module,exports){
+},{"./getCurrentCode":3,"./getLines":6,"./makeSchema":8,"./onBackspace":9,"./onEnter":10,"./onModEnter":11,"./onSelectAll":12,"./onShiftTab":13,"./onTab":14,"./options":15,"slate":361}],8:[function(require,module,exports){
 'use strict';
 
 var _require = require('immutable'),
@@ -705,6 +705,30 @@ function onEnter(event, data, state, opts) {
 module.exports = onEnter;
 
 },{"./getIndent":5}],11:[function(require,module,exports){
+"use strict";
+
+/**
+ * User pressed Mod+Enter in an editor
+ * Exit the current code block
+ */
+function onModEnter(event, data, state, opts) {
+    if (!state.isCollapsed) {
+        return;
+    }
+
+    event.preventDefault();
+
+    // Exit the code block
+    var transform = state.transform();
+    transform.insertBlock({ type: opts.exitBlockType });
+
+    var inserted = transform.state.startBlock;
+    return transform.unwrapNodeByKey(inserted.key).apply();
+}
+
+module.exports = onModEnter;
+
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var getCurrentCode = require('./getCurrentCode');
@@ -721,31 +745,7 @@ function onSelectAll(event, data, state, opts) {
 
 module.exports = onSelectAll;
 
-},{"./getCurrentCode":3}],12:[function(require,module,exports){
-"use strict";
-
-/**
- * User pressed Shift+Enter in an editor
- * Exit the current code block
- */
-function onShiftEnter(event, data, state, opts) {
-    if (!state.isCollapsed) {
-        return;
-    }
-
-    event.preventDefault();
-
-    // Exit the code block
-    var transform = state.transform();
-    transform.insertBlock({ type: opts.shiftEnterBlockType });
-
-    var inserted = transform.state.startBlock;
-    return transform.unwrapNodeByKey(inserted.key).apply();
-}
-
-module.exports = onShiftEnter;
-
-},{}],13:[function(require,module,exports){
+},{"./getCurrentCode":3}],13:[function(require,module,exports){
 'use strict';
 
 var getCurrentIndent = require('./getCurrentIndent');
@@ -819,7 +819,7 @@ var DEFAULTS = {
     lineType: 'code_line',
 
     // Shift+Enter will exit the code container, into the given block type
-    shiftEnterBlockType: 'paragraph',
+    exitBlockType: 'paragraph',
     // Should the plugin handle the select all inside a code container
     selectAll: true,
     // Allow marks inside code blocks
