@@ -1,0 +1,17 @@
+document:
+  nodes:
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              key: 'start'
+              text: "Some code"
+selection:
+  anchorKey: 'start'
+  anchorOffset: 4
+  focusKey: 'start'
+  focusOffset: 4
+  isFocused: true
