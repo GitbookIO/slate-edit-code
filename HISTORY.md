@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.9.1
+
+- Export utils.deserializeCode that deserialize a text into a code block
+
 ### 0.9.0
 
 - *Breaking change* Renamed option `shiftEnterBlockType` to `exitBlockType`.
