@@ -660,39 +660,54 @@ module.exports = makeSchema;
 var endsWith = require('ends-with');
 
 var getCurrentIndent = require('./getCurrentIndent');
+var getCurrentCode = require('./getCurrentCode');
 
 /**
  * User pressed Delete in an editor:
  * Remove last idnentation before cursor
  */
 function onBackspace(event, data, state, opts) {
-    if (!state.isCollapsed) {
+    if (state.isExpanded) {
         return;
     }
 
-    var startBlock = state.startBlock,
-        startOffset = state.startOffset;
+    var startOffset = state.startOffset,
+        startText = state.startText;
 
 
+    var currentLine = state.startBlock;
+
+    // Detect and remove indentation at cursor
     var indent = getCurrentIndent(opts, state);
-
-    var currentLineText = startBlock.text;
-    var beforeSelection = currentLineText.slice(0, startOffset);
+    var beforeSelection = currentLine.text.slice(0, startOffset);
 
     // If the line before selection ending with the indentation?
-    if (!endsWith(beforeSelection, indent)) {
-        return;
+    if (endsWith(beforeSelection, indent)) {
+        // Remove indent
+        event.preventDefault();
+
+        return state.transform().deleteBackward(indent.length).focus().apply();
     }
 
-    // Remove indent
-    event.preventDefault();
+    // Otherwise check if we are in an empty code container...
+    else if (opts.exitBlockType) {
+            var currentCode = getCurrentCode(opts, state);
+            var isStartOfCode = startOffset === 0 && currentCode.getFirstText() === startText;
+            // PERF: avoid checking for whole currentCode.text
+            var isEmpty = currentCode.nodes.size === 1 && currentLine.text.length === 0;
 
-    return state.transform().deleteBackward(indent.length).focus().apply();
+            if (isStartOfCode && isEmpty) {
+
+                event.preventDefault();
+                // Convert it to default exit type
+                return state.transform().setBlock(opts.exitBlockType).unwrapNodeByKey(currentLine.key).apply();
+            }
+        }
 }
 
 module.exports = onBackspace;
 
-},{"./getCurrentIndent":5,"ends-with":61}],10:[function(require,module,exports){
+},{"./getCurrentCode":4,"./getCurrentIndent":5,"ends-with":61}],10:[function(require,module,exports){
 'use strict';
 
 var getIndent = require('./getIndent');
@@ -832,7 +847,8 @@ var DEFAULTS = {
     // Type of the code lines
     lineType: 'code_line',
 
-    // Shift+Enter will exit the code container, into the given block type
+    // Mod+Enter will exit the code container, into the given block type.
+    // Backspace at start of empty code container, will turn it into the given block type.
     exitBlockType: 'paragraph',
     // Should the plugin handle the select all inside a code container
     selectAll: true,
