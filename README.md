@@ -53,5 +53,5 @@ const plugins = [
 
 - ``[containerType: String]`` — The type of the code containers
 - ``[lineType: String]`` — The type of the code lines
-- ``[exitBlockType: String]`` — Command+Enter will exit the code container, into the given block type. Pass `null` to disable this behavior.
+- ``[exitBlockType: String]`` — Mod+Enter will exit the code container, into the given block type. Backspace at start of an empty code container will convert it to the given block type. Pass `null` to disable this behavior.
 - ``[selectAll: Boolean]`` — True to select all code inside a code container on <kbd>Command+A</kbd>

@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.10.0
+
+- Added: Backspace in empty code container will convert it to default `exitBlockType`
+
+### 0.9.2
+
+- Fix case-insensitive slate require
+
 ### 0.9.1
 
 - Export utils.deserializeCode that deserialize a text into a code block
