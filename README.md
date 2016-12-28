@@ -55,3 +55,22 @@ const plugins = [
 - ``[lineType: String]`` — The type of the code lines
 - ``[exitBlockType: String]`` — Mod+Enter will exit the code container, into the given block type. Backspace at start of an empty code container will convert it to the given block type. Pass `null` to disable this behavior.
 - ``[selectAll: Boolean]`` — True to select all code inside a code container on <kbd>Command+A</kbd>
+
+
+### Utilities and Transform
+
+`slate-edit-code` exports utilities, accessible like so:
+
+``` js
+const plugin = EditCode()
+
+// Access exported utilities there
+plugin.utils
+```
+
+#### `utils.deserializeCode`
+
+`plugin.utils.deserializeCode(text: String) => Block`
+
+Split a text string into lines, and deserialize them to a `code_container` `Block`, with one children `code_line` `Block` per line.
+
