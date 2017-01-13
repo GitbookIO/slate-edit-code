@@ -77,7 +77,7 @@ Split a text string into lines, and deserialize them to a `code_container` `Bloc
 
 #### `transforms.toggleCodeBlock`
 
-`plugin.transforms.toggleCodeBlock(transform: Transform, type: String | Object) => Transform`
+`plugin.transforms.toggleCodeBlock(transform: Transform, type: String) => Transform`
 
 Toggle a block into a code block or a normal block (defined by `type`).
 
@@ -94,12 +94,12 @@ Convert a block (paragraph, etc) into a code block.
 Convert current block (paragraph, etc) into a code block.
 
 #### `transforms.unwrapCodeBlockByKey`
-`plugin.transforms.unwrapCodeBlockByKey(transform: Transform, key: String, type: String | Object) => Transform`
+`plugin.transforms.unwrapCodeBlockByKey(transform: Transform, key: String, type: String) => Transform`
 
 Convert a code block into a normal block (paragraph, etc).
 
 #### `transforms.unwrapCodeBlock`
 
-`plugin.transforms.unwrapCodeBlock(transform: Transform, type: String | Object) => Transform`
+`plugin.transforms.unwrapCodeBlock(transform: Transform, type: String) => Transform`
 
 Convert current code block into a normal block (paragraph, etc).

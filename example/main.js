@@ -36,7 +36,7 @@ const Example = React.createClass({
         const { state } = this.state;
 
         this.onChange(
-            plugin.transforms.toggleCodeBlock(state.transform())
+            plugin.transforms.toggleCodeBlock(state.transform(), 'paragraph')
             .focus()
             .apply()
         );
