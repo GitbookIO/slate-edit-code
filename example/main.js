@@ -43,13 +43,17 @@ const Example = React.createClass({
     },
 
     render() {
+        const { state } = this.state;
+
         return (
             <div>
-                <button onClick={this.onToggleCode}>Code block</button>
+                <button onClick={this.onToggleCode}>
+                    {plugin.utils.isInCodeBlock(state) ? 'Paragraph' : 'Code Block'}
+                </button>
                 <Slate.Editor
                     placeholder={'Enter some text...'}
                     plugins={plugins}
-                    state={this.state.state}
+                    state={state}
                     onChange={this.onChange}
                     schema={SCHEMA}
                 />
