@@ -86,3 +86,8 @@ Convert a block (paragraph, etc) into a code block.
 `plugin.transforms.wrapCodeBlock(transform: Transform) => Transform`
 
 Convert current block (paragraph, etc) into a code block.
+
+#### `transforms.unwrapCodeBlockByKey`
+`plugin.transforms.unwrapCodeBlockByKey(transform: Transform, key: String, type: String | Object) => Transform`
+
+Convert a code block into a normal block (paragraph, etc).
