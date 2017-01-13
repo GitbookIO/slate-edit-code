@@ -1,0 +1,19 @@
+document:
+  nodes:
+    - kind: block
+      type: paragraph
+      nodes:
+        - kind: text
+          key: 'start'
+          text: "Hello "
+        - kind: inline
+          type: link
+          nodes:
+            - kind: text
+              text: "world"
+selection:
+  anchorKey: 'start'
+  anchorOffset: 0
+  focusKey: 'start'
+  focusOffset: 0
+  isFocused: true
