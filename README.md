@@ -79,3 +79,10 @@ Split a text string into lines, and deserialize them to a `code_container` `Bloc
 `plugin.transforms.wrapCodeBlockByKey(transform: Transform, key: String) => Transform`
 
 Convert a block (paragraph, etc) into a code block.
+
+
+#### `transforms.wrapCodeBlock`
+
+`plugin.transforms.wrapCodeBlock(transform: Transform) => Transform`
+
+Convert current block (paragraph, etc) into a code block.
