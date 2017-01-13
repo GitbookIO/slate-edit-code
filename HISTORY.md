@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.10.1
+
+- Added `isInCodeBlock` utils
+- Added `wrapCodeBlock` and `wrapCodeBlockByKey` transforms
+- Added `unwrapCodeBlock` and `unwrapCodeBlockByKey` transforms
+
 ### 0.10.0
 
 - Added: Backspace in empty code container will convert it to default `exitBlockType`
