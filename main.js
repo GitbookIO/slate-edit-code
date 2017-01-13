@@ -5,8 +5,9 @@ const PluginEditCode = require('../lib/');
 
 const stateJson = require('./state');
 
+const plugin = PluginEditCode();
 const plugins = [
-    PluginEditCode()
+    plugin
 ];
 
 const SCHEMA = {
@@ -31,15 +32,32 @@ const Example = React.createClass({
         });
     },
 
+    onToggleCode() {
+        const { state } = this.state;
+
+        this.onChange(
+            plugin.transforms.toggleCodeBlock(state.transform(), 'paragraph')
+            .focus()
+            .apply()
+        );
+    },
+
     render() {
+        const { state } = this.state;
+
         return (
-            <Slate.Editor
-                placeholder={'Enter some text...'}
-                plugins={plugins}
-                state={this.state.state}
-                onChange={this.onChange}
-                schema={SCHEMA}
-            />
+            <div>
+                <button onClick={this.onToggleCode}>
+                    {plugin.utils.isInCodeBlock(state) ? 'Paragraph' : 'Code Block'}
+                </button>
+                <Slate.Editor
+                    placeholder={'Enter some text...'}
+                    plugins={plugins}
+                    state={state}
+                    onChange={this.onChange}
+                    schema={SCHEMA}
+                />
+            </div>
         );
     }
 });
