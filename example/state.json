@@ -22,7 +22,7 @@
                     "kind": "text",
                     "ranges": [
                         {
-                            "text": "This page is a basic example of Slate + slate-edit-code plugin. Press Tab to indent code. Shift+Tab to unindent. Press Enter to carry indentation onto the newline. Press Shift+Enter to exit the code block."
+                            "text": "This page is a basic example of Slate + slate-edit-code plugin. Press Tab to indent code. Shift+Tab to unindent. Press Enter to carry indentation onto the newline. Press Cmd (or Ctrl on Windows) + Enter to exit the code block."
                         }
                     ]
                 }
