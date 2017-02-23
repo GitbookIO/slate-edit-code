@@ -13,7 +13,7 @@
   },
   "peerDependencies": {
     "slate": "0.x.x"
-},
+  },
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",
@@ -30,7 +30,7 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "read-metadata": "^1.0.0",
-    "slate": "0.16.8"
+    "slate": "^0.16.22"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
