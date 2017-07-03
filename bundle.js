@@ -478,8 +478,11 @@ module.exports = isInCodeBlock;
 },{}],9:[function(require,module,exports){
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _require = require('immutable'),
-    Set = _require.Set;
+    Set = _require.Set,
+    List = _require.List;
 
 var Slate = require('slate');
 
@@ -593,38 +596,59 @@ function onlyText(opts) {
             var nodes = node.nodes;
 
 
-            if (nodes.size === 1 && nodes.first().kind === 'text') {
-                // There is a single text node -> valid
-                return null;
-            }
-
-            var invalids = nodes.filterNot(function (n) {
+            var toRemove = nodes.filterNot(function (n) {
                 return n.kind === 'text';
             });
+            if (!toRemove.isEmpty()) {
+                // Remove them, and the rest
+                // will be done in the next validation call.
+                return { toRemove: toRemove };
+            }
+            // Else, there are only text nodes
 
-            return {
-                invalids: invalids,
-                add: invalids.size == nodes.size ? [Slate.Text.create()] : []
-            };
+            else if (nodes.size > 1) {
+                    return { toJoin: nodes };
+                } else if (nodes.size === 0) {
+                    return { toAdd: [Slate.Text.create()] };
+                } else {
+                    // There is a single text node -> valid
+                    return null;
+                }
         },
 
 
         /**
-         * Replaces the node's children
-         * @param {List<Nodes>} value.nodes
+         * Clean up the child nodes.
          */
         normalize: function normalize(transform, node, _ref2) {
-            var _ref2$invalids = _ref2.invalids,
-                invalids = _ref2$invalids === undefined ? [] : _ref2$invalids,
-                _ref2$add = _ref2.add,
-                add = _ref2$add === undefined ? [] : _ref2$add;
+            var _ref2$toRemove = _ref2.toRemove,
+                toRemove = _ref2$toRemove === undefined ? List() : _ref2$toRemove,
+                _ref2$toAdd = _ref2.toAdd,
+                toAdd = _ref2$toAdd === undefined ? List() : _ref2$toAdd,
+                _ref2$toJoin = _ref2.toJoin,
+                toJoin = _ref2$toJoin === undefined ? List() : _ref2$toJoin;
 
             // Remove invalids
-            transform = invalids.reduce(function (t, child) {
+            transform = toRemove.reduce(function (t, child) {
                 return t.removeNodeByKey(child.key, { normalize: false });
             }, transform);
 
-            transform = add.reduce(function (t, child) {
+            // Join nodes.
+            var pairs = toJoin.butLast().map(function (child, index) {
+                return [child.key, toJoin.get(index + 1).key];
+            });
+
+            // Join every node onto the previous one.
+            transform = pairs.reverse().reduce(function (t, _ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2),
+                    childKey = _ref4[0],
+                    nextChildKey = _ref4[1];
+
+                return t.joinNodeByKey(nextChildKey, childKey, { normalize: false });
+            }, transform);
+
+            // Add missing nodes
+            transform = toAdd.reduce(function (t, child) {
                 return t.insertNodeByKey(node.key, 0, child);
             }, transform);
 
@@ -662,8 +686,8 @@ function noMarks(opts) {
          * Removes the given marks
          * @param {Set<Marks>} value.removeMarks
          */
-        normalize: function normalize(transform, node, _ref3) {
-            var removeMarks = _ref3.removeMarks;
+        normalize: function normalize(transform, node, _ref5) {
+            var removeMarks = _ref5.removeMarks;
 
             var selection = transform.state.selection;
             var range = selection.moveToRangeOf(node);
