@@ -1,7 +1,7 @@
 {
   "name": "slate-edit-code",
   "description": "A Slate plugin to handle code blocks editing.",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "license": "Apache-2.0",
   "repository": "git://github.com/GitbookIO/slate-edit-code.git",
   "main": "./dist/index.js",
@@ -9,11 +9,10 @@
     "detect-indent": "^4.0.0",
     "detect-newline": "^2.1.0",
     "ends-with": "^0.2.0",
-    "immutable": "^3.8.1"
+    "immutable": "^3.8.1",
+    "slate": "^0.22.10"
   },
-  "peerDependencies": {
-    "slate": "0.x.x"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",
@@ -29,8 +28,7 @@
     "mocha": "^3.0.1",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
-    "read-metadata": "^1.0.0",
-    "slate": "^0.19.7"
+    "read-metadata": "^1.0.0"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",

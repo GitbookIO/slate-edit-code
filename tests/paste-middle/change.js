@@ -1,5 +1,5 @@
 
-module.exports = function(plugin, state) {
+module.exports = function(plugin, change) {
     return plugin.onPaste(
         {
             preventDefault() {},
@@ -9,6 +9,6 @@ module.exports = function(plugin, state) {
             type: 'text',
             text: 'Yes\nNo\nQuestion?'
         },
-        state
+        change
     );
 };

@@ -1,11 +1,11 @@
 
-module.exports = function(plugin, state) {
+module.exports = function(plugin, change) {
+    const { state } = change;
     const block = state.document.findDescendant(node => node.type == 'code_block');
 
-    const withCursor = state.transform()
+    const withCursor = change
         .collapseToStartOf(block)
-        .moveOffsetsTo(0)
-        .apply();
+        .moveOffsetsTo(0);
 
     return plugin.onKeyDown(
         {
@@ -13,6 +13,6 @@ module.exports = function(plugin, state) {
             stopPropagation() {}
         },
         { key: 'tab' },
-        withCursor
+        change
     );
 };
