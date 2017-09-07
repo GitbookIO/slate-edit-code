@@ -3,7 +3,7 @@ module.exports = function(plugin, change) {
     const { state } = change;
     const block = state.document.findDescendant(node => node.type == 'code_block');
 
-    const withCursor = change
+    change
         .collapseToStartOf(block)
         .moveOffsetsTo(0);
 

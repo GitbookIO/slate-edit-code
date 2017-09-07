@@ -26,7 +26,7 @@ const Example = React.createClass({
         };
     },
 
-    onChange(state) {
+    onChange({ state }) {
         this.setState({
             state
         });
@@ -36,9 +36,8 @@ const Example = React.createClass({
         const { state } = this.state;
 
         this.onChange(
-            plugin.transforms.toggleCodeBlock(state.transform(), 'paragraph')
+            plugin.changes.toggleCodeBlock(state.change(), 'paragraph')
             .focus()
-            .apply()
         );
     },
 
