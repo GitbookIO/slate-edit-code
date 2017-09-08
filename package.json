@@ -29,7 +29,8 @@
     "mocha": "^3.0.1",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
-    "read-metadata": "^1.0.0"
+    "read-metadata": "^1.0.0",
+    "slate": "^0.22.14"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
