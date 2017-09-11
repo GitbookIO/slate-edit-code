@@ -5,7 +5,8 @@ document:
       nodes:
         - kind: text
           key: 'start'
-          text: "Hello world"
+          ranges:
+            - text: "Hello world"
 selection:
   anchorKey: 'start'
   anchorOffset: 0

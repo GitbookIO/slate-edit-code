@@ -1,18 +1,20 @@
-
-nodes:
-  - kind: block
-    type: code_block
-    nodes:
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: "Some orphan code"
-  - kind: block
-    type: code_block
-    nodes:
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: "Some other code"
+document:
+  nodes:
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: "Some orphan code"
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: "Some other code"
