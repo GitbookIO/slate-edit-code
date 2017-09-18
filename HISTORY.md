@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - change all instances of `transform` to `change`
 - change the namespace of `plugin.transforms` to `plugin.changes`
 
+### 0.10.4
+
+- Added `onExit(transform: Transform): ?Transform` option
+
 ### 0.10.2
 
 - Upgrade to slate^0.19.7
