@@ -22,11 +22,11 @@ const SCHEMA = {
 const Example = React.createClass({
     getInitialState() {
         return {
-            state: Slate.Raw.deserialize(stateJson, { terse: true })
+            state: Slate.State.fromJSON(stateJson)
         };
     },
 
-    onChange(state) {
+    onChange({ state }) {
         this.setState({
             state
         });
@@ -36,9 +36,8 @@ const Example = React.createClass({
         const { state } = this.state;
 
         this.onChange(
-            plugin.transforms.toggleCodeBlock(state.transform(), 'paragraph')
+            plugin.changes.toggleCodeBlock(state.change(), 'paragraph')
             .focus()
-            .apply()
         );
     },
 

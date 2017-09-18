@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.11.0
+
+- Upgrade to be compatable with Slate after the `expose-transform` branch went in.
+- change all instances of `transform` to `change`
+- change the namespace of `plugin.transforms` to `plugin.changes`
+
 ### 0.10.4
 
 - Added `onExit(transform: Transform): ?Transform` option

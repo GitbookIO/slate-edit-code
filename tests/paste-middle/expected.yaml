@@ -1,20 +1,23 @@
-
-nodes:
-  - kind: block
-    type: code_block
-    nodes:
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: "SomeYes"
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: "No"
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: "Question? code"
+document:
+  nodes:
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: "SomeYes"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: "No"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: "Question? code"

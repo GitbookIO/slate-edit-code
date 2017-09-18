@@ -1,15 +1,17 @@
-
-nodes:
-  - kind: block
-    type: code_block
-    nodes:
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: "Some"
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: " code"
+document:
+  nodes:
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: "Some"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: " code"

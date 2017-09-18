@@ -57,7 +57,7 @@ const plugins = [
 - ``[selectAll: Boolean]`` — True to select all code inside a code container on <kbd>Command+A</kbd>
 
 
-### Utilities and Transform
+### Utilities and Changes
 
 `slate-edit-code` exports utilities, accessible like so:
 
@@ -75,31 +75,31 @@ plugin.utils
 Split a text string into lines, and deserialize them to a `code_container` `Block`, with one children `code_line` `Block` per line.
 
 
-#### `transforms.toggleCodeBlock`
+#### `changes.toggleCodeBlock`
 
-`plugin.transforms.toggleCodeBlock(transform: Transform, type: String) => Transform`
+`plugin.changes.toggleCodeBlock(change: Change, type: String) => Change`
 
 Toggle a block into a code block or a normal block (defined by `type`).
 
-#### `transforms.wrapCodeBlockByKey`
+#### `changes.wrapCodeBlockByKey`
 
-`plugin.transforms.wrapCodeBlockByKey(transform: Transform, key: String) => Transform`
+`plugin.changes.wrapCodeBlockByKey(change: Change, key: String) => Change`
 
 Convert a block (paragraph, etc) into a code block.
 
-#### `transforms.wrapCodeBlock`
+#### `changes.wrapCodeBlock`
 
-`plugin.transforms.wrapCodeBlock(transform: Transform) => Transform`
+`plugin.changes.wrapCodeBlock(change: Change) => Change`
 
 Convert current block (paragraph, etc) into a code block.
 
-#### `transforms.unwrapCodeBlockByKey`
-`plugin.transforms.unwrapCodeBlockByKey(transform: Transform, key: String, type: String) => Transform`
+#### `changes.unwrapCodeBlockByKey`
+`plugin.changes.unwrapCodeBlockByKey(change: Change, key: String, type: String) => Change`
 
 Convert a code block into a normal block (paragraph, etc).
 
-#### `transforms.unwrapCodeBlock`
+#### `changes.unwrapCodeBlock`
 
-`plugin.transforms.unwrapCodeBlock(transform: Transform, type: String) => Transform`
+`plugin.changes.unwrapCodeBlock(change: Change, type: String) => Change`
 
 Convert current code block into a normal block (paragraph, etc).
