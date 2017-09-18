@@ -829,10 +829,11 @@ function onModEnter(event, data, state, opts) {
 
     // Exit the code block
     var transform = state.transform();
-    transform.insertBlock({ type: opts.exitBlockType });
+    var result = opts.onExit(transform, opts);
 
-    var inserted = transform.state.startBlock;
-    return transform.unwrapNodeByKey(inserted.key).apply();
+    if (result) {
+        return result.apply();
+    }
 }
 
 module.exports = onModEnter;
@@ -933,7 +934,16 @@ var DEFAULTS = {
     // Should the plugin handle the select all inside a code container
     selectAll: true,
     // Allow marks inside code blocks
-    allowMarks: false
+    allowMarks: false,
+    // Custom exit handler
+    // exitBlockType option is useless if onExit is provided
+    onExit: function onExit(transform, options) {
+        // Exit the code block
+        transform.insertBlock({ type: options.exitBlockType });
+
+        var inserted = transform.state.startBlock;
+        return transform.unwrapNodeByKey(inserted.key);
+    }
 };
 
 /**
