@@ -50,10 +50,12 @@ var Example = React.createClass({
     displayName: 'Example',
     getInitialState: function getInitialState() {
         return {
-            state: Slate.Raw.deserialize(stateJson, { terse: true })
+            state: Slate.State.fromJSON(stateJson)
         };
     },
-    onChange: function onChange(state) {
+    onChange: function onChange(_ref) {
+        var state = _ref.state;
+
         this.setState({
             state: state
         });
@@ -62,7 +64,7 @@ var Example = React.createClass({
         var state = this.state.state;
 
 
-        this.onChange(plugin.transforms.toggleCodeBlock(state.transform(), 'paragraph').focus().apply());
+        this.onChange(plugin.changes.toggleCodeBlock(state.change(), 'paragraph').focus());
     },
     render: function render() {
         var state = this.state.state;
@@ -89,117 +91,332 @@ var Example = React.createClass({
 
 ReactDOM.render(React.createElement(Example, null), document.getElementById('example'));
 
-},{"../lib/":7,"./state":2,"react":350,"react-dom":194,"slate":373}],2:[function(require,module,exports){
+},{"../lib/":14,"./state":2,"react":350,"react-dom":194,"slate":373}],2:[function(require,module,exports){
 module.exports={
-    "nodes": [
-        {
-            "kind": "block",
-            "type": "heading",
-            "nodes": [
-                {
-                    "kind": "text",
-                    "ranges": [
-                        {
-                            "text": "Slate + Code Edition"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "kind": "block",
-            "type": "paragraph",
-            "nodes": [
-                {
-                    "kind": "text",
-                    "ranges": [
-                        {
-                            "text": "This page is a basic example of Slate + slate-edit-code plugin. Press Tab to indent code. Shift+Tab to unindent. Press Enter to carry indentation onto the newline. Press Mod (Cmd on Mac, Ctrl on Windows) + Enter to exit the code block."
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "kind": "block",
-            "type": "code_block",
-            "nodes": [
-                {
-                    "kind": "block",
-                    "type": "code_line",
-                    "nodes": [
-                        {
-                            "kind": "text",
-                            "ranges": [
-                                {
-                                    "text": "// Some JavaScript"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "kind": "block",
-                    "type": "code_line",
-                    "nodes": [
-                        {
-                            "kind": "text",
-                            "ranges": [
-                                {
-                                    "text": "function hello() {"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "kind": "block",
-                    "type": "code_line",
-                    "nodes": [
-                        {
-                            "kind": "text",
-                            "ranges": [
-                                {
-                                    "text": "  console.log('Hello World')"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "kind": "block",
-                    "type": "code_line",
-                    "nodes": [
-                        {
-                            "kind": "text",
-                            "ranges": [
-                                {
-                                    "text": "}"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "kind": "block",
-            "type": "paragraph",
-            "nodes": [
-                {
-                    "kind": "text",
-                    "ranges": [
-                        {
-                            "text": "End paragraph"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+  "document": {
+      "nodes": [
+          {
+              "kind": "block",
+              "type": "heading",
+              "nodes": [
+                  {
+                      "kind": "text",
+                      "ranges": [
+                          {
+                              "text": "Slate + Code Edition"
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "kind": "block",
+              "type": "paragraph",
+              "nodes": [
+                  {
+                      "kind": "text",
+                      "ranges": [
+                          {
+                              "text": "This page is a basic example of Slate + slate-edit-code plugin. Press Tab to indent code. Shift+Tab to unindent. Press Enter to carry indentation onto the newline. Press Mod (Cmd on Mac, Ctrl on Windows) + Enter to exit the code block."
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "kind": "block",
+              "type": "code_block",
+              "nodes": [
+                  {
+                      "kind": "block",
+                      "type": "code_line",
+                      "nodes": [
+                          {
+                              "kind": "text",
+                              "ranges": [
+                                  {
+                                      "text": "// Some JavaScript"
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "kind": "block",
+                      "type": "code_line",
+                      "nodes": [
+                          {
+                              "kind": "text",
+                              "ranges": [
+                                  {
+                                      "text": "function hello() {"
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "kind": "block",
+                      "type": "code_line",
+                      "nodes": [
+                          {
+                              "kind": "text",
+                              "ranges": [
+                                  {
+                                      "text": "  console.log('Hello World')"
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "kind": "block",
+                      "type": "code_line",
+                      "nodes": [
+                          {
+                              "kind": "text",
+                              "ranges": [
+                                  {
+                                      "text": "}"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "kind": "block",
+              "type": "paragraph",
+              "nodes": [
+                  {
+                      "kind": "text",
+                      "ranges": [
+                          {
+                              "text": "End paragraph"
+                          }
+                      ]
+                  }
+              ]
+          }
+      ]
+  }
+}
+},{}],3:[function(require,module,exports){
+"use strict";
+
+/**
+ * Dedent all lines in selection
+ * @param  {Change} change
+ * @param  {String} indent To remove
+ * @return {Change}
+ */
+function dedentLines(opts, change, indent) {
+    var state = change.state;
+    var document = state.document,
+        selection = state.selection;
+
+    var lines = document.getBlocksAtRange(selection).filter(function (node) {
+        return node.type === opts.lineType;
+    });
+
+    return lines.reduce(function (c, line) {
+        // Remove a level of indent from the start of line
+        var text = line.nodes.first();
+        var lengthToRemove = text.characters.takeWhile(function (char, index) {
+            return indent.charAt(index) === char.text;
+        }).count();
+        return c.removeTextByKey(text.key, 0, lengthToRemove);
+    }, change);
 }
 
-},{}],3:[function(require,module,exports){
+module.exports = dedentLines;
+
+},{}],4:[function(require,module,exports){
+"use strict";
+
+/**
+ * Indent all lines in selection
+ * @param  {Change} change
+ * @param  {String} indent
+ * @return {Change}
+ */
+function indentLines(opts, change, indent) {
+    var state = change.state;
+    var document = state.document,
+        selection = state.selection;
+
+    var lines = document.getBlocksAtRange(selection).filter(function (node) {
+        return node.type === opts.lineType;
+    });
+
+    return lines.reduce(function (c, line) {
+        // Insert an indent at start of line
+        var text = line.nodes.first();
+        return c.insertTextByKey(text.key, 0, indent);
+    }, change);
+}
+
+module.exports = indentLines;
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+var wrapCodeBlock = require('./wrapCodeBlock');
+var unwrapCodeBlock = require('./unwrapCodeBlock');
+var isInCodeBlock = require('../isInCodeBlock');
+
+/**
+ * Toggle code block / paragraph.
+ * @param  {Change} change
+ * @param  {String} type
+ * @return {Change}
+ */
+function toggleCodeBlock(opts, change, type) {
+    if (isInCodeBlock(opts, change.state)) {
+        return unwrapCodeBlock(opts, change, type);
+    } else {
+        return wrapCodeBlock(opts, change);
+    }
+}
+
+module.exports = toggleCodeBlock;
+
+},{"../isInCodeBlock":15,"./unwrapCodeBlock":6,"./wrapCodeBlock":8}],6:[function(require,module,exports){
+'use strict';
+
+var getCurrentCode = require('../getCurrentCode');
+var unwrapCodeBlockByKey = require('./unwrapCodeBlockByKey');
+
+/**
+ * Convert a code block to a normal block.
+ * @param  {Change} change
+ * @param  {String} type
+ * @return {Change}
+ */
+function unwrapCodeBlock(opts, change, type) {
+    var _change = change,
+        state = _change.state;
+
+
+    var codeBlock = getCurrentCode(opts, state);
+
+    if (!codeBlock) {
+        return change;
+    }
+
+    // Convert to paragraph
+    change = unwrapCodeBlockByKey(opts, change, codeBlock.key, type);
+
+    return change;
+}
+
+module.exports = unwrapCodeBlock;
+
+},{"../getCurrentCode":11,"./unwrapCodeBlockByKey":7}],7:[function(require,module,exports){
+'use strict';
+
+/**
+ * Unwrap a code block into a normal block.
+ *
+ * @param  {Change} change
+ * @param  {String} key
+ * @param  {String} type
+ * @return {Change}
+ */
+function unwrapCodeBlockByKey(opts, change, key, type) {
+    var state = change.state;
+    var document = state.document;
+
+    // Get the code block
+
+    var codeBlock = document.getDescendant(key);
+
+    if (!codeBlock || codeBlock.type != opts.containerType) {
+        throw new Error('Block passed to unwrapCodeBlockByKey should be a code block container');
+    }
+
+    // change lines into paragraph
+    codeBlock.nodes.forEach(function (line) {
+        return change.setNodeByKey(line.key, { type: type }).unwrapNodeByKey(line.key);
+    });
+
+    return change;
+}
+
+module.exports = unwrapCodeBlockByKey;
+
+},{}],8:[function(require,module,exports){
+'use strict';
+
+var wrapCodeBlockByKey = require('./wrapCodeBlockByKey');
+
+/**
+ * Wrap current block into a code block.
+ * @param  {Change} change
+ * @return {Change}
+ */
+function wrapCodeBlock(opts, change) {
+    var _change = change,
+        state = _change.state;
+    var startBlock = state.startBlock,
+        selection = state.selection;
+
+    // Convert to code block
+
+    change = wrapCodeBlockByKey(opts, change, startBlock.key);
+
+    // Move selection back in the block
+    change.collapseToStartOf(change.state.document.getDescendant(startBlock.key)).moveOffsetsTo(selection.startOffset);
+
+    return change;
+}
+
+module.exports = wrapCodeBlock;
+
+},{"./wrapCodeBlockByKey":9}],9:[function(require,module,exports){
+'use strict';
+
+var deserializeCode = require('../deserializeCode');
+
+/**
+ * Wrap a block into a code block.
+ *
+ * @param  {Change} change
+ * @param  {String} key
+ * @return {Change}
+ */
+function wrapCodeBlockByKey(opts, change, key) {
+    var state = change.state;
+    var document = state.document;
+
+
+    var startBlock = document.getDescendant(key);
+    var text = startBlock.text;
+
+    // Remove all child
+    startBlock.nodes.forEach(function (node) {
+        change.removeNodeByKey(node.key, { normalize: false });
+    });
+
+    // Insert new text
+    var toInsert = deserializeCode(opts, text);
+
+    toInsert.nodes.forEach(function (node, i) {
+        change.insertNodeByKey(startBlock.key, i, node);
+    });
+
+    // Set node type
+    change.setNodeByKey(startBlock.key, {
+        type: opts.containerType
+    });
+
+    return change;
+}
+
+module.exports = wrapCodeBlockByKey;
+
+},{"../deserializeCode":10}],10:[function(require,module,exports){
 'use strict';
 
 var _require = require('slate'),
@@ -225,7 +442,7 @@ function deserializeCode(opts, text) {
     var lines = List(text.split(sep)).map(function (line) {
         return Block.create({
             type: opts.lineType,
-            nodes: [Text.createFromString(line)]
+            nodes: [Text.create(line)]
         });
     });
 
@@ -239,7 +456,7 @@ function deserializeCode(opts, text) {
 
 module.exports = deserializeCode;
 
-},{"detect-newline":54,"immutable":166,"slate":373}],4:[function(require,module,exports){
+},{"detect-newline":54,"immutable":166,"slate":373}],11:[function(require,module,exports){
 "use strict";
 
 /**
@@ -274,7 +491,7 @@ function getCurrentCode(opts, state, key) {
 
 module.exports = getCurrentCode;
 
-},{}],5:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var getIndent = require('./getIndent');
@@ -282,8 +499,8 @@ var getCurrentCode = require('./getCurrentCode');
 
 /**
  * Detect indentation in the current code block
- * @param {String} text
- * @param {String} defaultValue?
+ * @param {Options} opts
+ * @param {State} state
  * @return {String}
  */
 function getCurrentIndent(opts, state) {
@@ -296,7 +513,7 @@ function getCurrentIndent(opts, state) {
 
 module.exports = getCurrentIndent;
 
-},{"./getCurrentCode":4,"./getIndent":6}],6:[function(require,module,exports){
+},{"./getCurrentCode":11,"./getIndent":13}],13:[function(require,module,exports){
 'use strict';
 
 var detectIndent = require('detect-indent');
@@ -316,7 +533,7 @@ function getIndent(text) {
 
 module.exports = getIndent;
 
-},{"detect-indent":53}],7:[function(require,module,exports){
+},{"detect-indent":53}],14:[function(require,module,exports){
 'use strict';
 
 var _require = require('slate'),
@@ -334,11 +551,11 @@ var Options = require('./options');
 var deserializeCode = require('./deserializeCode');
 var isInCodeBlock = require('./isInCodeBlock');
 
-var wrapCodeBlockByKey = require('./transforms/wrapCodeBlockByKey');
-var unwrapCodeBlockByKey = require('./transforms/unwrapCodeBlockByKey');
-var wrapCodeBlock = require('./transforms/wrapCodeBlock');
-var unwrapCodeBlock = require('./transforms/unwrapCodeBlock');
-var toggleCodeBlock = require('./transforms/toggleCodeBlock');
+var wrapCodeBlockByKey = require('./changes/wrapCodeBlockByKey');
+var unwrapCodeBlockByKey = require('./changes/unwrapCodeBlockByKey');
+var wrapCodeBlock = require('./changes/wrapCodeBlock');
+var unwrapCodeBlock = require('./changes/unwrapCodeBlock');
+var toggleCodeBlock = require('./changes/toggleCodeBlock');
 
 var KEY_ENTER = 'enter';
 var KEY_TAB = 'tab';
@@ -356,7 +573,9 @@ function EditCode(opts) {
     /**
      * User is pressing a key in the editor
      */
-    function _onKeyDown(e, data, state) {
+    function _onKeyDown(e, data, change) {
+        var state = change.state;
+
         var currentCode = getCurrentCode(opts, state);
 
         // Inside code ?
@@ -365,7 +584,7 @@ function EditCode(opts) {
         }
 
         // Add opts in the argument list
-        var args = [e, data, state, opts];
+        var args = [e, data, change, opts];
 
         // Select all the code in the block (Mod+a)
         if (data.key === 'a' && data.isMod && opts.selectAll) {
@@ -401,7 +620,9 @@ function EditCode(opts) {
     /**
      * User is pasting content, insert it as text
      */
-    function onPaste(event, data, state) {
+    function onPaste(event, data, change) {
+        var state = change.state;
+
         var currentCode = getCurrentCode(opts, state);
 
         // Only handle paste when selection is completely a code block
@@ -426,7 +647,7 @@ function EditCode(opts) {
 
         var fragment = Document.create({ nodes: lines });
 
-        return state.transform().insertFragment(fragment).apply();
+        return change.insertFragment(fragment);
     }
 
     var schema = makeSchema(opts);
@@ -437,7 +658,7 @@ function EditCode(opts) {
 
         schema: schema,
 
-        transforms: {
+        changes: {
             unwrapCodeBlockByKey: unwrapCodeBlockByKey.bind(null, opts),
             wrapCodeBlockByKey: wrapCodeBlockByKey.bind(null, opts),
             wrapCodeBlock: wrapCodeBlock.bind(null, opts),
@@ -454,7 +675,7 @@ function EditCode(opts) {
 
 module.exports = EditCode;
 
-},{"./deserializeCode":3,"./getCurrentCode":4,"./isInCodeBlock":8,"./makeSchema":9,"./onBackspace":10,"./onEnter":11,"./onModEnter":12,"./onSelectAll":13,"./onShiftTab":14,"./onTab":15,"./options":16,"./transforms/toggleCodeBlock":19,"./transforms/unwrapCodeBlock":20,"./transforms/unwrapCodeBlockByKey":21,"./transforms/wrapCodeBlock":22,"./transforms/wrapCodeBlockByKey":23,"slate":373}],8:[function(require,module,exports){
+},{"./changes/toggleCodeBlock":5,"./changes/unwrapCodeBlock":6,"./changes/unwrapCodeBlockByKey":7,"./changes/wrapCodeBlock":8,"./changes/wrapCodeBlockByKey":9,"./deserializeCode":10,"./getCurrentCode":11,"./isInCodeBlock":15,"./makeSchema":16,"./onBackspace":17,"./onEnter":18,"./onModEnter":19,"./onSelectAll":20,"./onShiftTab":21,"./onTab":22,"./options":23,"slate":373}],15:[function(require,module,exports){
 "use strict";
 
 /**
@@ -475,7 +696,7 @@ function isInCodeBlock(opts, state) {
 
 module.exports = isInCodeBlock;
 
-},{}],9:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -529,10 +750,10 @@ function noOrphanLine(opts) {
          * Wrap the given blocks in code containers
          * @param {List<Nodes>} value.toWrap
          */
-        normalize: function normalize(transform, node, value) {
-            return value.toWrap.reduce(function (tr, n) {
-                return tr.wrapBlockByKey(n.key, opts.containerType);
-            }, transform);
+        normalize: function normalize(change, node, value) {
+            return value.toWrap.reduce(function (c, n) {
+                return c.wrapBlockByKey(n.key, opts.containerType);
+            }, change);
         }
     };
 }
@@ -563,21 +784,21 @@ function onlyLine(opts) {
                 return null;
             }
         },
-        normalize: function normalize(transform, node, _ref) {
+        normalize: function normalize(change, node, _ref) {
             var toWrap = _ref.toWrap,
                 toRemove = _ref.toRemove;
 
             toRemove.forEach(function (child) {
-                transform.removeNodeByKey(child.key);
+                change.removeNodeByKey(child.key);
             });
 
             toWrap.forEach(function (child) {
-                transform.wrapBlockByKey(child.key, opts.lineType);
+                change.wrapBlockByKey(child.key, opts.lineType);
             });
 
             // Also remove marks here (since the no mark rule for
             // lines will not be applied afterward).
-            return applyRule(noMarks(opts), transform, node.key);
+            return applyRule(noMarks(opts), change, node.key);
         }
     };
 }
@@ -620,7 +841,7 @@ function onlyText(opts) {
         /**
          * Clean up the child nodes.
          */
-        normalize: function normalize(transform, node, _ref2) {
+        normalize: function normalize(change, node, _ref2) {
             var _ref2$toRemove = _ref2.toRemove,
                 toRemove = _ref2$toRemove === undefined ? List() : _ref2$toRemove,
                 _ref2$toAdd = _ref2.toAdd,
@@ -629,9 +850,9 @@ function onlyText(opts) {
                 toJoin = _ref2$toJoin === undefined ? List() : _ref2$toJoin;
 
             // Remove invalids
-            transform = toRemove.reduce(function (t, child) {
-                return t.removeNodeByKey(child.key, { normalize: false });
-            }, transform);
+            toRemove.reduce(function (c, child) {
+                return c.removeNodeByKey(child.key, { normalize: false });
+            }, change);
 
             // Join nodes.
             var pairs = toJoin.butLast().map(function (child, index) {
@@ -639,20 +860,20 @@ function onlyText(opts) {
             });
 
             // Join every node onto the previous one.
-            transform = pairs.reverse().reduce(function (t, _ref3) {
+            pairs.reverse().reduce(function (c, _ref3) {
                 var _ref4 = _slicedToArray(_ref3, 2),
                     childKey = _ref4[0],
                     nextChildKey = _ref4[1];
 
-                return t.joinNodeByKey(nextChildKey, childKey, { normalize: false });
-            }, transform);
+                return c.joinNodeByKey(nextChildKey, childKey, { normalize: false });
+            }, change);
 
             // Add missing nodes
-            transform = toAdd.reduce(function (t, child) {
-                return t.insertNodeByKey(node.key, 0, child);
-            }, transform);
+            toAdd.reduce(function (c, child) {
+                return c.insertNodeByKey(node.key, 0, child);
+            }, change);
 
-            return transform;
+            return change;
         }
     };
 }
@@ -686,15 +907,15 @@ function noMarks(opts) {
          * Removes the given marks
          * @param {Set<Marks>} value.removeMarks
          */
-        normalize: function normalize(transform, node, _ref5) {
+        normalize: function normalize(change, node, _ref5) {
             var removeMarks = _ref5.removeMarks;
 
-            var selection = transform.state.selection;
+            var selection = change.state.selection;
             var range = selection.moveToRangeOf(node);
 
-            return removeMarks.reduce(function (tr, mark) {
-                return tr.removeMarkAtRange(range, mark);
-            }, transform);
+            return removeMarks.reduce(function (c, mark) {
+                return c.removeMarkAtRange(range, mark);
+            }, change);
         }
     };
 }
@@ -718,23 +939,23 @@ function getMarks(node) {
 /**
  * Apply a normalization rule to a node
  * @param {Rule} rule
- * @param {Transform} transform
+ * @param {Change} change
  * @param {String} key
- * @return {Transform}
+ * @return {Change}
  */
-function applyRule(rule, transform, key) {
-    var node = transform.state.document.getDescendant(key);
+function applyRule(rule, change, key) {
+    var node = change.state.document.getDescendant(key);
     var notValid = rule.validate(node);
     if (notValid) {
-        rule.normalize(transform, node, notValid);
+        rule.normalize(change, node, notValid);
     }
 
-    return transform;
+    return change;
 }
 
 module.exports = makeSchema;
 
-},{"immutable":166,"slate":373}],10:[function(require,module,exports){
+},{"immutable":166,"slate":373}],17:[function(require,module,exports){
 'use strict';
 
 var endsWith = require('ends-with');
@@ -746,7 +967,9 @@ var getCurrentCode = require('./getCurrentCode');
  * User pressed Delete in an editor:
  * Remove last idnentation before cursor
  */
-function onBackspace(event, data, state, opts) {
+function onBackspace(event, data, change, opts) {
+    var state = change.state;
+
     if (state.isExpanded) {
         return;
     }
@@ -766,7 +989,7 @@ function onBackspace(event, data, state, opts) {
         // Remove indent
         event.preventDefault();
 
-        return state.transform().deleteBackward(indent.length).focus().apply();
+        return change.deleteBackward(indent.length).focus();
     }
 
     // Otherwise check if we are in an empty code container...
@@ -780,14 +1003,14 @@ function onBackspace(event, data, state, opts) {
 
                 event.preventDefault();
                 // Convert it to default exit type
-                return state.transform().setBlock(opts.exitBlockType).unwrapNodeByKey(currentLine.key).apply();
+                return change.setBlock(opts.exitBlockType).unwrapNodeByKey(currentLine.key);
             }
         }
 }
 
 module.exports = onBackspace;
 
-},{"./getCurrentCode":4,"./getCurrentIndent":5,"ends-with":69}],11:[function(require,module,exports){
+},{"./getCurrentCode":11,"./getCurrentIndent":12,"ends-with":69}],18:[function(require,module,exports){
 'use strict';
 
 var getIndent = require('./getIndent');
@@ -796,7 +1019,9 @@ var getIndent = require('./getIndent');
  * User pressed Enter in an editor:
  * Insert a new code line and start it with the indentation from previous line
  */
-function onEnter(event, data, state, opts) {
+function onEnter(event, data, change, opts) {
+    var state = change.state;
+
     if (!state.isCollapsed) {
         return;
     }
@@ -808,19 +1033,21 @@ function onEnter(event, data, state, opts) {
     var currentLineText = startBlock.text;
     var indent = getIndent(currentLineText, '');
 
-    return state.transform().splitBlock().insertText(indent).focus().apply();
+    return change.splitBlock().insertText(indent).focus();
 }
 
 module.exports = onEnter;
 
-},{"./getIndent":6}],12:[function(require,module,exports){
+},{"./getIndent":13}],19:[function(require,module,exports){
 "use strict";
 
 /**
  * User pressed Mod+Enter in an editor
  * Exit the current code block
  */
-function onModEnter(event, data, state, opts) {
+function onModEnter(event, data, change, opts) {
+    var state = change.state;
+
     if (!state.isCollapsed) {
         return;
     }
@@ -828,17 +1055,12 @@ function onModEnter(event, data, state, opts) {
     event.preventDefault();
 
     // Exit the code block
-    var transform = state.transform();
-    var result = opts.onExit(transform, opts);
-
-    if (result) {
-        return result.apply();
-    }
+    return opts.onExit(change, opts);
 }
 
 module.exports = onModEnter;
 
-},{}],13:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var getCurrentCode = require('./getCurrentCode');
@@ -846,71 +1068,73 @@ var getCurrentCode = require('./getCurrentCode');
 /**
  * User is Cmd+A to select all text
  */
-function onSelectAll(event, data, state, opts) {
+function onSelectAll(event, data, change, opts) {
+    var state = change.state;
+
     event.preventDefault();
 
     var currentCode = getCurrentCode(opts, state);
-    return state.transform().collapseToStartOf(currentCode.getFirstText()).extendToEndOf(currentCode.getLastText()).apply();
+    return change.collapseToStartOf(currentCode.getFirstText()).extendToEndOf(currentCode.getLastText());
 }
 
 module.exports = onSelectAll;
 
-},{"./getCurrentCode":4}],14:[function(require,module,exports){
+},{"./getCurrentCode":11}],21:[function(require,module,exports){
 'use strict';
 
 var getCurrentIndent = require('./getCurrentIndent');
-var dedentLines = require('./transforms/dedentLines');
+var dedentLines = require('./changes/dedentLines');
 
 /**
  * User pressed Shift+Tab in an editor:
  * Reduce indentation in the selected lines.
  */
-function onShiftTab(event, data, state, opts) {
+function onShiftTab(event, data, change, opts) {
+    var state = change.state;
+
     event.preventDefault();
     event.stopPropagation();
-
-    var transform = state.transform();
 
     var indent = getCurrentIndent(opts, state);
 
     // We dedent all selected lines
-    return dedentLines(opts, transform, indent).apply();
+    return dedentLines(opts, change, indent);
 }
 
 module.exports = onShiftTab;
 
-},{"./getCurrentIndent":5,"./transforms/dedentLines":17}],15:[function(require,module,exports){
+},{"./changes/dedentLines":3,"./getCurrentIndent":12}],22:[function(require,module,exports){
 'use strict';
 
 var getCurrentIndent = require('./getCurrentIndent');
-var indentLines = require('./transforms/indentLines');
+var indentLines = require('./changes/indentLines');
 
 /**
  * User pressed Tab in an editor:
  * Insert a tab after detecting it from code block content.
  */
-function onTab(event, data, state, opts) {
+function onTab(event, data, change, opts) {
+    var state = change.state;
+
     event.preventDefault();
     event.stopPropagation();
 
     var isCollapsed = state.isCollapsed;
 
-    var transform = state.transform();
-
     var indent = getCurrentIndent(opts, state);
 
     // Selection is collapsed, we just insert an indent at cursor
     if (isCollapsed) {
-        return transform.insertText(indent).focus().apply();
+        return change.insertText(indent).focus();
     }
 
     // We indent all selected lines
-    return indentLines(opts, transform, indent).apply();
+    return indentLines(opts, change, indent);
 }
 
 module.exports = onTab;
 
-},{"./getCurrentIndent":5,"./transforms/indentLines":18}],16:[function(require,module,exports){
+},{"./changes/indentLines":4,"./getCurrentIndent":12}],23:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -937,12 +1161,12 @@ var DEFAULTS = {
     allowMarks: false,
     // Custom exit handler
     // exitBlockType option is useless if onExit is provided
-    onExit: function onExit(transform, options) {
+    onExit: function onExit(change, options) {
         // Exit the code block
-        transform.insertBlock({ type: options.exitBlockType });
+        change.insertBlock({ type: options.exitBlockType });
 
-        var inserted = transform.state.startBlock;
-        return transform.unwrapNodeByKey(inserted.key);
+        var inserted = change.state.startBlock;
+        return change.unwrapNodeByKey(inserted.key);
     }
 };
 
@@ -964,223 +1188,7 @@ var Options = function (_ref) {
 
 module.exports = Options;
 
-},{"immutable":166}],17:[function(require,module,exports){
-"use strict";
-
-/**
- * Dedent all lines in selection
- * @param  {Transform} transform
- * @param  {String} indent To remove
- * @return {Transform}
- */
-function dedentLines(opts, transform, indent) {
-    var state = transform.state;
-    var document = state.document,
-        selection = state.selection;
-
-    var lines = document.getBlocksAtRange(selection).filter(function (node) {
-        return node.type === opts.lineType;
-    });
-
-    return lines.reduce(function (tr, line) {
-        // Remove a level of indent from the start of line
-        var text = line.nodes.first();
-        var lengthToRemove = text.characters.takeWhile(function (char, index) {
-            return indent.charAt(index) === char.text;
-        }).count();
-        return tr.removeTextByKey(text.key, 0, lengthToRemove);
-    }, transform);
-}
-
-module.exports = dedentLines;
-
-},{}],18:[function(require,module,exports){
-"use strict";
-
-/**
- * Indent all lines in selection
- * @param  {Transform} transform
- * @param  {String} indent
- * @return {Transform}
- */
-function indentLines(opts, transform, indent) {
-    var state = transform.state;
-    var document = state.document,
-        selection = state.selection;
-
-    var lines = document.getBlocksAtRange(selection).filter(function (node) {
-        return node.type === opts.lineType;
-    });
-
-    return lines.reduce(function (tr, line) {
-        // Insert an indent at start of line
-        var text = line.nodes.first();
-        return tr.insertTextByKey(text.key, 0, indent);
-    }, transform);
-}
-
-module.exports = indentLines;
-
-},{}],19:[function(require,module,exports){
-'use strict';
-
-var wrapCodeBlock = require('./wrapCodeBlock');
-var unwrapCodeBlock = require('./unwrapCodeBlock');
-var isInCodeBlock = require('../isInCodeBlock');
-
-/**
- * Toggle code block / paragraph.
- * @param  {Transform} transform
- * @param  {String} type
- * @return {Transform}
- */
-function toggleCodeBlock(opts, transform, type) {
-    if (isInCodeBlock(opts, transform.state)) {
-        return unwrapCodeBlock(opts, transform, type);
-    } else {
-        return wrapCodeBlock(opts, transform);
-    }
-}
-
-module.exports = toggleCodeBlock;
-
-},{"../isInCodeBlock":8,"./unwrapCodeBlock":20,"./wrapCodeBlock":22}],20:[function(require,module,exports){
-'use strict';
-
-var getCurrentCode = require('../getCurrentCode');
-var unwrapCodeBlockByKey = require('./unwrapCodeBlockByKey');
-
-/**
- * Convert a code block to a normal block.
- * @param  {Transform} transform
- * @param  {String} type
- * @return {Transform}
- */
-function unwrapCodeBlock(opts, transform, type) {
-    var _transform = transform,
-        state = _transform.state;
-
-
-    var codeBlock = getCurrentCode(opts, state);
-
-    if (!codeBlock) {
-        return transform;
-    }
-
-    // Convert to paragraph
-    transform = unwrapCodeBlockByKey(opts, transform, codeBlock.key, type);
-
-    return transform;
-}
-
-module.exports = unwrapCodeBlock;
-
-},{"../getCurrentCode":4,"./unwrapCodeBlockByKey":21}],21:[function(require,module,exports){
-'use strict';
-
-/**
- * Unwrap a code block into a normal block.
- *
- * @param  {Transform} transform
- * @param  {String} key
- * @param  {String} type
- * @return {Transform}
- */
-function unwrapCodeBlockByKey(opts, transform, key, type) {
-    var _transform = transform,
-        state = _transform.state;
-    var document = state.document;
-
-    // Get the code block
-
-    var codeBlock = document.getDescendant(key);
-
-    if (!codeBlock || codeBlock.type != opts.containerType) {
-        throw new Error('Block passed to unwrapCodeBlockByKey should be a code block container');
-    }
-
-    // Transform lines into paragraph
-    codeBlock.nodes.forEach(function (line) {
-        transform = transform.setNodeByKey(line.key, { type: type });
-        transform = transform.unwrapNodeByKey(line.key);
-    });
-
-    return transform;
-}
-
-module.exports = unwrapCodeBlockByKey;
-
-},{}],22:[function(require,module,exports){
-'use strict';
-
-var wrapCodeBlockByKey = require('./wrapCodeBlockByKey');
-
-/**
- * Wrap current block into a code block.
- * @param  {Transform} transform
- * @return {Transform}
- */
-function wrapCodeBlock(opts, transform) {
-    var _transform = transform,
-        state = _transform.state;
-    var startBlock = state.startBlock,
-        selection = state.selection;
-
-    // Convert to code block
-
-    transform = wrapCodeBlockByKey(opts, transform, startBlock.key);
-
-    // Move selection back in the block
-    transform = transform.collapseToStartOf(transform.state.document.getDescendant(startBlock.key)).moveOffsetsTo(selection.startOffset);
-
-    return transform;
-}
-
-module.exports = wrapCodeBlock;
-
-},{"./wrapCodeBlockByKey":23}],23:[function(require,module,exports){
-'use strict';
-
-var deserializeCode = require('../deserializeCode');
-
-/**
- * Wrap a block into a code block.
- *
- * @param  {Transform} transform
- * @param  {String} key
- * @return {Transform}
- */
-function wrapCodeBlockByKey(opts, transform, key) {
-    var state = transform.state;
-    var document = state.document;
-
-
-    var startBlock = document.getDescendant(key);
-    var text = startBlock.text;
-
-    // Remove all child
-    startBlock.nodes.forEach(function (node) {
-        transform.removeNodeByKey(node.key, { normalize: false });
-    });
-
-    // Insert new text
-    var toInsert = deserializeCode(opts, text);
-
-    toInsert.nodes.forEach(function (node, i) {
-        transform.insertNodeByKey(startBlock.key, i, node);
-    });
-
-    // Set node type
-    transform.setNodeByKey(startBlock.key, {
-        type: opts.containerType
-    });
-
-    return transform;
-}
-
-module.exports = wrapCodeBlockByKey;
-
-},{"../deserializeCode":3}],24:[function(require,module,exports){
+},{"immutable":166}],24:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
