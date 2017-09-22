@@ -12,7 +12,7 @@
     "immutable": "^3.8.1"
   },
   "peerDependencies": {
-    "slate": "^0.22.14"
+    "slate": "^0.25.1"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
@@ -27,10 +27,11 @@
     "gh-pages": "^0.11.0",
     "http-server": "^0.9.0",
     "mocha": "^3.0.1",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "read-metadata": "^1.0.0",
-    "slate": "^0.23.0"
+    "slate": "^0.25.1",
+    "slate-react": "^0.1.8"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
