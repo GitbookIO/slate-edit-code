@@ -2,10 +2,11 @@
 module.exports = function(plugin, change) {
     return plugin.onKeyDown(
         {
+            key: 'a',
+            metaKey: true,
             preventDefault() {},
             stopPropagation() {}
         },
-        { key: 'a', isMod: true },
         change
     );
 };

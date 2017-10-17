@@ -7,11 +7,11 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "Some code"
         - kind: block
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: ""

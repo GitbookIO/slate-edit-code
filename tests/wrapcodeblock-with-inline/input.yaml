@@ -5,13 +5,13 @@ document:
       nodes:
         - kind: text
           key: 'start'
-          ranges:
+          leaves:
             - text: "Hello "
         - kind: inline
           type: link
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "world"
 selection:
   anchorKey: 'start'
