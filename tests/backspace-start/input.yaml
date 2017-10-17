@@ -8,7 +8,8 @@ document:
           nodes:
             - kind: text
               key: 'start'
-              text: "    Line 1"
+              ranges:
+                - text: "    Line 1"
 selection:
   anchorKey: 'start'
   anchorOffset: 4

@@ -1,17 +1,20 @@
-
-nodes:
-  - kind: block
-    type: code_block
-    nodes:
-      - kind: block
-        type: code_line
-        nodes:
-          - kind: text
-            text: "One text"
-          - kind: block
-            type: something
-            nodes:
-              - kind: text
-                text: "Unwanted block"
-          - kind: text
-            text: "Two text"
+document:
+  nodes:
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              ranges:
+                - text: "One text"
+            - kind: block
+              type: something
+              nodes:
+                - kind: text
+                  ranges:
+                    - text: "Unwanted block"
+            - kind: text
+              ranges:
+                - text: "Two text"

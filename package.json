@@ -9,10 +9,11 @@
     "detect-indent": "^4.0.0",
     "detect-newline": "^2.1.0",
     "ends-with": "^0.2.0",
-    "immutable": "^3.8.1",
-    "slate": "^0.22.10"
+    "immutable": "^3.8.1"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "slate": "^0.22.14"
+  },
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",
@@ -28,7 +29,8 @@
     "mocha": "^3.0.1",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
-    "read-metadata": "^1.0.0"
+    "read-metadata": "^1.0.0",
+    "slate": "^0.23.0"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
