@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.13.0
+
+- Upgrade to be compatible with Slate > 0.29.x
+
 ### 0.12.0
 
 - Upgrade to be compatible with Slate > 0.27.x
