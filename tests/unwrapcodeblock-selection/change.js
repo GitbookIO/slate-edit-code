@@ -1,9 +1,5 @@
+export default function(plugin, change) {
+    const newValue = plugin.changes.unwrapCodeBlock(change, 'paragraph');
 
-module.exports = function(plugin, change) {
-    const newState = plugin.changes.unwrapCodeBlock(
-        change,
-        'paragraph'
-    );
-
-    return newState;
-};
+    return newValue;
+}

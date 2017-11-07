@@ -1,12 +1,12 @@
-
-module.exports = function(plugin, change) {
+export default function(plugin, change) {
     return plugin.onKeyDown(
         {
-            key: 'Tab',
-            shiftKey: true,
             preventDefault() {},
-            stopPropagation() {}
+            stopPropagation() {},
+            key: 'Tab',
+            shiftKey: true
         },
-        change
+        change,
+        {}
     );
-};
+}

@@ -1,68 +1,77 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Slate = require('slate');
-const SlateReact = require('slate-react');
-const PluginEditCode = require('../lib/');
+// @flow
+/* eslint-disable import/no-extraneous-dependencies */
+/* global document */
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import { Editor } from 'slate-react';
+import PluginEditCode from '../lib/';
 
-const stateJson = require('./state');
+import INITIAL_VALUE from './value';
 
 const plugin = PluginEditCode();
-const plugins = [
-    plugin
-];
+const plugins = [plugin];
 
-const SCHEMA = {
-    nodes: {
-        code_block: props => <div className="code" {...props.attributes}>{props.children}</div>,
-        code_line:  props => <pre {...props.attributes}>{props.children}</pre>,
-        paragraph:  props => <p {...props.attributes}>{props.children}</p>,
-        heading:    props => <h1 {...props.attributes}>{props.children}</h1>
+function renderNode(props: *) {
+    const { node, children, attributes } = props;
+
+    switch (node.type) {
+        case 'code_block':
+            return (
+                <div className="code" {...attributes}>
+                    {children}
+                </div>
+            );
+        case 'code_line':
+            return <pre {...attributes}>{children}</pre>;
+        case 'paragraph':
+            return <p {...attributes}>{children}</p>;
+        case 'heading':
+            return <h1 {...attributes}>{children}</h1>;
+        default:
+            return null;
     }
-};
+}
 
-const Example = React.createClass({
-    getInitialState() {
-        return {
-            state: Slate.State.fromJSON(stateJson)
-        };
-    },
+class Example extends React.Component<*, *> {
+    state = {
+        value: INITIAL_VALUE
+    };
 
-    onChange({ state }) {
+    onChange = ({ value }) => {
         this.setState({
-            state
+            value
         });
-    },
+    };
 
-    onToggleCode() {
-        const { state } = this.state;
+    onToggleCode = () => {
+        const { value } = this.state;
 
         this.onChange(
-            plugin.changes.toggleCodeBlock(state.change(), 'paragraph')
-            .focus()
+            plugin.changes.toggleCodeBlock(value.change(), 'paragraph').focus()
         );
-    },
+    };
 
     render() {
-        const { state } = this.state;
+        const { value } = this.state;
 
         return (
             <div>
                 <button onClick={this.onToggleCode}>
-                    {plugin.utils.isInCodeBlock(state) ? 'Paragraph' : 'Code Block'}
+                    {plugin.utils.isInCodeBlock(value)
+                        ? 'Paragraph'
+                        : 'Code Block'}
                 </button>
-                <SlateReact.Editor
+                <Editor
                     placeholder={'Enter some text...'}
                     plugins={plugins}
-                    state={state}
+                    value={value}
                     onChange={this.onChange}
-                    schema={SCHEMA}
+                    renderNode={renderNode}
                 />
             </div>
         );
     }
-});
+}
 
-ReactDOM.render(
-    <Example />,
-    document.getElementById('example')
-);
+// $FlowFixMe
+ReactDOM.render(<Example />, document.getElementById('example'));

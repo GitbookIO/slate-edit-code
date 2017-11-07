@@ -1,11 +1,11 @@
-
-module.exports = function(plugin, change) {
+export default function(plugin, change) {
     return plugin.onKeyDown(
         {
-            key: 'Enter',
             preventDefault() {},
-            stopPropagation() {}
+            stopPropagation() {},
+            key: 'Enter'
         },
-        change
+        change,
+        {}
     );
-};
+}
