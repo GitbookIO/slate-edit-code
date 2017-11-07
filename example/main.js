@@ -1,46 +1,55 @@
-import React from 'react';
+// @flow
+/* eslint-disable import/no-extraneous-dependencies */
+/* global document */
+import * as React from 'react';
 import ReactDOM from 'react-dom';
-import Slate from 'slate';
+import { Editor } from 'slate-react';
 import PluginEditCode from '../lib/';
 
-import valueJson from './value';
+import INITIAL_VALUE from './value';
 
 const plugin = PluginEditCode();
 const plugins = [plugin];
 
-const SCHEMA = {
-    nodes: {
-        code_block: props => (
-            <div className="code" {...props.attributes}>
-                {props.children}
-            </div>
-        ),
-        code_line: props => <pre {...props.attributes}>{props.children}</pre>,
-        paragraph: props => <p {...props.attributes}>{props.children}</p>,
-        heading: props => <h1 {...props.attributes}>{props.children}</h1>
+function renderNode(props: *) {
+    const { node, children, attributes } = props;
+
+    switch (node.type) {
+        case 'code_block':
+            return (
+                <div className="code" {...attributes}>
+                    {children}
+                </div>
+            );
+        case 'code_line':
+            return <pre {...attributes}>{children}</pre>;
+        case 'paragraph':
+            return <p {...attributes}>{children}</p>;
+        case 'heading':
+            return <h1 {...attributes}>{children}</h1>;
+        default:
+            return null;
     }
-};
+}
 
-const Example = React.createClass({
-    getInitialState() {
-        return {
-            value: Slate.Value.fromJSON(valueJson)
-        };
-    },
+class Example extends React.Component<*, *> {
+    state = {
+        value: INITIAL_VALUE
+    };
 
-    onChange({ value }) {
+    onChange = ({ value }) => {
         this.setState({
             value
         });
-    },
+    };
 
-    onToggleCode() {
+    onToggleCode = () => {
         const { value } = this.state;
 
         this.onChange(
             plugin.changes.toggleCodeBlock(value.change(), 'paragraph').focus()
         );
-    },
+    };
 
     render() {
         const { value } = this.state;
@@ -52,16 +61,17 @@ const Example = React.createClass({
                         ? 'Paragraph'
                         : 'Code Block'}
                 </button>
-                <Slate.Editor
+                <Editor
                     placeholder={'Enter some text...'}
                     plugins={plugins}
                     value={value}
                     onChange={this.onChange}
-                    schema={SCHEMA}
+                    renderNode={renderNode}
                 />
             </div>
         );
     }
-});
+}
 
+// $FlowFixMe
 ReactDOM.render(<Example />, document.getElementById('example'));
