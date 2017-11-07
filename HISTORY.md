@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.12.0
+
+- Upgrade to be compatible with Slate > 0.27.x
+
 ### 0.11.0
 
 - Upgrade to be compatable with Slate after the `expose-transform` branch went in.
