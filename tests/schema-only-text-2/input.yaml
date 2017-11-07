@@ -7,14 +7,14 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "One text"
             - kind: block
               type: something
               nodes:
                 - kind: text
-                  ranges:
+                  leaves:
                     - text: "Unwanted block"
             - kind: text
-              ranges:
+              leaves:
                 - text: "Two text"

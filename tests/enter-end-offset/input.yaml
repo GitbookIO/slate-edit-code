@@ -9,7 +9,7 @@ document:
           nodes:
             - kind: text
               key: 'cursor'
-              ranges:
+              leaves:
                 - text: "Some code"
 selection:
   anchorKey: 'cursor'

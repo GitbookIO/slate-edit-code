@@ -11,5 +11,5 @@ document:
               type: default
               nodes:
                 - kind: text
-                  ranges:
+                  leaves:
                     - text: "Some\n code"

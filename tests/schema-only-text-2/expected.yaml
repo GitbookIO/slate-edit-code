@@ -7,5 +7,5 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "One textTwo text"

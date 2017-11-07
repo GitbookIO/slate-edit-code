@@ -7,13 +7,13 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "Li"
     - kind: block
       type: paragraph
       nodes:
         - kind: text
-          ranges:
+          leaves:
             - text: ""
     - kind: block
       type: code_block
@@ -22,11 +22,11 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "ne 1"
         - kind: block
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "    Line 2"

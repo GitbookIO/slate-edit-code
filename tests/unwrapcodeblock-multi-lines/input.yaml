@@ -8,14 +8,14 @@ document:
           nodes:
             - kind: text
               key: 'start'
-              ranges:
+              leaves:
                 - text: "Hello"
         - kind: block
           type: code_line
           nodes:
             - kind: text
               key: 'start'
-              ranges:
+              leaves:
                 - text: "world"
 selection:
   anchorKey: 'start'

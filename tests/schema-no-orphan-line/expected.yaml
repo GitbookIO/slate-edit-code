@@ -7,7 +7,7 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "Some orphan code"
     - kind: block
       type: code_block
@@ -16,5 +16,5 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "Some other code"
