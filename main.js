@@ -1,6 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Slate = require('slate');
+const SlateReact = require('slate-react');
 const PluginEditCode = require('../lib/');
 
 const stateJson = require('./state');
@@ -49,7 +50,7 @@ const Example = React.createClass({
                 <button onClick={this.onToggleCode}>
                     {plugin.utils.isInCodeBlock(state) ? 'Paragraph' : 'Code Block'}
                 </button>
-                <Slate.Editor
+                <SlateReact.Editor
                     placeholder={'Enter some text...'}
                     plugins={plugins}
                     state={state}
