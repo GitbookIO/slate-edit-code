@@ -2,9 +2,11 @@ export default function(plugin, change) {
     return plugin.onKeyDown(
         {
             preventDefault() {},
-            stopPropagation() {}
+            stopPropagation() {},
+            key: 'Enter',
+            metaKey: true
         },
-        { key: 'enter', isMod: true },
-        change
+        change,
+        {}
     );
 }

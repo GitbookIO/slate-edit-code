@@ -2,9 +2,11 @@ export default function(plugin, change) {
     return plugin.onKeyDown(
         {
             preventDefault() {},
-            stopPropagation() {}
+            stopPropagation() {},
+            key: 'Tab',
+            shiftKey: true
         },
-        { key: 'tab', isShift: true },
-        change
+        change,
+        {}
     );
 }

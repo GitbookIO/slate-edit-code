@@ -12,7 +12,8 @@
     "immutable": "^3.8.1"
   },
   "peerDependencies": {
-    "slate": "^0.29.0"
+    "slate": "^0.29.0",
+    "slate-react": "^0.10.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
