@@ -9,10 +9,10 @@ module.exports = function(plugin, change) {
 
     return plugin.onKeyDown(
         {
+            key: 'Tab',
             preventDefault() {},
             stopPropagation() {}
         },
-        { key: 'tab' },
         change
     );
 };

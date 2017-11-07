@@ -8,7 +8,7 @@ document:
           nodes:
             - kind: text
               key: 'start'
-              ranges:
+              leaves:
                 - text: ""
 selection:
   anchorKey: 'start'

@@ -4,11 +4,11 @@ document:
       type: paragraph
       nodes:
         - kind: text
-          ranges:
+          leaves:
             - text: "Hello"
     - kind: block
       type: paragraph
       nodes:
         - kind: text
-          ranges:
+          leaves:
             - text: "world"

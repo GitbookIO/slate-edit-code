@@ -2,10 +2,10 @@
 module.exports = function(plugin, change) {
     return plugin.onKeyDown(
         {
+            key: 'Enter',
             preventDefault() {},
             stopPropagation() {}
         },
-        { key: 'enter' },
         change
     );
 };

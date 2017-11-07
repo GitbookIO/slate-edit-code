@@ -7,17 +7,17 @@ document:
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "Line 1"
         - kind: block
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "    Line 2"
         - kind: block
           type: code_line
           nodes:
             - kind: text
-              ranges:
+              leaves:
                 - text: "  Line 3"

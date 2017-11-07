@@ -5,7 +5,7 @@ document:
       nodes:
         - kind: text
           key: 'start'
-          ranges:
+          leaves:
             - text: "Hello world"
 selection:
   anchorKey: 'start'
