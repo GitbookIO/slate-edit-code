@@ -1,6 +1,6 @@
-const assert = require('assert');
+import assert from 'assert';
 
-module.exports = function(plugin, change) {
+export default function(plugin, change) {
     assert.equal(plugin.utils.isInCodeBlock(change.state), true);
 
     return change;

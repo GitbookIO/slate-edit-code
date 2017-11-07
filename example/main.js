@@ -1,9 +1,9 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Slate = require('slate');
-const PluginEditCode = require('../lib/');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Slate from 'slate';
+import PluginEditCode from '../lib/';
 
-const stateJson = require('./state');
+import stateJson from './state';
 
 const plugin = PluginEditCode();
 const plugins = [plugin];
