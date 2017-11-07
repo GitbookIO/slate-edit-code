@@ -7,4 +7,4 @@ export default function(plugin, change) {
         { key: 'tab' },
         change
     );
-};
+}

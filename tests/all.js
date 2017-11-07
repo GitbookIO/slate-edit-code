@@ -19,6 +19,7 @@ describe('slate-edit-code', () => {
             const expected = readMetadata.sync(
                 path.resolve(dir, 'expected.yaml')
             );
+            // eslint-disable-next-line
             const runChange = require(path.resolve(dir, 'change.js')).default;
 
             const stateInput = Slate.State.fromJSON(input);

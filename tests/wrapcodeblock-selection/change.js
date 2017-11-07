@@ -6,4 +6,4 @@ export default function(plugin, change) {
     assert.equal(change.state.startOffset, 5);
 
     return change;
-};
+}
