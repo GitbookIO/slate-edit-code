@@ -22,13 +22,13 @@ describe('slate-edit-code', () => {
             // eslint-disable-next-line
             const runChange = require(path.resolve(dir, 'change.js')).default;
 
-            const stateInput = Slate.State.fromJSON(input);
+            const valueInput = Slate.Value.fromJSON(input);
 
-            const newChange = runChange(plugin, stateInput.change());
+            const newChange = runChange(plugin, valueInput.change());
 
-            const newDocJSon = newChange.state.toJSON();
+            const newDocJSon = newChange.value.toJSON();
 
-            expect(newDocJSon).toEqual(Slate.State.fromJSON(expected).toJSON());
+            expect(newDocJSon).toEqual(Slate.Value.fromJSON(expected).toJSON());
         });
     });
 });

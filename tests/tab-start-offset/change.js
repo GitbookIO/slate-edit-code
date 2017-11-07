@@ -1,6 +1,6 @@
 export default function(plugin, change) {
-    const { state } = change;
-    const block = state.document.findDescendant(
+    const { value } = change;
+    const block = value.document.findDescendant(
         node => node.type == 'code_block'
     );
 

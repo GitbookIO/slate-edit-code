@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Slate from 'slate';
 import PluginEditCode from '../lib/';
 
-import stateJson from './state';
+import valueJson from './value';
 
 const plugin = PluginEditCode();
 const plugins = [plugin];
@@ -24,38 +24,38 @@ const SCHEMA = {
 const Example = React.createClass({
     getInitialState() {
         return {
-            state: Slate.State.fromJSON(stateJson)
+            value: Slate.Value.fromJSON(valueJson)
         };
     },
 
-    onChange({ state }) {
+    onChange({ value }) {
         this.setState({
-            state
+            value
         });
     },
 
     onToggleCode() {
-        const { state } = this.state;
+        const { value } = this.state;
 
         this.onChange(
-            plugin.changes.toggleCodeBlock(state.change(), 'paragraph').focus()
+            plugin.changes.toggleCodeBlock(value.change(), 'paragraph').focus()
         );
     },
 
     render() {
-        const { state } = this.state;
+        const { value } = this.state;
 
         return (
             <div>
                 <button onClick={this.onToggleCode}>
-                    {plugin.utils.isInCodeBlock(state)
+                    {plugin.utils.isInCodeBlock(value)
                         ? 'Paragraph'
                         : 'Code Block'}
                 </button>
                 <Slate.Editor
                     placeholder={'Enter some text...'}
                     plugins={plugins}
-                    state={state}
+                    value={value}
                     onChange={this.onChange}
                     schema={SCHEMA}
                 />
