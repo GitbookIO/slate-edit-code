@@ -19,7 +19,7 @@ const value = (
             <paragraph>
                 {
                     'This page is a basic example of Slate + slate-edit-code plugin. Press Tab to indent code. Shift+Tab to unindent. Press Enter to carry indentation onto the newline. Press Mod (Cmd on Mac, Ctrl on Windows) + Enter to exit the code block.'
-                }{' '}
+                }
             </paragraph>
 
             <code_block>

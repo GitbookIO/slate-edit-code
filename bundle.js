@@ -173,8 +173,7 @@ var value = h(
         h(
             'paragraph',
             null,
-            'This page is a basic example of Slate + slate-edit-code plugin. Press Tab to indent code. Shift+Tab to unindent. Press Enter to carry indentation onto the newline. Press Mod (Cmd on Mac, Ctrl on Windows) + Enter to exit the code block.',
-            ' '
+            'This page is a basic example of Slate + slate-edit-code plugin. Press Tab to indent code. Shift+Tab to unindent. Press Enter to carry indentation onto the newline. Press Mod (Cmd on Mac, Ctrl on Windows) + Enter to exit the code block.'
         ),
         h(
             'code_block',
@@ -3124,12 +3123,10 @@ module.exports =  !!document.attachEvent && window !== document.parentWindow;
 
 },{}],63:[function(require,module,exports){
 /**
- *  Copyright (c) 2014-2015, Facebook, Inc.
- *  All rights reserved.
+ * Copyright (c) 2014-present, Facebook, Inc.
  *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 (function (global, factory) {
