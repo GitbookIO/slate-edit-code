@@ -705,6 +705,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _isHotkey = require('is-hotkey');
+
 require('slate');
 
 var _utils = require('../utils');
@@ -735,9 +737,13 @@ var _onSelectAll2 = _interopRequireDefault(_onSelectAll);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var KEY_ENTER = 'Enter';
-var KEY_TAB = 'Tab';
-var KEY_BACKSPACE = 'Backspace';
+var isModA = (0, _isHotkey.isKeyHotkey)('mod+a');
+
+var isShiftTab = (0, _isHotkey.isKeyHotkey)('shift+tab');
+var isTab = (0, _isHotkey.isKeyHotkey)('tab');
+var isModEnter = (0, _isHotkey.isKeyHotkey)('mod+enter');
+var isEnter = (0, _isHotkey.isKeyHotkey)('enter');
+var isBackspace = (0, _isHotkey.isKeyHotkey)('backspace');
 
 /**
  * User is pressing a key in the editor
@@ -756,21 +762,21 @@ function onKeyDown(opts, event, change, editor) {
     var args = [opts, event, change, editor];
 
     // Select all the code in the block (Mod+a)
-    if (event.key === 'a' && event.metaKey && opts.selectAll) {
+    if (opts.selectAll && isModA(event)) {
         return _onSelectAll2.default.apply(undefined, args);
-    } else if (event.key === KEY_TAB && event.shiftKey) {
+    } else if (isShiftTab(event)) {
         // User is pressing Shift+Tab
         return _onShiftTab2.default.apply(undefined, args);
-    } else if (event.key == KEY_TAB) {
+    } else if (isTab(event)) {
         // User is pressing Tab
         return _onTab2.default.apply(undefined, args);
-    } else if (event.key == KEY_ENTER && event.metaKey && opts.exitBlockType) {
+    } else if (opts.exitBlockType && isModEnter(event)) {
         // User is pressing Mod+Enter
         return _onModEnter2.default.apply(undefined, args);
-    } else if (event.key == KEY_ENTER) {
+    } else if (isEnter(event)) {
         // User is pressing Enter
         return _onEnter2.default.apply(undefined, args);
-    } else if (event.key == KEY_BACKSPACE) {
+    } else if (isBackspace(event)) {
         // User is pressing Backspace
         return _onBackspace2.default.apply(undefined, args);
     }
@@ -779,7 +785,7 @@ function onKeyDown(opts, event, change, editor) {
 
 exports.default = onKeyDown;
 
-},{"../utils":27,"./onBackspace":13,"./onEnter":14,"./onModEnter":16,"./onSelectAll":18,"./onShiftTab":19,"./onTab":20,"slate":426}],16:[function(require,module,exports){
+},{"../utils":27,"./onBackspace":13,"./onEnter":14,"./onModEnter":16,"./onSelectAll":18,"./onShiftTab":19,"./onTab":20,"is-hotkey":66,"slate":426}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -802,7 +808,7 @@ function onModEnter(opts, event, change, editor) {
     event.preventDefault();
 
     // Exit the code block
-    return opts.onExit(change, opts);
+    return opts.resolvedOnExit(change);
 }
 exports.default = onModEnter;
 
@@ -993,6 +999,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _slate = require('slate');
 
 var _immutable = require('immutable');
@@ -1009,23 +1017,8 @@ var DEFAULTS = {
     exitBlockType: 'paragraph',
     selectAll: true,
     allowMarks: false,
-    onExit: function onExit(change, options) {
-        var range = change.value.selection;
-
-        var exitBlock = _slate.Block.create({
-            type: options.exitBlockType,
-            nodes: [_slate.Text.create()]
-        });
-
-        change.deleteAtRange(range, { normalize: false });
-        change.insertBlockAtRange(change.value.selection, exitBlock, {
-            normalize: false
-        });
-        // Exit the code block
-        change.unwrapNodeByKey(exitBlock.key);
-
-        return change.collapseToStartOf(exitBlock);
-    }
+    getIndent: null,
+    onExit: null
 };
 
 /**
@@ -1040,6 +1033,32 @@ var Options = function (_Record) {
 
         return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
     }
+
+    _createClass(Options, [{
+        key: 'resolvedOnExit',
+        value: function resolvedOnExit(change) {
+            if (this.onExit) {
+                // Custom onExit option
+                return this.onExit(change);
+            }
+            // Default behavior: insert an exit block
+            var range = change.value.selection;
+
+            var exitBlock = _slate.Block.create({
+                type: this.exitBlockType,
+                nodes: [_slate.Text.create()]
+            });
+
+            change.deleteAtRange(range, { normalize: false });
+            change.insertBlockAtRange(change.value.selection, exitBlock, {
+                normalize: false
+            });
+            // Exit the code block
+            change.unwrapNodeByKey(exitBlock.key);
+
+            return change.collapseToStartOf(exitBlock);
+        }
+    }]);
 
     return Options;
 }((0, _immutable.Record)(DEFAULTS));
@@ -1146,6 +1165,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Detect indentation in the current code block
  */
 function getCurrentIndent(opts, value) {
+    if (opts.getIndent) {
+        return opts.getIndent(value);
+    }
+
     var currentCode = (0, _getCurrentCode2.default)(opts, value);
     if (!currentCode) {
         return '';
