@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.13.1
+
+- Properly declare `immutable` as a peer dependency (already a peer dependency of slate)
+
 ### 0.13.0
 
 - Upgrade to be compatible with Slate > 0.29.x
