@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.13.2
+
+- Add `getIndent` option to customize the indent unit used.
+- Fix Ctrl shortcuts on Windows/Linux
+
 ### 0.13.1
 
 - Properly declare `immutable` as a peer dependency (already a peer dependency of slate)
