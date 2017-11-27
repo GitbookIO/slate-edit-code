@@ -17,7 +17,7 @@ npm install slate-edit-code
 - Pressing <kbd>Tab</kbd> insert the right indentation if selection is collapsed or indent all lines in selection
 - Pressing <kbd>Delete</kbd> remove the indentation before cursor if possible
 - Pressing <kbd>Command+Enter</kbd> (<kbd>Ctrl+Enter</kbd> on Windows/Linux) exits the code block
-- Pressing <kbd>Command+A</kbd> (<kbd>Ctrl+A</kbd> on Windows/Linux) select all the text in the block
+- Pressing <kbd>Command+A</kbd> (<kbd>Ctrl+A</kbd> on Windows/Linux) selects all the text in the block
 
 ### Structure
 
@@ -51,11 +51,39 @@ const plugins = [
 
 #### Options arguments
 
-- ``[containerType: String]`` — The type of the code containers
-- ``[lineType: String]`` — The type of the code lines
-- ``[exitBlockType: String]`` — Mod+Enter will exit the code container, into the given block type. Backspace at start of an empty code container will convert it to the given block type. Pass `null` to disable this behavior.
-- ``[selectAll: Boolean]`` — True to select all code inside a code container on <kbd>Command+A</kbd>
+- `containerType = 'code_block' : string` — The type of the code containers
+- `lineType = 'code_line' : string` — The type of the code lines
+- `exitBlockType = 'paragraph' : ?string` — Mod+Enter will exit the code container, into the given block type. Backspace at start of an empty code container will convert it to the given block type. Pass `null` to disable this behavior.
+- `selectAll = true : boolean` — True to select all code inside a code container on <kbd>Command+A</kbd>
+- `allowMarks = false : boolean` - False disallow marks in code blocks by normalizing them away.
 
+#### Suppressing onKeyDown behavior
+
+Some behavior implemented by this plugins have no corresponding option. While there is an option `selectAll` to disable the behavior on `Mod+A`,  If you would like to fine tune these behavior, you can always redefine the exported `onKeyDown` function.
+
+The following example disable all indent behavior
+
+```js
+import EditCode from 'slate-edit-code'
+
+const options = { ... };
+
+const basePlugin = EditCode(options);
+
+const customPlugin = {
+  ...basePlugin,
+  onKeyDown(event, change, editor) {
+    if (event.key === 'Tab') {
+      // Bypass the original plugin behavior on `Tab`
+      return;
+    } else {
+      return basePlugin.onKeyDown(event, change, editor);
+    }
+  }
+}
+
+// Use customPlugin later on
+```
 
 ### Utilities and Changes
 
