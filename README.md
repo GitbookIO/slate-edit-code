@@ -16,8 +16,10 @@ npm install slate-edit-code
 - Pressing <kbd>Enter</kbd> insert a new line starting with the right indentation
 - Pressing <kbd>Tab</kbd> insert the right indentation if selection is collapsed or indent all lines in selection
 - Pressing <kbd>Delete</kbd> remove the indentation before cursor if possible
-- Pressing <kbd>Command+Enter</kbd> (<kbd>Ctrl+Enter</kbd> on Windows/Linux) exits the code block
-- Pressing <kbd>Command+A</kbd> (<kbd>Ctrl+A</kbd> on Windows/Linux) selects all the text in the block
+- Pressing <kbd>Mod+Enter</kbd> exits the code block
+- Pressing <kbd>Mod+A</kbd> selects all the text in the block
+
+> <kbd>Mod</kbd> means <kbd>Ctrl</kbd> on Windows/Linux and <kbd>Command</kdb> on Mac.
 
 ### Structure
 
@@ -55,7 +57,7 @@ const plugins = [
 - `lineType = 'code_line' : string` — The type of the code lines
 - `exitBlockType = 'paragraph' : null | string` — <kbd>Mod+Enter</kbd> will exit the code container, into the given block type. Backspace at start of an empty code container will convert it to the given block type. Pass `null` to disable this behavior.
 - `onExit: (Change) => void | Change` — Change to do when the user hits <kbd>Mod+Enter</kbd>. Defaults to exiting the code block, into a new `exitBlockType` block.
-- `selectAll = true : boolean` — True to select all code inside a code container on <kbd>Command+A</kbd>
+- `selectAll = true : boolean` — True to select all code inside a code container on <kbd>Mod+A</kbd>
 - `allowMarks = false : boolean` —  False disallow marks in code blocks by normalizing them away.
 - `getIndent: (Value) => string` — Returns the indent unit as a string. The current value is passed as context.
 
