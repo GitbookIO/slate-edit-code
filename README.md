@@ -19,7 +19,7 @@ npm install slate-edit-code
 - Pressing <kbd>Mod+Enter</kbd> exits the code block
 - Pressing <kbd>Mod+A</kbd> selects all the text in the block
 
-> <kbd>Mod</kbd> means <kbd>Ctrl</kbd> on Windows/Linux and <kbd>Command</kdb> on Mac.
+> <kbd>Mod</kbd> means <kbd>Ctrl</kbd> on Windows/Linux and <kbd>Command</kbd> on Mac.
 
 ### Structure
 
