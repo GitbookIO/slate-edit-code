@@ -1,0 +1,29 @@
+document:
+  nodes:
+    - kind: block
+      type: code_block
+      nodes:
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              leaves:
+                - text: "multiple"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              leaves:
+                - text: "lines"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              leaves:
+                - text: "of"
+        - kind: block
+          type: code_line
+          nodes:
+            - kind: text
+              leaves:
+                - text: "code"
