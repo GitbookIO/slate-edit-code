@@ -28,17 +28,6 @@ const value = (
                 <code_line>{"  console.log('Hello World')"}</code_line>
                 <code_line>{'}'}</code_line>
             </code_block>
-
-            <paragraph>
-                This code block automatically split into lines:
-            </paragraph>
-
-            <code_block>
-                {`// Some JavaScript
-function hello() {
-  console.log('Hello World')
-}`}
-            </code_block>
         </document>
     </value>
 );
