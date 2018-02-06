@@ -28,6 +28,8 @@ const value = (
                 <code_line>{"  console.log('Hello World')"}</code_line>
                 <code_line>{'}'}</code_line>
             </code_block>
+
+            <paragraph>End paragraph</paragraph>paragraph>
         </document>
     </value>
 );
