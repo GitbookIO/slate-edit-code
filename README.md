@@ -41,6 +41,9 @@ nodes:
 
 ```
 
+The plugin automatically converts multiline texts in `code_blocks` into the appropriate number of `code_lines`.
+
+
 ### Simple Usage
 
 ```js
