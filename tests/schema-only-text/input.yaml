@@ -1,15 +1,15 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: code_block
       nodes:
-        - kind: block
+        - object: block
           type: code_line
           nodes:
             # Contains another block instead of just text nodes
-            - kind: block
+            - object: block
               type: default
               nodes:
-                - kind: text
+                - object: text
                   leaves:
                     - text: "Some\n code"

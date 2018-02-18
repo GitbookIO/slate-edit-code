@@ -27,14 +27,14 @@ This plugin uses the following structure for code blocks:
 
 ``` yaml
 nodes:
-  - kind: block
+  - object: block
     type: code_block
     nodes:
-      - kind: block
+      - object: block
         type: code_line
         nodes:
           - text: "A code block is made of..."
-      - kind: block
+      - object: block
         type: code_line
         nodes:
           - text: "...several code lines"

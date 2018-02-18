@@ -1,12 +1,12 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: code_block
       nodes:
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               key: 'start'
               leaves:
                 - text: "    Line 1"
