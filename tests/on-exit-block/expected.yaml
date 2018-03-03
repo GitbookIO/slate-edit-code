@@ -1,32 +1,32 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: code_block
       nodes:
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "Li"
-    - kind: block
+    - object: block
       type: paragraph
       nodes:
-        - kind: text
+        - object: text
           leaves:
             - text: ""
-    - kind: block
+    - object: block
       type: code_block
       nodes:
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "ne 1"
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "    Line 2"

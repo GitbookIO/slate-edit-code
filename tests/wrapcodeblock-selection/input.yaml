@@ -1,9 +1,9 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: paragraph
       nodes:
-        - kind: text
+        - object: text
           key: 'start'
           leaves:
             - text: "Hello world"

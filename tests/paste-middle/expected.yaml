@@ -1,23 +1,23 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: code_block
       nodes:
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "SomeYes"
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "No"
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "Question? code"

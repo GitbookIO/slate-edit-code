@@ -1,20 +1,20 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: code_block
       nodes:
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "One text"
-            - kind: block
+            - object: block
               type: something
               nodes:
-                - kind: text
+                - object: text
                   leaves:
                     - text: "Unwanted block"
-            - kind: text
+            - object: text
               leaves:
                 - text: "Two text"

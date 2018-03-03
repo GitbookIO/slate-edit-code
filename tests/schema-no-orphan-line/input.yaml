@@ -1,17 +1,17 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: code_line
       nodes:
-        - kind: text
+        - object: text
           leaves:
             - text: "Some orphan code"
-    - kind: block
+    - object: block
       type: code_block
       nodes:
-        - kind: block
+        - object: block
           type: code_line
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "Some other code"

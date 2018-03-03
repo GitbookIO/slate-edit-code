@@ -1,16 +1,16 @@
 document:
   nodes:
-    - kind: block
+    - object: block
       type: paragraph
       nodes:
-        - kind: text
+        - object: text
           key: 'start'
           leaves:
             - text: "Hello "
-        - kind: inline
+        - object: inline
           type: link
           nodes:
-            - kind: text
+            - object: text
               leaves:
                 - text: "world"
 selection:
