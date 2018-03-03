@@ -29,7 +29,7 @@ const value = (
                 <code_line>{'}'}</code_line>
             </code_block>
 
-            <paragraph>End paragraph</paragraph>
+            <paragraph>End paragraph</paragraph>paragraph>
         </document>
     </value>
 );
