@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.13.3
+
+- Normalize multiline texts in code to be split into the appropriate number of code lines.
+
 ### 0.13.2
 
 - Add `getIndent` option to customize the indent unit used.
