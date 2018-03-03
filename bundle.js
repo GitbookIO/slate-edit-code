@@ -1371,7 +1371,7 @@ function noOrphanLine(opts) {
     return {
         // Match all blocks that are not code blocks
         match: function match(node) {
-            return (node.kind === 'block' || node.kind === 'document') && node.type !== opts.containerType;
+            return (node.object === 'block' || node.object === 'document') && node.type !== opts.containerType;
         },
         validate: function validate(node) {
             var codeLines = node.nodes.filter(function (n) {
@@ -1418,7 +1418,7 @@ function onlyLine(opts) {
             var toRemove = (0, _immutable.List)();
 
             nodes.forEach(function (child) {
-                if (child.kind === 'text') {
+                if (child.object === 'text') {
                     var lines = (0, _utils.deserializeCode)(opts, child.text).nodes;
                     toAdd = toAdd.concat(lines);
                     toRemove.push(child);
@@ -1466,7 +1466,7 @@ function onlyText(opts) {
 
 
             var toRemove = nodes.filterNot(function (n) {
-                return n.kind === 'text';
+                return n.object === 'text';
             });
             if (!toRemove.isEmpty()) {
                 // Remove them, and the rest
