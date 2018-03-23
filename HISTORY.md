@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.15.0
+
+- Upgrade to be compatible with Slate > 0.33.x
+- Use the new schema definition for improved performance
+
 ### 0.14.0
 
 - Upgrade to be compatible with Slate > 0.32.x
