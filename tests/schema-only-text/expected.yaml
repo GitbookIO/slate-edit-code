@@ -9,3 +9,9 @@ document:
             - object: text
               leaves:
                 - text: ""
+        - object: block
+          type: code_line
+          nodes:
+            - object: text
+              leaves:
+                - text: ""

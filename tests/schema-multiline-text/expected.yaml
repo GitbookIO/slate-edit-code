@@ -26,4 +26,4 @@ document:
           nodes:
             - object: text
               leaves:
-                - text: "code"
+                - text: "code and marks"

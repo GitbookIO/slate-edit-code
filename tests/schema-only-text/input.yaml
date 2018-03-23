@@ -13,3 +13,6 @@ document:
                 - object: text
                   leaves:
                     - text: "Some\n code"
+        # A text node should be appended to empty code lines
+        - object: block
+          type: code_line
