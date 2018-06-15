@@ -203,8 +203,7 @@ var value = h(
             'paragraph',
             null,
             'End paragraph'
-        ),
-        'paragraph>'
+        )
     )
 );
 
@@ -1293,6 +1292,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _slate = require('slate');
+
 var _slateSchemaViolations = require('slate-schema-violations');
 
 var _immutable = require('immutable');
@@ -1371,21 +1372,55 @@ function onlyLine(opts, change, context) {
 }
 
 /**
+ * Return a list of group of code lines. Used to wrap them together in
+ * independent code blocks.
+ */
+function getSuccessiveCodeLines(opts, nodes) {
+    var isLine = function isLine(n) {
+        return n.type === opts.lineType;
+    };
+
+    var nonLines = nodes.takeUntil(isLine);
+    var afterNonLines = nodes.skip(nonLines.size);
+    if (afterNonLines.isEmpty()) {
+        return (0, _immutable.List)();
+    }
+
+    var firstGroup = afterNonLines.takeWhile(isLine);
+    var restOfNodes = afterNonLines.skip(firstGroup.size);
+
+    return (0, _immutable.List)([firstGroup]).concat(getSuccessiveCodeLines(opts, restOfNodes));
+}
+
+/**
  * A rule that ensure code lines are always children
  * of a code block.
  */
 function noOrphanLine(opts, change, context) {
-    var codeLines = context.parent.nodes.filter(function (n) {
-        return n.type === opts.lineType;
+    var parent = context.parent;
+
+
+    var linesGroup = getSuccessiveCodeLines(opts, parent.nodes);
+
+    linesGroup.forEach(function (group) {
+        var container = _slate.Block.create({ type: opts.containerType, nodes: [] });
+        var firstLineIndex = parent.nodes.indexOf(group.first());
+
+        change.insertNodeByKey(parent.key, firstLineIndex, container, {
+            normalize: false
+        });
+
+        group.forEach(function (line, index) {
+            return change.moveNodeByKey(line.key, container.key, index, {
+                normalize: false
+            });
+        });
     });
-    return codeLines.reduce(function (c, n) {
-        return c.wrapBlockByKey(n.key, opts.containerType);
-    }, change);
 }
 
 exports.default = schema;
 
-},{"../utils":27,"immutable":62,"slate-schema-violations":427}],31:[function(require,module,exports){
+},{"../utils":27,"immutable":62,"slate":428,"slate-schema-violations":427}],31:[function(require,module,exports){
 /* eslint-disable guard-for-in */
 'use strict';
 var repeating = require('repeating');
