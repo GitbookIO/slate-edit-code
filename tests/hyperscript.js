@@ -4,10 +4,12 @@ const h = createHyperscript({
     blocks: {
         code_block: 'code_block',
         code_line: 'code_line',
-        paragraph: 'paragraph'
+        paragraph: 'paragraph',
+        default: 'default'
     },
-    inline: {
-        link: 'link'
+    inlines: {
+        link: 'link',
+        'unknown-inline': 'unknown-inline'
     },
     marks: {
         italic: 'italic'
