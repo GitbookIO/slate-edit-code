@@ -1313,6 +1313,7 @@ function schema(opts) {
             nodes: [{ types: [opts.lineType] }],
             normalize: function normalize(change, violation, context) {
                 switch (violation) {
+                    case _slateSchemaViolations.CHILD_INVALID:
                     case _slateSchemaViolations.CHILD_TYPE_INVALID:
                         return onlyLine(opts, change, context);
                     default:
@@ -1324,6 +1325,11 @@ function schema(opts) {
             parent: { types: [opts.containerType] },
             normalize: function normalize(change, violation, context) {
                 switch (violation) {
+                    // This constant does not exist yet in
+                    // official Slate, but exists in GitBook's
+                    // fork. Until the PR is merged, we accept both
+                    // https://github.com/ianstormtaylor/slate/pull/1842
+                    case _slateSchemaViolations.PARENT_INVALID:
                     case _slateSchemaViolations.PARENT_TYPE_INVALID:
                         return noOrphanLine(opts, change, context);
                     default:
