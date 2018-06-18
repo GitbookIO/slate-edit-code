@@ -1350,31 +1350,31 @@ function schema(opts) {
  * A rule that ensure code blocks only contain lines of code, and no marks
  */
 function onlyLine(opts, change, context) {
-    return change.withoutNormalization(function (c) {
-        var codeLines = (0, _immutable.List)();
+    var codeLines = (0, _immutable.List)();
 
-        context.node.nodes.forEach(function (node) {
-            if (node.object === opts.lineType) {
+    context.node.nodes.forEach(function (node) {
+        if (node.object === opts.lineType) {
+            return;
+        }
+
+        if (node.object === 'text') {
+            if (node.text.length === 0) {
                 return;
             }
 
-            if (node.object === 'text') {
-                if (node.text.length === 0) {
-                    return;
-                }
+            codeLines = codeLines.concat((0, _utils.deserializeCode)(opts, node.text).nodes);
+        }
 
-                codeLines = codeLines.concat((0, _utils.deserializeCode)(opts, node.text).nodes);
-            }
-
-            c.removeNodeByKey(node.key);
-        });
-
-        codeLines.forEach(function (codeLine, index) {
-            c.insertNodeByKey(context.node.key, index, codeLine);
-        });
-
-        return c;
+        change.removeNodeByKey(node.key, { normalize: false });
     });
+
+    codeLines.forEach(function (codeLine, index) {
+        change.insertNodeByKey(context.node.key, index, codeLine, {
+            normalize: false
+        });
+    });
+
+    return change;
 }
 
 /**
