@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 0.15.3
+
+- Reduce the likelihood of Maximum call stack exceeded, by avoiding
+  `change.withoutNormalization`.
+
 ### 0.15.2
 
 - Small monkey patch to support the GitBook's fork of Slate.
