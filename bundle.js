@@ -138,7 +138,7 @@ var Example = function (_React$Component) {
 
 _reactDom2.default.render(React.createElement(Example, null), document.getElementById('example'));
 
-},{"../lib/":21,"./value":2,"react":403,"react-dom":250,"slate-react":411}],2:[function(require,module,exports){
+},{"../lib/":21,"./value":2,"react":403,"react-dom":250,"slate-react":413}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -209,7 +209,7 @@ var value = h(
 
 exports.default = value;
 
-},{"slate-hyperscript":408}],3:[function(require,module,exports){
+},{"slate-hyperscript":410}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -217,6 +217,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 require('slate');
+
+var _immutable = require('immutable');
+
+// Return the index of the first character that differs between both string, or
+// the smallest string length otherwise.
+function firstDifferentCharacter(a, b) {
+    if (a.length > b.length) {
+        return firstDifferentCharacter(b, a);
+    }
+
+    var index = (0, _immutable.Range)(0, a.length).find(function (i) {
+        return a[i] !== b[i];
+    });
+
+    return index == null ? a.length : index;
+}
 
 /**
  * Dedent all lines in selection
@@ -234,16 +250,15 @@ indent) {
 
     return lines.reduce(function (c, line) {
         // Remove a level of indent from the start of line
-        var text = line.nodes.first();
-        var lengthToRemove = text.characters.takeWhile(function (char, index) {
-            return indent.charAt(index) === char.text;
-        }).count();
-        return c.removeTextByKey(text.key, 0, lengthToRemove);
+        var textNode = line.nodes.first();
+        var lengthToRemove = firstDifferentCharacter(textNode.text, indent);
+        return c.removeTextByKey(textNode.key, 0, lengthToRemove);
     }, change);
 }
+
 exports.default = dedentLines;
 
-},{"slate":428}],4:[function(require,module,exports){
+},{"immutable":62,"slate":430}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -274,7 +289,7 @@ indent) {
 }
 exports.default = indentLines;
 
-},{"slate":428}],5:[function(require,module,exports){
+},{"slate":430}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -355,7 +370,7 @@ type) {
 
 exports.default = toggleCodeBlock;
 
-},{"../utils":27,"./unwrapCodeBlock":7,"./wrapCodeBlock":9,"slate":428}],7:[function(require,module,exports){
+},{"../utils":27,"./unwrapCodeBlock":7,"./wrapCodeBlock":9,"slate":430}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -392,7 +407,7 @@ function unwrapCodeBlock(opts, change, type) {
 }
 exports.default = unwrapCodeBlock;
 
-},{"../utils":27,"./unwrapCodeBlockByKey":8,"slate":428}],8:[function(require,module,exports){
+},{"../utils":27,"./unwrapCodeBlockByKey":8,"slate":430}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -425,7 +440,7 @@ function unwrapCodeBlockByKey(opts, change, key, type) {
 }
 exports.default = unwrapCodeBlockByKey;
 
-},{"slate":428}],9:[function(require,module,exports){
+},{"slate":430}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -460,7 +475,7 @@ function wrapCodeBlock(opts, change) {
 
 exports.default = wrapCodeBlock;
 
-},{"./wrapCodeBlockByKey":10,"slate":428}],10:[function(require,module,exports){
+},{"./wrapCodeBlockByKey":10,"slate":430}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -504,7 +519,7 @@ function wrapCodeBlockByKey(opts, change, key) {
 
 exports.default = wrapCodeBlockByKey;
 
-},{"../utils":27,"slate":428}],11:[function(require,module,exports){
+},{"../utils":27,"slate":430}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -663,7 +678,7 @@ function onBackspace(opts, event, change, editor) {
 
 exports.default = onBackspace;
 
-},{"../utils":27,"ends-with":34,"slate":428}],14:[function(require,module,exports){
+},{"../utils":27,"ends-with":34,"slate":430}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -697,7 +712,7 @@ function onEnter(opts, event, change, editor) {
 
 exports.default = onEnter;
 
-},{"../utils":27,"slate":428}],15:[function(require,module,exports){
+},{"../utils":27,"slate":430}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -784,7 +799,7 @@ function onKeyDown(opts, event, change, editor) {
 
 exports.default = onKeyDown;
 
-},{"../utils":27,"./onBackspace":13,"./onEnter":14,"./onModEnter":16,"./onSelectAll":18,"./onShiftTab":19,"./onTab":20,"is-hotkey":65,"slate":428}],16:[function(require,module,exports){
+},{"../utils":27,"./onBackspace":13,"./onEnter":14,"./onModEnter":16,"./onSelectAll":18,"./onShiftTab":19,"./onTab":20,"is-hotkey":65,"slate":430}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -811,7 +826,7 @@ function onModEnter(opts, event, change, editor) {
 }
 exports.default = onModEnter;
 
-},{"slate":428}],17:[function(require,module,exports){
+},{"slate":430}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -859,7 +874,7 @@ function onPaste(opts, event, change, editor) {
 }
 exports.default = onPaste;
 
-},{"../utils":27,"slate":428,"slate-react":411}],18:[function(require,module,exports){
+},{"../utils":27,"slate":430,"slate-react":413}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -884,7 +899,7 @@ function onSelectAll(opts, event, change, editor) {
 
 exports.default = onSelectAll;
 
-},{"../utils":27,"slate":428}],19:[function(require,module,exports){
+},{"../utils":27,"slate":430}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -914,7 +929,7 @@ function onShiftTab(opts, event, change, editor) {
 }
 exports.default = onShiftTab;
 
-},{"../changes":5,"../utils":27,"slate":428}],20:[function(require,module,exports){
+},{"../changes":5,"../utils":27,"slate":430}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -951,7 +966,7 @@ function onTab(opts, event, change, editor) {
 }
 exports.default = onTab;
 
-},{"../changes":5,"../utils":27,"slate":428}],21:[function(require,module,exports){
+},{"../changes":5,"../utils":27,"slate":430}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1064,7 +1079,7 @@ var Options = function (_Record) {
 
 exports.default = Options;
 
-},{"immutable":62,"slate":428}],23:[function(require,module,exports){
+},{"immutable":62,"slate":430}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1107,7 +1122,7 @@ function deserializeCode(opts, text) {
 
 exports.default = deserializeCode;
 
-},{"detect-newline":32,"immutable":62,"slate":428}],24:[function(require,module,exports){
+},{"detect-newline":32,"immutable":62,"slate":430}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1141,7 +1156,7 @@ function getCurrentCode(opts, value, key) {
 }
 exports.default = getCurrentCode;
 
-},{"slate":428}],25:[function(require,module,exports){
+},{"slate":430}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1181,7 +1196,7 @@ function getCurrentIndent(opts, value) {
 
 exports.default = getCurrentIndent;
 
-},{"./getCurrentCode":24,"./getIndent":26,"slate":428}],26:[function(require,module,exports){
+},{"./getCurrentCode":24,"./getIndent":26,"slate":430}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1269,7 +1284,7 @@ function isInCodeBlock(opts, value) {
 
 exports.default = isInCodeBlock;
 
-},{"slate":428}],29:[function(require,module,exports){
+},{"slate":430}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1350,28 +1365,32 @@ function schema(opts) {
  * A rule that ensure code blocks only contain lines of code, and no marks
  */
 function onlyLine(opts, change, context) {
-    var codeLines = (0, _immutable.List)();
+    var isLine = function isLine(n) {
+        return n.type === opts.lineType;
+    };
 
-    context.node.nodes.forEach(function (node) {
-        if (node.object === opts.lineType) {
-            return;
+    var nonLines = context.node.nodes.filterNot(isLine);
+
+    nonLines.forEach(function (invalidNode) {
+        var text = invalidNode.text;
+
+        if (text.length > 0) {
+            // Convert text nodes to code lines
+            var codeLines = (0, _utils.deserializeCode)(opts, text).nodes;
+
+            // Insert them in place of the invalid node
+            var parent = change.value.document.getParent(invalidNode.key);
+            var invalidNodeIndex = parent.nodes.indexOf(invalidNode);
+
+            codeLines.forEach(function (codeLine, index) {
+                change.insertNodeByKey(parent.key, invalidNodeIndex + index, codeLine, {
+                    normalize: false
+                });
+            });
         }
 
-        if (node.object === 'text') {
-            if (node.text.length === 0) {
-                return;
-            }
-
-            codeLines = codeLines.concat((0, _utils.deserializeCode)(opts, node.text).nodes);
-        }
-
-        change.removeNodeByKey(node.key, { normalize: false });
-    });
-
-    codeLines.forEach(function (codeLine, index) {
-        change.insertNodeByKey(context.node.key, index, codeLine, {
-            normalize: false
-        });
+        // Remove the text
+        change.removeNodeByKey(invalidNode.key, { normalize: false });
     });
 
     return change;
@@ -1426,7 +1445,7 @@ function noOrphanLine(opts, change, context) {
 
 exports.default = schema;
 
-},{"../utils":27,"immutable":62,"slate":428,"slate-schema-violations":427}],31:[function(require,module,exports){
+},{"../utils":27,"immutable":62,"slate":430,"slate-schema-violations":429}],31:[function(require,module,exports){
 /* eslint-disable guard-for-in */
 'use strict';
 var repeating = require('repeating');
@@ -34205,7 +34224,229 @@ var index = {
 exports.default = index;
 
 
-},{"isomorphic-base64":69,"slate":428}],407:[function(require,module,exports){
+},{"isomorphic-base64":69,"slate":430}],407:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var browser = _interopDefault(require('is-in-browser'));
+
+var slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
+
+/**
+ * Browser matching rules.
+ *
+ * @type {Array}
+ */
+
+var BROWSER_RULES = [['edge', /Edge\/([0-9\._]+)/], ['chrome', /(?!Chrom.*OPR)Chrom(?:e|ium)\/([0-9\.]+)(:?\s|$)/], ['firefox', /Firefox\/([0-9\.]+)(?:\s|$)/], ['opera', /Opera\/([0-9\.]+)(?:\s|$)/], ['opera', /OPR\/([0-9\.]+)(:?\s|$)$/], ['ie', /Trident\/7\.0.*rv\:([0-9\.]+)\).*Gecko$/], ['ie', /MSIE\s([0-9\.]+);.*Trident\/[4-7].0/], ['ie', /MSIE\s(7\.0)/], ['android', /Android\s([0-9\.]+)/], ['safari', /Version\/([0-9\._]+).*Safari/]];
+
+/**
+ * DOM event matching rules.
+ *
+ * @type {Array}
+ */
+
+var EVENT_RULES = [['beforeinput', function (el) {
+  return 'onbeforeinput' in el;
+}]];
+
+/**
+ * Operating system matching rules.
+ *
+ * @type {Array}
+ */
+
+var OS_RULES = [['ios', /os ([\.\_\d]+) like mac os/i], // must be before the macos rule
+['macos', /mac os x/i], ['android', /android/i], ['firefoxos', /mozilla\/[a-z\.\_\d]+ \((?:mobile)|(?:tablet)/i], ['windows', /windows\s*(?:nt)?\s*([\.\_\d]+)/i]];
+
+/**
+ * Define variables to store the result.
+ */
+
+var BROWSER = void 0;
+var EVENTS = {};
+var OS = void 0;
+
+/**
+ * Run the matchers when in browser.
+ */
+
+if (browser) {
+  var userAgent = window.navigator.userAgent;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+
+    for (var _iterator = BROWSER_RULES[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var _ref = _step.value;
+
+      var _ref2 = slicedToArray(_ref, 2);
+
+      var name = _ref2[0];
+      var regexp = _ref2[1];
+
+      if (regexp.test(userAgent)) {
+        BROWSER = name;
+        break;
+      }
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = OS_RULES[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var _ref3 = _step2.value;
+
+      var _ref4 = slicedToArray(_ref3, 2);
+
+      var _name = _ref4[0];
+      var _regexp = _ref4[1];
+
+      if (_regexp.test(userAgent)) {
+        OS = _name;
+        break;
+      }
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  var testEl = window.document.createElement('div');
+  testEl.contentEditable = true;
+
+  var _iteratorNormalCompletion3 = true;
+  var _didIteratorError3 = false;
+  var _iteratorError3 = undefined;
+
+  try {
+    for (var _iterator3 = EVENT_RULES[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      var _ref5 = _step3.value;
+
+      var _ref6 = slicedToArray(_ref5, 2);
+
+      var _name2 = _ref6[0];
+      var testFn = _ref6[1];
+
+      EVENTS[_name2] = testFn(testEl);
+    }
+  } catch (err) {
+    _didIteratorError3 = true;
+    _iteratorError3 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion3 && _iterator3.return) {
+        _iterator3.return();
+      }
+    } finally {
+      if (_didIteratorError3) {
+        throw _iteratorError3;
+      }
+    }
+  }
+}
+
+/**
+ * Export.
+ *
+ * @type {Object}
+ */
+
+var IS_CHROME = BROWSER === 'chrome';
+var IS_OPERA = BROWSER === 'opera';
+var IS_FIREFOX = BROWSER === 'firefox';
+var IS_SAFARI = BROWSER === 'safari';
+var IS_IE = BROWSER === 'ie';
+var IS_EDGE = BROWSER === 'edge';
+
+var IS_ANDROID = OS === 'android';
+var IS_IOS = OS === 'ios';
+var IS_MAC = OS === 'macos';
+var IS_WINDOWS = OS === 'windows';
+
+var SUPPORTED_EVENTS = EVENTS;
+
+exports.IS_CHROME = IS_CHROME;
+exports.IS_OPERA = IS_OPERA;
+exports.IS_FIREFOX = IS_FIREFOX;
+exports.IS_SAFARI = IS_SAFARI;
+exports.IS_IE = IS_IE;
+exports.IS_EDGE = IS_EDGE;
+exports.IS_ANDROID = IS_ANDROID;
+exports.IS_IOS = IS_IOS;
+exports.IS_MAC = IS_MAC;
+exports.IS_WINDOWS = IS_WINDOWS;
+exports.SUPPORTED_EVENTS = SUPPORTED_EVENTS;
+
+
+},{"is-in-browser":66}],408:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -34547,7 +34788,167 @@ exports.default = index;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],408:[function(require,module,exports){
+},{}],409:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var isHotkey = require('is-hotkey');
+var slateDevEnvironment = require('slate-dev-environment');
+
+/**
+ * Is Apple?
+ *
+ * @type {Boolean}
+ */
+
+var IS_APPLE = slateDevEnvironment.IS_IOS || slateDevEnvironment.IS_MAC;
+
+/**
+ * Hotkeys.
+ *
+ * @type {Function}
+ */
+
+var isBold = isHotkey.isKeyHotkey('mod+b');
+var isItalic = isHotkey.isKeyHotkey('mod+i');
+
+var isEnter = isHotkey.isKeyHotkey('enter');
+var isShiftEnter = isHotkey.isKeyHotkey('shift+enter');
+var isSplitBlock = function isSplitBlock(e) {
+  return isEnter(e) || isShiftEnter(e);
+};
+
+var isBackspace = isHotkey.isKeyHotkey('backspace');
+var isShiftBackspace = isHotkey.isKeyHotkey('shift+backspace');
+var isDelete = isHotkey.isKeyHotkey('delete');
+var isShiftDelete = isHotkey.isKeyHotkey('shift+delete');
+var isDeleteBackward = function isDeleteBackward(e) {
+  return isBackspace(e) || isShiftBackspace(e);
+};
+var isDeleteForward = function isDeleteForward(e) {
+  return isDelete(e) || isShiftDelete(e);
+};
+
+var isDeleteCharBackwardMac = isHotkey.isKeyHotkey('ctrl+h');
+var isDeleteCharForwardMac = isHotkey.isKeyHotkey('ctrl+d');
+var isDeleteCharBackward = function isDeleteCharBackward(e) {
+  return isDeleteBackward(e) || IS_APPLE && isDeleteCharBackwardMac(e);
+};
+var isDeleteCharForward = function isDeleteCharForward(e) {
+  return isDeleteForward(e) || IS_APPLE && isDeleteCharForwardMac(e);
+};
+
+var isDeleteLineBackwardMac = function isDeleteLineBackwardMac(e) {
+  return isHotkey.isKeyHotkey('cmd+shift+backspace', e) || isHotkey.isKeyHotkey('cmd+backspace', e);
+};
+var isDeleteLineForwardMac = isHotkey.isKeyHotkey('ctrl+k');
+var isDeleteLineBackward = function isDeleteLineBackward(e) {
+  return IS_APPLE && isDeleteLineBackwardMac(e);
+};
+var isDeleteLineForward = function isDeleteLineForward(e) {
+  return IS_APPLE && isDeleteLineForwardMac(e);
+};
+
+var isDeleteWordBackwardMac = function isDeleteWordBackwardMac(e) {
+  return isHotkey.isKeyHotkey('shift+option+backspace', e) || isHotkey.isKeyHotkey('option+backspace', e);
+};
+var isDeleteWordBackwardPC = isHotkey.isKeyHotkey('ctrl+backspace');
+var isDeleteWordForwardMac = function isDeleteWordForwardMac(e) {
+  return isHotkey.isKeyHotkey('shift+option+delete', e) || isHotkey.isKeyHotkey('option+delete', e);
+};
+var isDeleteWordForwardPC = isHotkey.isKeyHotkey('ctrl+delete');
+var isDeleteWordBackward = function isDeleteWordBackward(e) {
+  return IS_APPLE ? isDeleteWordBackwardMac(e) : isDeleteWordBackwardPC(e);
+};
+var isDeleteWordForward = function isDeleteWordForward(e) {
+  return IS_APPLE ? isDeleteWordForwardMac(e) : isDeleteWordForwardPC(e);
+};
+
+var isExtendCharForward = isHotkey.isKeyHotkey('shift+right');
+var isExtendCharBackward = isHotkey.isKeyHotkey('shift+left');
+
+var isRightArrow = isHotkey.isKeyHotkey('right');
+var isLeftArrow = isHotkey.isKeyHotkey('left');
+var isCollapseCharForward = function isCollapseCharForward(e) {
+  return isRightArrow(e) && !isExtendCharForward(e);
+};
+var isCollapseCharBackward = function isCollapseCharBackward(e) {
+  return isLeftArrow(e) && !isExtendCharBackward(e);
+};
+
+var isCollapseLineBackwardMac = isHotkey.isKeyHotkey('option+up');
+var isCollapseLineForwardMac = isHotkey.isKeyHotkey('option+down');
+var isCollapseLineBackward = function isCollapseLineBackward(e) {
+  return IS_APPLE && isCollapseLineBackwardMac(e);
+};
+var isCollapseLineForward = function isCollapseLineForward(e) {
+  return IS_APPLE && isCollapseLineForwardMac(e);
+};
+
+var isExtendLineBackwardMac = isHotkey.isKeyHotkey('option+shift+up');
+var isExtendLineForwardMac = isHotkey.isKeyHotkey('option+shift+down');
+var isExtendLineBackward = function isExtendLineBackward(e) {
+  return IS_APPLE && isExtendLineBackwardMac(e);
+};
+var isExtendLineForward = function isExtendLineForward(e) {
+  return IS_APPLE && isExtendLineForwardMac(e);
+};
+
+var isUndo = isHotkey.isKeyHotkey('mod+z');
+var isRedoMac = isHotkey.isKeyHotkey('mod+shift+z');
+var isRedoPC = isHotkey.isKeyHotkey('mod+y');
+var isRedo = function isRedo(e) {
+  return IS_APPLE ? isRedoMac(e) : isRedoPC(e);
+};
+
+var isTransposeCharacterMac = isHotkey.isKeyHotkey('ctrl+t');
+var isTransposeCharacter = function isTransposeCharacter(e) {
+  return IS_APPLE && isTransposeCharacterMac(e);
+};
+
+var isContentEditable = function isContentEditable(e) {
+  return isBold(e) || isDeleteCharBackward(e) || isDeleteCharForward(e) || isDeleteLineBackward(e) || isDeleteLineForward(e) || isDeleteWordBackward(e) || isDeleteWordForward(e) || isItalic(e) || isRedo(e) || isSplitBlock(e) || isTransposeCharacter(e) || isUndo(e);
+};
+
+var isComposing = function isComposing(e) {
+  return e.key == 'ArrowDown' || e.key == 'ArrowLeft' || e.key == 'ArrowRight' || e.key == 'ArrowUp' || e.key == 'Backspace' || e.key == 'Enter';
+};
+
+/**
+ * Export.
+ *
+ * @type {Object}
+ */
+
+var index = {
+  isBold: isBold,
+  isCollapseCharBackward: isCollapseCharBackward,
+  isCollapseCharForward: isCollapseCharForward,
+  isCollapseLineBackward: isCollapseLineBackward,
+  isCollapseLineForward: isCollapseLineForward,
+  isComposing: isComposing,
+  isContentEditable: isContentEditable,
+  isDeleteCharBackward: isDeleteCharBackward,
+  isDeleteCharForward: isDeleteCharForward,
+  isDeleteLineBackward: isDeleteLineBackward,
+  isDeleteLineForward: isDeleteLineForward,
+  isDeleteWordBackward: isDeleteWordBackward,
+  isDeleteWordForward: isDeleteWordForward,
+  isExtendCharBackward: isExtendCharBackward,
+  isExtendCharForward: isExtendCharForward,
+  isExtendLineBackward: isExtendLineBackward,
+  isExtendLineForward: isExtendLineForward,
+  isItalic: isItalic,
+  isRedo: isRedo,
+  isSplitBlock: isSplitBlock,
+  isUndo: isUndo
+};
+
+exports.default = index;
+
+
+},{"is-hotkey":65,"slate-dev-environment":407}],410:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -34557,6 +34958,20 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var isEmpty = _interopDefault(require('is-empty'));
 var isPlainObject = _interopDefault(require('is-plain-object'));
 var slate = require('slate');
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+
+
+
+
+
+
+
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -34607,10 +35022,61 @@ var CURSOR = {};
 var FOCUS = {};
 
 /**
+ *  wrappers for decorator points, for comparison by instanceof,
+ *  and for composition into ranges (anchor.combine(focus), etc)
+ */
+
+var DecoratorPoint = function DecoratorPoint(_ref, marks) {
+  var key = _ref.key,
+      data = _ref.data;
+  classCallCheck(this, DecoratorPoint);
+
+  _initialiseProps.call(this);
+
+  this._key = key;
+  this.marks = marks;
+  this.attribs = data || {};
+  this.isAtomic = !!this.attribs.atomic;
+  delete this.attribs.atomic;
+  return this;
+};
+
+/**
  * The default Slate hyperscript creator functions.
  *
  * @type {Object}
  */
+
+var _initialiseProps = function _initialiseProps() {
+  var _this = this;
+
+  this.withPosition = function (offset) {
+    _this.offset = offset;
+    return _this;
+  };
+
+  this.addOffset = function (offset) {
+    _this.offset += offset;
+    return _this;
+  };
+
+  this.withKey = function (key) {
+    _this.key = key;
+    return _this;
+  };
+
+  this.combine = function (focus) {
+    if (!(focus instanceof DecoratorPoint)) throw new Error('misaligned decorations');
+    return slate.Range.create(_extends({
+      anchorKey: _this.key,
+      focusKey: focus.key,
+      anchorOffset: _this.offset,
+      focusOffset: focus.offset,
+      marks: _this.marks,
+      isAtomic: _this.isAtomic
+    }, _this.attribs));
+  };
+};
 
 var CREATORS = {
   anchor: function anchor(tagName, attributes, children) {
@@ -34642,15 +35108,35 @@ var CREATORS = {
     var nodes = createChildren(children, { marks: marks });
     return nodes;
   },
+  decoration: function decoration(tagName, attributes, children) {
+    if (attributes.key) {
+      return new DecoratorPoint(attributes, [{ type: tagName }]);
+    }
+
+    var nodes = createChildren(children, { key: attributes.key });
+    nodes[0].__decorations = (nodes[0].__decorations || []).concat([{
+      anchorOffset: 0,
+      focusOffset: nodes.reduce(function (len, n) {
+        return len + n.text.length;
+      }, 0),
+      marks: [{ type: tagName }],
+      isAtomic: !!attributes.data.atomic
+    }]);
+    return nodes;
+  },
   selection: function selection(tagName, attributes, children) {
     return slate.Range.create(attributes);
   },
   value: function value(tagName, attributes, children) {
-    var data = attributes.data;
+    var data = attributes.data,
+        _attributes$normalize = attributes.normalize,
+        normalize = _attributes$normalize === undefined ? true : _attributes$normalize;
 
     var document = children.find(slate.Document.isDocument);
     var selection = children.find(slate.Range.isRange) || slate.Range.create();
     var props = {};
+    var decorations = [];
+    var partialDecorations = {};
 
     // Search the document's texts to see if any of them have the anchor or
     // focus information saved, so we can set the selection.
@@ -34668,6 +35154,37 @@ var CREATORS = {
           props.isFocused = true;
         }
       });
+
+      // now check for decorations and hoist them to the top
+      document.getTexts().forEach(function (text) {
+        if (text.__decorations != null) {
+          // add in all mark-like (keyless) decorations
+          decorations = decorations.concat(text.__decorations.filter(function (d) {
+            return d._key === undefined;
+          }).map(function (d) {
+            return slate.Range.create(_extends({}, d, {
+              anchorKey: text.key,
+              focusKey: text.key
+            }));
+          }));
+          // store or combine partial decorations (keyed with anchor / focus)
+          text.__decorations.filter(function (d) {
+            return d._key !== undefined;
+          }).forEach(function (partial) {
+            if (partialDecorations[partial._key]) {
+              decorations.push(partialDecorations[partial._key].combine(partial.withKey(text.key)));
+              delete partialDecorations[partial._key];
+              return;
+            }
+            partialDecorations[partial._key] = partial.withKey(text.key);
+          });
+        }
+      });
+    }
+
+    // should have no more parital decorations outstanding (all paired)
+    if (Object.keys(partialDecorations).length > 0) {
+      throw new Error('Slate hyperscript must have both an anchor and focus defined for each keyed decorator.');
     }
 
     if (props.anchorKey && !props.focusKey) {
@@ -34682,7 +35199,15 @@ var CREATORS = {
       selection = selection.merge(props).normalize(document);
     }
 
-    var value = slate.Value.create({ data: data, document: document, selection: selection });
+    var value = slate.Value.fromJSON({ data: data, document: document, selection: selection }, { normalize: normalize });
+
+    // apply any decorations built
+    if (decorations.length > 0) {
+      value = value.change().setValue({ decorations: decorations.map(function (d) {
+          return d.normalize(document);
+        }) }).value;
+    }
+
     return value;
   },
   text: function text(tagName, attributes, children) {
@@ -34751,31 +35276,37 @@ function createChildren(children) {
   var length = 0;
 
   // When creating the new node, try to preserve a key if one exists.
-  var firstText = children.find(function (c) {
-    return slate.Text.isText(c);
+  var firstNodeOrText = children.find(function (c) {
+    return typeof c !== 'string';
   });
+  var firstText = slate.Text.isText(firstNodeOrText) ? firstNodeOrText : null;
   var key = options.key ? options.key : firstText ? firstText.key : undefined;
-  var node = slate.Text.create({ key: key });
+  var node = slate.Text.create({ key: key, leaves: [{ text: '', marks: options.marks }] });
 
   // Create a helper to update the current node while preserving any stored
   // anchor or focus information.
   function setNode(next) {
     var _node = node,
         __anchor = _node.__anchor,
-        __focus = _node.__focus;
+        __focus = _node.__focus,
+        __decorations = _node.__decorations;
 
     if (__anchor != null) next.__anchor = __anchor;
     if (__focus != null) next.__focus = __focus;
+    if (__decorations != null) next.__decorations = __decorations;
     node = next;
   }
 
-  children.forEach(function (child) {
+  children.forEach(function (child, index) {
+    var isLast = index === children.length - 1;
     // If the child is a non-text node, push the current node and the new child
     // onto the array, then creating a new node for future selection tracking.
     if (slate.Node.isNode(child) && !slate.Text.isText(child)) {
-      if (node.text.length || node.__anchor != null || node.__focus != null) array.push(node);
+      if (node.text.length || node.__anchor != null || node.__focus != null || node.getMarksAtIndex(0).size) {
+        array.push(node);
+      }
       array.push(child);
-      node = slate.Text.create();
+      node = isLast ? null : slate.Text.create({ leaves: [{ text: '', marks: options.marks }] });
       length = 0;
     }
 
@@ -34790,7 +35321,8 @@ function createChildren(children) {
     // child's key when updating the node.
     if (slate.Text.isText(child)) {
       var __anchor = child.__anchor,
-          __focus = child.__focus;
+          __focus = child.__focus,
+          __decorations = child.__decorations;
 
       var i = node.text.length;
 
@@ -34808,6 +35340,14 @@ function createChildren(children) {
 
       if (__anchor != null) node.__anchor = __anchor + length;
       if (__focus != null) node.__focus = __focus + length;
+      if (__decorations != null) {
+        node.__decorations = (node.__decorations || []).concat(__decorations.map(function (d) {
+          return d instanceof DecoratorPoint ? d.addOffset(length) : _extends({}, d, {
+            anchorOffset: d.anchorOffset + length,
+            focusOffset: d.focusOffset + length
+          });
+        }));
+      }
 
       length += child.text.length;
     }
@@ -34815,10 +35355,17 @@ function createChildren(children) {
     // If the child is a selection object store the current position.
     if (child == ANCHOR || child == CURSOR) node.__anchor = length;
     if (child == FOCUS || child == CURSOR) node.__focus = length;
+
+    // if child is a decorator point, store it as partial decorator
+    if (child instanceof DecoratorPoint) {
+      node.__decorations = (node.__decorations || []).concat([child.withPosition(length)]);
+    }
   });
 
   // Make sure the most recent node is added.
-  array.push(node);
+  if (node != null) {
+    array.push(node);
+  }
 
   return array;
 }
@@ -34836,7 +35383,9 @@ function resolveCreators(options) {
       _options$inlines = options.inlines,
       inlines = _options$inlines === undefined ? {} : _options$inlines,
       _options$marks = options.marks,
-      marks = _options$marks === undefined ? {} : _options$marks;
+      marks = _options$marks === undefined ? {} : _options$marks,
+      _options$decorators = options.decorators,
+      decorators = _options$decorators === undefined ? {} : _options$decorators;
 
 
   var creators = _extends({}, CREATORS, options.creators || {});
@@ -34851,6 +35400,10 @@ function resolveCreators(options) {
 
   Object.keys(marks).map(function (key) {
     creators[key] = normalizeMark(key, marks[key]);
+  });
+
+  Object.keys(decorators).map(function (key) {
+    creators[key] = normalizeNode(key, decorators[key], 'decoration');
   });
 
   return creators;
@@ -34934,7 +35487,7 @@ exports.default = index;
 exports.createHyperscript = createHyperscript;
 
 
-},{"is-empty":63,"is-plain-object":67,"slate":428}],409:[function(require,module,exports){
+},{"is-empty":63,"is-plain-object":67,"slate":430}],411:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -35051,7 +35604,7 @@ var index = {
 exports.default = index;
 
 
-},{"immutable":62,"slate":428}],410:[function(require,module,exports){
+},{"immutable":62,"slate":430}],412:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -35182,27 +35735,28 @@ var Types = {
 exports.default = Types;
 
 
-},{"slate":428}],411:[function(require,module,exports){
+},{"slate":430}],413:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var browser = _interopDefault(require('is-in-browser'));
-var isHotkey = require('is-hotkey');
 var Debug = _interopDefault(require('debug'));
 var React = _interopDefault(require('react'));
 var Types = _interopDefault(require('prop-types'));
 var SlateTypes = _interopDefault(require('slate-prop-types'));
 var ImmutableTypes = _interopDefault(require('react-immutable-proptypes'));
+var immutable = require('immutable');
 var logger = _interopDefault(require('slate-dev-logger'));
 var slate = require('slate');
 var getWindow = _interopDefault(require('get-window'));
 var isBackward = _interopDefault(require('selection-is-backward'));
+var slateDevEnvironment = require('slate-dev-environment');
 var throttle = _interopDefault(require('lodash/throttle'));
 var Base64 = _interopDefault(require('slate-base64-serializer'));
 var Plain = _interopDefault(require('slate-plain-serializer'));
+var Hotkeys = _interopDefault(require('slate-hotkeys'));
 var reactDom = require('react-dom');
 var Portal = _interopDefault(require('react-portal'));
 
@@ -35213,12 +35767,6 @@ var Portal = _interopDefault(require('react-portal'));
  */
 
 var EVENT_HANDLERS = ['onBeforeInput', 'onBlur', 'onClick', 'onCompositionEnd', 'onCompositionStart', 'onCopy', 'onCut', 'onDragEnd', 'onDragEnter', 'onDragExit', 'onDragLeave', 'onDragOver', 'onDragStart', 'onDrop', 'onInput', 'onFocus', 'onKeyDown', 'onKeyUp', 'onPaste', 'onSelect'];
-
-/**
- * Export.
- *
- * @type {Array}
- */
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -35248,7 +35796,20 @@ var createClass = function () {
 
 
 
+var defineProperty = function (obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
 
+  return obj;
+};
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -35364,305 +35925,13 @@ var toConsumableArray = function (arr) {
   }
 };
 
-var PLUGIN_PROPS = [].concat(toConsumableArray(EVENT_HANDLERS), ['decorateNode', 'onChange', 'renderMark', 'renderNode', 'renderPlaceholder', 'renderPortal', 'schema', 'validateNode']);
-
 /**
- * Export.
+ * Props that can be defined by plugins.
  *
  * @type {Array}
  */
 
-var BROWSER_RULES = [['edge', /Edge\/([0-9\._]+)/], ['chrome', /(?!Chrom.*OPR)Chrom(?:e|ium)\/([0-9\.]+)(:?\s|$)/], ['firefox', /Firefox\/([0-9\.]+)(?:\s|$)/], ['opera', /Opera\/([0-9\.]+)(?:\s|$)/], ['opera', /OPR\/([0-9\.]+)(:?\s|$)$/], ['ie', /Trident\/7\.0.*rv\:([0-9\.]+)\).*Gecko$/], ['ie', /MSIE\s([0-9\.]+);.*Trident\/[4-7].0/], ['ie', /MSIE\s(7\.0)/], ['android', /Android\s([0-9\.]+)/], ['safari', /Version\/([0-9\._]+).*Safari/]];
-
-/**
- * DOM event matching rules.
- *
- * @type {Array}
- */
-
-var EVENT_RULES = [['beforeinput', function (el) {
-  return 'onbeforeinput' in el;
-}]];
-
-/**
- * Operating system matching rules.
- *
- * @type {Array}
- */
-
-var OS_RULES = [['ios', /os ([\.\_\d]+) like mac os/i], // must be before the macos rule
-['macos', /mac os x/i], ['android', /android/i], ['firefoxos', /mozilla\/[a-z\.\_\d]+ \((?:mobile)|(?:tablet)/i], ['windows', /windows\s*(?:nt)?\s*([\.\_\d]+)/i]];
-
-/**
- * Define variables to store the result.
- */
-
-var BROWSER = void 0;
-var EVENTS = {};
-var OS = void 0;
-
-/**
- * Run the matchers when in browser.
- */
-
-if (browser) {
-  var userAgent = window.navigator.userAgent;
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-
-    for (var _iterator = BROWSER_RULES[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var _ref = _step.value;
-
-      var _ref2 = slicedToArray(_ref, 2);
-
-      var name = _ref2[0];
-      var regexp = _ref2[1];
-
-      if (regexp.test(userAgent)) {
-        BROWSER = name;
-        break;
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    for (var _iterator2 = OS_RULES[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var _ref3 = _step2.value;
-
-      var _ref4 = slicedToArray(_ref3, 2);
-
-      var _name = _ref4[0];
-      var _regexp = _ref4[1];
-
-      if (_regexp.test(userAgent)) {
-        OS = _name;
-        break;
-      }
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-
-  var testEl = window.document.createElement('div');
-  testEl.contentEditable = true;
-
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
-
-  try {
-    for (var _iterator3 = EVENT_RULES[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var _ref5 = _step3.value;
-
-      var _ref6 = slicedToArray(_ref5, 2);
-
-      var _name2 = _ref6[0];
-      var testFn = _ref6[1];
-
-      EVENTS[_name2] = testFn(testEl);
-    }
-  } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return) {
-        _iterator3.return();
-      }
-    } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
-      }
-    }
-  }
-}
-
-/**
- * Export.
- *
- * @type {Object}
- */
-
-var IS_CHROME = BROWSER === 'chrome';
-var IS_FIREFOX = BROWSER === 'firefox';
-var IS_SAFARI = BROWSER === 'safari';
-var IS_IE = BROWSER === 'ie';
-var IS_EDGE = BROWSER === 'edge';
-
-var IS_ANDROID = OS === 'android';
-var IS_IOS = OS === 'ios';
-var IS_MAC = OS === 'macos';
-
-
-var SUPPORTED_EVENTS = EVENTS;
-
-var IS_APPLE = IS_IOS || IS_MAC;
-
-/**
- * Hotkeys.
- *
- * @type {Function}
- */
-
-var BOLD = isHotkey.isKeyHotkey('mod+b');
-var ITALIC = isHotkey.isKeyHotkey('mod+i');
-
-var ENTER = isHotkey.isKeyHotkey('enter');
-var SHIFT_ENTER = isHotkey.isKeyHotkey('shift+enter');
-var SPLIT_BLOCK = function SPLIT_BLOCK(e) {
-  return ENTER(e) || SHIFT_ENTER(e);
-};
-
-var BACKSPACE = isHotkey.isKeyHotkey('backspace');
-var SHIFT_BACKSPACE = isHotkey.isKeyHotkey('shift+backspace');
-var DELETE = isHotkey.isKeyHotkey('delete');
-var SHIFT_DELETE = isHotkey.isKeyHotkey('shift+delete');
-var DELETE_BACKWARD = function DELETE_BACKWARD(e) {
-  return BACKSPACE(e) || SHIFT_BACKSPACE(e);
-};
-var DELETE_FORWARD = function DELETE_FORWARD(e) {
-  return DELETE(e) || SHIFT_DELETE(e);
-};
-
-var DELETE_CHAR_BACKWARD_MAC = isHotkey.isKeyHotkey('ctrl+h');
-var DELETE_CHAR_FORWARD_MAC = isHotkey.isKeyHotkey('ctrl+d');
-var DELETE_CHAR_BACKWARD = function DELETE_CHAR_BACKWARD(e) {
-  return DELETE_BACKWARD(e) || IS_APPLE && DELETE_CHAR_BACKWARD_MAC(e);
-};
-var DELETE_CHAR_FORWARD = function DELETE_CHAR_FORWARD(e) {
-  return DELETE_FORWARD(e) || IS_APPLE && DELETE_CHAR_FORWARD_MAC(e);
-};
-
-var DELETE_LINE_BACKWARD_MAC = isHotkey.isKeyHotkey('cmd+backspace');
-var DELETE_LINE_FORWARD_MAC = isHotkey.isKeyHotkey('ctrl+k');
-var DELETE_LINE_BACKWARD = function DELETE_LINE_BACKWARD(e) {
-  return IS_APPLE && DELETE_LINE_BACKWARD_MAC(e);
-};
-var DELETE_LINE_FORWARD = function DELETE_LINE_FORWARD(e) {
-  return IS_APPLE && DELETE_LINE_FORWARD_MAC(e);
-};
-
-var DELETE_WORD_BACKWARD_MAC = isHotkey.isKeyHotkey('option+backspace');
-var DELETE_WORD_BACKWARD_PC = isHotkey.isKeyHotkey('ctrl+backspace');
-var DELETE_WORD_FORWARD_MAC = isHotkey.isKeyHotkey('option+delete');
-var DELETE_WORD_FORWARD_PC = isHotkey.isKeyHotkey('ctrl+delete');
-var DELETE_WORD_BACKWARD = function DELETE_WORD_BACKWARD(e) {
-  return IS_APPLE ? DELETE_WORD_BACKWARD_MAC(e) : DELETE_WORD_BACKWARD_PC(e);
-};
-var DELETE_WORD_FORWARD = function DELETE_WORD_FORWARD(e) {
-  return IS_APPLE ? DELETE_WORD_FORWARD_MAC(e) : DELETE_WORD_FORWARD_PC(e);
-};
-
-var RIGHT_ARROW = isHotkey.isKeyHotkey('right');
-var LEFT_ARROW = isHotkey.isKeyHotkey('left');
-var COLLAPSE_CHAR_FORWARD = function COLLAPSE_CHAR_FORWARD(e) {
-  return RIGHT_ARROW(e) && !EXTEND_CHAR_FORWARD(e);
-};
-var COLLAPSE_CHAR_BACKWARD = function COLLAPSE_CHAR_BACKWARD(e) {
-  return LEFT_ARROW(e) && !EXTEND_CHAR_BACKWARD(e);
-};
-
-var COLLAPSE_LINE_BACKWARD_MAC = isHotkey.isKeyHotkey('option+up');
-var COLLAPSE_LINE_FORWARD_MAC = isHotkey.isKeyHotkey('option+down');
-var COLLAPSE_LINE_BACKWARD = function COLLAPSE_LINE_BACKWARD(e) {
-  return IS_APPLE && COLLAPSE_LINE_BACKWARD_MAC(e);
-};
-var COLLAPSE_LINE_FORWARD = function COLLAPSE_LINE_FORWARD(e) {
-  return IS_APPLE && COLLAPSE_LINE_FORWARD_MAC(e);
-};
-
-var EXTEND_CHAR_FORWARD = isHotkey.isKeyHotkey('shift+right');
-var EXTEND_CHAR_BACKWARD = isHotkey.isKeyHotkey('shift+left');
-
-var EXTEND_LINE_BACKWARD_MAC = isHotkey.isKeyHotkey('option+shift+up');
-var EXTEND_LINE_FORWARD_MAC = isHotkey.isKeyHotkey('option+shift+down');
-var EXTEND_LINE_BACKWARD = function EXTEND_LINE_BACKWARD(e) {
-  return IS_APPLE && EXTEND_LINE_BACKWARD_MAC(e);
-};
-var EXTEND_LINE_FORWARD = function EXTEND_LINE_FORWARD(e) {
-  return IS_APPLE && EXTEND_LINE_FORWARD_MAC(e);
-};
-
-var UNDO = isHotkey.isKeyHotkey('mod+z');
-var REDO_MAC = isHotkey.isKeyHotkey('mod+shift+z');
-var REDO_PC = isHotkey.isKeyHotkey('mod+y');
-var REDO = function REDO(e) {
-  return IS_APPLE ? REDO_MAC(e) : REDO_PC(e);
-};
-
-var TRANSPOSE_CHARACTER_MAC = isHotkey.isKeyHotkey('ctrl+t');
-var TRANSPOSE_CHARACTER = function TRANSPOSE_CHARACTER(e) {
-  return IS_APPLE && TRANSPOSE_CHARACTER_MAC(e);
-};
-
-var CONTENTEDITABLE = function CONTENTEDITABLE(e) {
-  return BOLD(e) || DELETE_CHAR_BACKWARD(e) || DELETE_CHAR_FORWARD(e) || DELETE_LINE_BACKWARD(e) || DELETE_LINE_FORWARD(e) || DELETE_WORD_BACKWARD(e) || DELETE_WORD_FORWARD(e) || ITALIC(e) || REDO(e) || SPLIT_BLOCK(e) || TRANSPOSE_CHARACTER(e) || UNDO(e);
-};
-
-var COMPOSING = function COMPOSING(e) {
-  return e.key == 'ArrowDown' || e.key == 'ArrowLeft' || e.key == 'ArrowRight' || e.key == 'ArrowUp' || e.key == 'Backspace' || e.key == 'Enter';
-};
-
-/**
- * Export.
- *
- * @type {Object}
- */
-
-var HOTKEYS = {
-  BOLD: BOLD,
-  COLLAPSE_LINE_BACKWARD: COLLAPSE_LINE_BACKWARD,
-  COLLAPSE_LINE_FORWARD: COLLAPSE_LINE_FORWARD,
-  COLLAPSE_CHAR_FORWARD: COLLAPSE_CHAR_FORWARD,
-  COLLAPSE_CHAR_BACKWARD: COLLAPSE_CHAR_BACKWARD,
-  COMPOSING: COMPOSING,
-  CONTENTEDITABLE: CONTENTEDITABLE,
-  DELETE_CHAR_BACKWARD: DELETE_CHAR_BACKWARD,
-  DELETE_CHAR_FORWARD: DELETE_CHAR_FORWARD,
-  DELETE_LINE_BACKWARD: DELETE_LINE_BACKWARD,
-  DELETE_LINE_FORWARD: DELETE_LINE_FORWARD,
-  DELETE_WORD_BACKWARD: DELETE_WORD_BACKWARD,
-  DELETE_WORD_FORWARD: DELETE_WORD_FORWARD,
-  EXTEND_LINE_BACKWARD: EXTEND_LINE_BACKWARD,
-  EXTEND_LINE_FORWARD: EXTEND_LINE_FORWARD,
-  EXTEND_CHAR_FORWARD: EXTEND_CHAR_FORWARD,
-  EXTEND_CHAR_BACKWARD: EXTEND_CHAR_BACKWARD,
-  ITALIC: ITALIC,
-  REDO: REDO,
-  SPLIT_BLOCK: SPLIT_BLOCK,
-  UNDO: UNDO
-};
+var PLUGIN_PROPS = [].concat(toConsumableArray(EVENT_HANDLERS), ['decorateNode', 'onChange', 'renderEditor', 'renderMark', 'renderNode', 'renderPlaceholder', 'renderPortal', 'schema', 'validateNode']);
 
 /**
  * Offset key parser regex.
@@ -35670,7 +35939,7 @@ var HOTKEYS = {
  * @type {RegExp}
  */
 
-var PARSER = /^(\w+)(?::(\d+))?$/;
+var PARSER = /^([\w-]+)(?::(\d+))?$/;
 
 /**
  * Parse an offset key `string`.
@@ -35831,9 +36100,21 @@ var Leaf = function (_React$Component) {
       var stack = editor.stack;
 
       var leaf = this.renderText();
+      var attributes = {
+        'data-slate-leaf': true
+      };
 
       return marks.reduce(function (children, mark) {
-        var props = { editor: editor, mark: mark, marks: marks, node: node, offset: offset, text: text, children: children };
+        var props = {
+          editor: editor,
+          mark: mark,
+          marks: marks,
+          node: node,
+          offset: offset,
+          text: text,
+          children: children,
+          attributes: attributes
+        };
         var element = stack.find('renderMark', props);
         return element || children;
       }, leaf);
@@ -35933,6 +36214,12 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
+/**
+ * Debug.
+ *
+ * @type {Function}
+ */
+
 var debug$1 = Debug('slate:node');
 
 /**
@@ -36014,12 +36301,15 @@ var Text = function (_React$Component) {
             endKey = d.endKey;
 
         if (startKey == key || endKey == key) return true;
+        if (startKey === endKey) return false;
         var startsBefore = document.areDescendantsSorted(startKey, key);
+        if (!startsBefore) return false;
         var endsAfter = document.areDescendantsSorted(key, endKey);
-        return startsBefore && endsAfter;
+        return endsAfter;
       });
 
-      var leaves = node.getLeaves(decs);
+      // PERF: Take advantage of cache by avoiding arguments
+      var leaves = decs.size === 0 ? node.getLeaves() : node.getLeaves(decs);
       var offset = 0;
 
       var children = leaves.map(function (leaf, i) {
@@ -36131,6 +36421,12 @@ var _initialiseProps$1 = function _initialiseProps() {
   };
 };
 
+/**
+ * Debug.
+ *
+ * @type {Function}
+ */
+
 var debug$2 = Debug('slate:void');
 
 /**
@@ -36188,23 +36484,19 @@ var Void = function (_React$Component) {
       var style = {
         height: '0',
         color: 'transparent',
-        outline: 'none'
+        outline: 'none',
+        position: 'absolute'
       };
 
       var spacer = React.createElement(
         Tag,
-        {
-          contentEditable: true,
-          'data-slate-spacer': true,
-          suppressContentEditableWarning: true,
-          style: style
-        },
+        { 'data-slate-spacer': true, style: style },
         this.renderText()
       );
 
       var content = React.createElement(
         Tag,
-        { draggable: readOnly ? null : true },
+        { contentEditable: readOnly ? null : false },
         children
       );
 
@@ -36215,7 +36507,7 @@ var Void = function (_React$Component) {
         {
           'data-slate-void': true,
           'data-key': node.key,
-          contentEditable: readOnly ? null : false
+          contentEditable: readOnly || node.object == 'block' ? null : false
         },
         readOnly ? null : spacer,
         content
@@ -36290,6 +36582,135 @@ var _initialiseProps$2 = function _initialiseProps() {
   };
 };
 
+/**
+ * Split the decorations in lists of relevant decorations for each child.
+ *
+ * @param {Node} node
+ * @param {List} decorations
+ * @return {Array<List<Decoration>>}
+ */
+
+function getChildrenDecorations(node, decorations) {
+  var activeDecorations = immutable.Set().asMutable();
+  var childrenDecorations = [];
+
+  orderChildDecorations(node, decorations).forEach(function (item) {
+    if (item.isRangeStart) {
+      // Item is a decoration start
+      activeDecorations.add(item.decoration);
+    } else if (item.isRangeEnd) {
+      // item is a decoration end
+      activeDecorations.remove(item.decoration);
+    } else {
+      // Item is a child node
+      childrenDecorations.push(activeDecorations.toList());
+    }
+  });
+
+  return childrenDecorations;
+}
+
+/**
+ * Orders the children of provided node and its decoration endpoints (start, end)
+ * so that decorations can be passed only to relevant children (see use in Node.render())
+ *
+ * @param {Node} node
+ * @param {List} decorations
+ * @return {Array<Item>}
+ *
+ * where type Item =
+ * {
+ *   child: Node,
+ *   // Index of the child in its parent
+ *   index: number
+ * }
+ * or {
+ *   // True if this represents the start of the given decoration
+ *   isRangeStart: boolean,
+ *   // True if this represents the end of the given decoration
+ *   isRangeEnd: boolean,
+ *   decoration: Range
+ * }
+ */
+
+function orderChildDecorations(node, decorations) {
+  if (decorations.isEmpty()) {
+    return node.nodes.toArray().map(function (child, index) {
+      return {
+        child: child,
+        index: index
+      };
+    });
+  }
+
+  // Map each key to its global order
+  var keyOrders = defineProperty({}, node.key, 0);
+  var globalOrder = 1;
+  node.forEachDescendant(function (child) {
+    keyOrders[child.key] = globalOrder;
+    globalOrder = globalOrder + 1;
+  });
+
+  var childNodes = node.nodes.toArray();
+
+  var endPoints = childNodes.map(function (child, index) {
+    return {
+      child: child,
+      index: index,
+      order: keyOrders[child.key]
+    };
+  });
+
+  decorations.forEach(function (decoration) {
+    // Range start.
+    // A rangeStart should be before the child containing its startKey, in order
+    // to consider it active before going down the child.
+    var startKeyOrder = keyOrders[decoration.startKey];
+    var containingChildOrder = startKeyOrder === undefined ? 0 : getContainingChildOrder(childNodes, keyOrders, startKeyOrder);
+    endPoints.push({
+      isRangeStart: true,
+      order: containingChildOrder - 0.5,
+      decoration: decoration
+    });
+
+    // Range end.
+    var endKeyOrder = (keyOrders[decoration.endKey] || globalOrder) + 0.5;
+    endPoints.push({
+      isRangeEnd: true,
+      order: endKeyOrder,
+      decoration: decoration
+    });
+  });
+
+  return endPoints.sort(function (a, b) {
+    return a.order > b.order ? 1 : -1;
+  });
+}
+
+/*
+ * Returns the key order of the child right before the given order.
+ */
+
+function getContainingChildOrder(children, keyOrders, order) {
+  // Find the first child that is after the given key
+  var nextChildIndex = children.findIndex(function (child) {
+    return order < keyOrders[child.key];
+  });
+
+  if (nextChildIndex <= 0) {
+    return 0;
+  }
+
+  var containingChild = children[nextChildIndex - 1];
+  return keyOrders[containingChild.key];
+}
+
+/**
+ * Debug.
+ *
+ * @type {Function}
+ */
+
 var debug$3 = Debug('slate:node');
 
 /**
@@ -36349,11 +36770,11 @@ var Node = function (_React$Component) {
       var _this2 = this;
 
       this.debug('render', this);
-
       var _props = this.props,
           editor = _props.editor,
           isSelected = _props.isSelected,
           node = _props.node,
+          decorations = _props.decorations,
           parent = _props.parent,
           readOnly = _props.readOnly;
       var value = editor.value;
@@ -36361,12 +36782,17 @@ var Node = function (_React$Component) {
       var stack = editor.stack;
 
       var indexes = node.getSelectionIndexes(selection, isSelected);
-      var children = node.nodes.toArray().map(function (child, i) {
+      var decs = decorations.concat(node.getDecorations(stack));
+      var childrenDecorations = getChildrenDecorations(node, decs);
+
+      var children = [];
+      node.nodes.forEach(function (child, i) {
         var isChildSelected = !!indexes && indexes.start <= i && i < indexes.end;
-        return _this2.renderNode(child, isChildSelected);
+
+        children.push(_this2.renderNode(child, isChildSelected, childrenDecorations[i]));
       });
 
-      // Attributes that the developer must to mix into the element in their
+      // Attributes that the developer must mix into the element in their
       // custom node renderer component.
       var attributes = { 'data-key': node.key
 
@@ -36412,6 +36838,7 @@ var Node = function (_React$Component) {
      *
      * @param {Node} child
      * @param {Boolean} isSelected
+     * @param {Array<Decoration>} decorations
      * @return {Element}
      */
 
@@ -36494,20 +36921,18 @@ var _initialiseProps$3 = function _initialiseProps() {
     return false;
   };
 
-  this.renderNode = function (child, isSelected) {
+  this.renderNode = function (child, isSelected, decorations) {
     var _props2 = _this3.props,
         block = _props2.block,
-        decorations = _props2.decorations,
         editor = _props2.editor,
         node = _props2.node,
         readOnly = _props2.readOnly;
-    var stack = editor.stack;
 
     var Component = child.object == 'text' ? Text : Node;
-    var decs = decorations.concat(node.getDecorations(stack));
+
     return React.createElement(Component, {
       block: node.object == 'block' ? node : block,
-      decorations: decs,
+      decorations: decorations,
       editor: editor,
       isSelected: isSelected,
       key: child.key,
@@ -36517,6 +36942,14 @@ var _initialiseProps$3 = function _initialiseProps() {
     });
   };
 };
+
+/**
+ * Find the DOM node for a `key`.
+ *
+ * @param {String|Node} key
+ * @param {Window} win (optional)
+ * @return {Element}
+ */
 
 function findDOMNode(key) {
   var win = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window;
@@ -36535,9 +36968,12 @@ function findDOMNode(key) {
 }
 
 /**
- * Export.
+ * Find a native DOM selection point from a Slate `key` and `offset`.
  *
- * @type {Function}
+ * @param {String} key
+ * @param {Number} offset
+ * @param {Window} win (optional)
+ * @return {Object|Null}
  */
 
 function findDOMPoint(key, offset) {
@@ -36560,7 +36996,7 @@ function findDOMPoint(key, offset) {
 
     if (offset <= end) {
       var o = offset - start;
-      return { node: n, offset: o };
+      return { node: n, offset: o >= 0 ? o : 0 };
     }
 
     start = end;
@@ -36570,9 +37006,11 @@ function findDOMPoint(key, offset) {
 }
 
 /**
- * Export.
+ * Find a native DOM range Slate `range`.
  *
- * @type {Function}
+ * @param {Range} range
+ * @param {Window} win (optional)
+ * @return {Object|Null}
  */
 
 function findDOMRange(range) {
@@ -36597,9 +37035,9 @@ function findDOMRange(range) {
 }
 
 /**
- * Export.
+ * Constants.
  *
- * @type {Function}
+ * @type {String}
  */
 
 var ZERO_WIDTH_ATTRIBUTE = 'data-slate-zero-width';
@@ -36757,9 +37195,11 @@ function getEditableChild(parent, index, direction) {
 }
 
 /**
- * Export.
+ * Find a Slate range from a DOM `native` selection.
  *
- * @type {Function}
+ * @param {Selection} native
+ * @param {Value} value
+ * @return {Range}
  */
 
 function findRange(native, value) {
@@ -36793,7 +37233,7 @@ function findRange(native, value) {
   // COMPAT: ??? The Edge browser seems to have a case where if you select the
   // last word of a span, it sets the endContainer to the containing span.
   // `selection-is-backward` doesn't handle this case.
-  if (IS_IE || IS_EDGE) {
+  if (slateDevEnvironment.IS_IE || slateDevEnvironment.IS_EDGE) {
     var domAnchor = findDOMPoint(anchor.key, anchor.offset);
     var domFocus = findDOMPoint(focus.key, focus.offset);
 
@@ -36818,9 +37258,9 @@ function findRange(native, value) {
 }
 
 /**
- * Export.
+ * CSS overflow values that would cause scrolling.
  *
- * @type {Function}
+ * @type {Array}
  */
 
 var OVERFLOWS = ['auto', 'overlay', 'scroll'];
@@ -36829,7 +37269,7 @@ var OVERFLOWS = ['auto', 'overlay', 'scroll'];
  * Detect whether we are running IOS version 11
  */
 
-var IS_IOS_11 = IS_IOS && !!window.navigator.userAgent.match(/os 11_/i);
+var IS_IOS_11 = slateDevEnvironment.IS_IOS && !!window.navigator.userAgent.match(/os 11_/i);
 
 /**
  * Find the nearest parent with scrolling, or window.
@@ -36892,7 +37332,7 @@ function scrollToSelection(selection) {
   // for vertical scroll, although horizontal may be off by 1 character.
   // https://bugs.webkit.org/show_bug.cgi?id=138949
   // https://bugs.chromium.org/p/chromium/issues/detail?id=435438
-  if (IS_SAFARI) {
+  if (slateDevEnvironment.IS_SAFARI) {
     if (range.collapsed && cursorRect.top == 0 && cursorRect.height == 0) {
       if (range.startOffset == 0) {
         range.setEnd(range.endContainer, 1);
@@ -36995,7 +37435,27 @@ function scrollToSelection(selection) {
 }
 
 /**
- * Export.
+ * COMPAT: if we are in <= IE11 and the selection contains
+ * tables, `removeAllRanges()` will throw
+ * "unable to complete the operation due to error 800a025e"
+ *
+ * @param {Selection} selection document selection
+ */
+
+function removeAllRanges(selection) {
+  var doc = window.document;
+  if (doc && doc.body.createTextRange) {
+    // All IE but Edge
+    var range = doc.body.createTextRange();
+    range.collapse();
+    range.select();
+  } else {
+    selection.removeAllRanges();
+  }
+}
+
+/**
+ * Debug.
  *
  * @type {Function}
  */
@@ -37029,22 +37489,16 @@ var Content = function (_React$Component) {
     var _this = possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
 
     _this.componentDidMount = function () {
-      var editor = _this.props.editor;
-
       var window = getWindow(_this.element);
 
       window.document.addEventListener('selectionchange', _this.onNativeSelectionChange);
 
       // COMPAT: Restrict scope of `beforeinput` to mobile.
-      if ((IS_IOS || IS_ANDROID) && SUPPORTED_EVENTS.beforeinput) {
+      if ((slateDevEnvironment.IS_IOS || slateDevEnvironment.IS_ANDROID) && slateDevEnvironment.SUPPORTED_EVENTS.beforeinput) {
         _this.element.addEventListener('beforeinput', _this.onNativeBeforeInput);
       }
 
       _this.updateSelection();
-
-      if (_this.props.autoFocus) {
-        editor.focus();
-      }
     };
 
     _this.componentDidUpdate = function () {
@@ -37070,7 +37524,7 @@ var Content = function (_React$Component) {
       // DOM, blur it manually.
       if (selection.isBlurred) {
         if (!_this.isInEditor(anchorNode)) return;
-        native.removeAllRanges();
+        removeAllRanges(native);
         _this.element.blur();
         debug$4('updateSelection', { selection: selection, native: native });
         return;
@@ -37106,7 +37560,7 @@ var Content = function (_React$Component) {
 
       // Otherwise, set the `isUpdatingSelection` flag and update the selection.
       _this.tmp.isUpdatingSelection = true;
-      native.removeAllRanges();
+      removeAllRanges(native);
 
       // COMPAT: IE 11 does not support Selection.setBaseAndExtent
       if (native.setBaseAndExtent) {
@@ -37129,7 +37583,7 @@ var Content = function (_React$Component) {
       setTimeout(function () {
         // COMPAT: In Firefox, it's not enough to create a range, you also need to
         // focus the contenteditable element too. (2016/11/16)
-        if (IS_FIREFOX && _this.element) _this.element.focus();
+        if (slateDevEnvironment.IS_FIREFOX && _this.element) _this.element.focus();
         _this.tmp.isUpdatingSelection = false;
       });
 
@@ -37234,21 +37688,18 @@ var Content = function (_React$Component) {
       _this.props.onSelect(event);
     }, 100);
 
-    _this.renderNode = function (child, isSelected) {
+    _this.renderNode = function (child, isSelected, decorations) {
       var _this$props = _this.props,
           editor = _this$props.editor,
           readOnly = _this$props.readOnly;
       var value = editor.value;
-      var document = value.document,
-          decorations = value.decorations;
-      var stack = editor.stack;
+      var document = value.document;
 
-      var decs = document.getDecorations(stack);
-      if (decorations) decs = decorations.concat(decs);
+
       return React.createElement(Node, {
         block: null,
         editor: editor,
-        decorations: decs,
+        decorations: decorations,
         isSelected: isSelected,
         key: child.key,
         node: child,
@@ -37258,7 +37709,6 @@ var Content = function (_React$Component) {
     };
 
     _this.tmp = {};
-    _this.tmp.key = 0;
     _this.tmp.isUpdatingSelection = false;
 
     EVENT_HANDLERS.forEach(function (handler) {
@@ -37274,7 +37724,6 @@ var Content = function (_React$Component) {
    *
    *   - Add native DOM event listeners.
    *   - Update the selection, in case it starts focused.
-   *   - Focus the editor if `autoFocus` is set.
    */
 
   /**
@@ -37299,7 +37748,7 @@ var Content = function (_React$Component) {
       }
 
       // COMPAT: Restrict scope of `beforeinput` to mobile.
-      if ((IS_IOS || IS_ANDROID) && SUPPORTED_EVENTS.beforeinput) {
+      if ((slateDevEnvironment.IS_IOS || slateDevEnvironment.IS_ANDROID) && slateDevEnvironment.SUPPORTED_EVENTS.beforeinput) {
         this.element.removeEventListener('beforeinput', this.onNativeBeforeInput);
       }
     }
@@ -37341,12 +37790,6 @@ var Content = function (_React$Component) {
     value: function onEvent(handler, event) {
       debug$4('onEvent', handler);
 
-      // COMPAT: Composition events can change the DOM out of under React, so we
-      // increment this key to ensure that a full re-render happens. (2017/10/16)
-      if (handler == 'onCompositionEnd') {
-        this.tmp.key++;
-      }
-
       // Ignore `onBlur`, `onFocus` and `onSelect` events generated
       // programmatically while updating selection.
       if (this.tmp.isUpdatingSelection && (handler == 'onSelect' || handler == 'onBlur' || handler == 'onFocus')) {
@@ -37373,8 +37816,8 @@ var Content = function (_React$Component) {
         }
       }
 
-      // Don't handle drag events coming from embedded editors.
-      if (handler == 'onDragEnd' || handler == 'onDragEnter' || handler == 'onDragExit' || handler == 'onDragLeave' || handler == 'onDragOver' || handler == 'onDragStart') {
+      // Don't handle drag and drop events coming from embedded editors.
+      if (handler == 'onDragEnd' || handler == 'onDragEnter' || handler == 'onDragExit' || handler == 'onDragLeave' || handler == 'onDragOver' || handler == 'onDragStart' || handler == 'onDrop') {
         var target = event.target;
 
         var targetEditorNode = target.closest('[data-slate-editor]');
@@ -37427,17 +37870,24 @@ var Content = function (_React$Component) {
           editor = props.editor,
           tabIndex = props.tabIndex,
           role = props.role,
-          tagName = props.tagName;
-      var value = editor.value;
+          tagName = props.tagName,
+          spellCheck = props.spellCheck;
+      var value = editor.value,
+          stack = editor.stack;
 
       var Container = tagName;
       var document = value.document,
-          selection = value.selection;
+          selection = value.selection,
+          decorations = value.decorations;
 
       var indexes = document.getSelectionIndexes(selection, selection.isFocused);
+      var decs = document.getDecorations(stack).concat(decorations || []);
+      var childrenDecorations = getChildrenDecorations(document, decs);
+
       var children = document.nodes.toArray().map(function (child, i) {
         var isSelected = !!indexes && indexes.start <= i && i < indexes.end;
-        return _this2.renderNode(child, isSelected);
+
+        return _this2.renderNode(child, isSelected, childrenDecorations[i]);
       });
 
       var handlers = EVENT_HANDLERS.reduce(function (obj, handler) {
@@ -37454,18 +37904,12 @@ var Content = function (_React$Component) {
         wordWrap: 'break-word'
       }, readOnly ? {} : { WebkitUserModify: 'read-write-plaintext-only' }, props.style);
 
-      // COMPAT: In Firefox, spellchecking can remove entire wrapping elements
-      // including inline ones like `<a>`, which is jarring for the user but also
-      // causes the DOM to get into an irreconcilable value. (2016/09/01)
-      var spellCheck = IS_FIREFOX ? false : props.spellCheck;
-
       debug$4('render', { props: props });
 
       return React.createElement(
         Container,
         _extends({}, handlers, {
           'data-slate-editor': true,
-          key: this.tmp.key,
           ref: this.ref,
           'data-key': document.key,
           contentEditable: readOnly ? null : true,
@@ -37519,7 +37963,6 @@ var Content = function (_React$Component) {
 
 Content.propTypes = {
   autoCorrect: Types.bool.isRequired,
-  autoFocus: Types.bool.isRequired,
   children: Types.any.isRequired,
   className: Types.string,
   editor: Types.object.isRequired,
@@ -37537,9 +37980,36 @@ EVENT_HANDLERS.forEach(function (handler) {
 });
 
 /**
- * Export.
+ * The transfer types that Slate recognizes.
  *
- * @type {Component}
+ * @type {Object}
+ */
+
+var TRANSFER_TYPES = {
+  FRAGMENT: 'application/x-slate-fragment',
+  HTML: 'text/html',
+  NODE: 'application/x-slate-node',
+  RICH: 'text/rtf',
+  TEXT: 'text/plain'
+
+  /**
+   * Export.
+   *
+   * @type {Object}
+   */
+
+};
+
+var FRAGMENT = TRANSFER_TYPES.FRAGMENT;
+var HTML = TRANSFER_TYPES.HTML;
+var TEXT = TRANSFER_TYPES.TEXT;
+
+/**
+ * Prepares a Slate document fragment to be copied to the clipboard.
+ *
+ * @param {Event} event
+ * @param {Value} value
+ * @param {Document} [fragment]
  */
 
 function cloneFragment(event, value) {
@@ -37548,17 +38018,13 @@ function cloneFragment(event, value) {
   var window = getWindow(event.target);
   var native = window.getSelection();
   var startKey = value.startKey,
-      endKey = value.endKey,
-      startText = value.startText,
-      endBlock = value.endBlock,
-      endInline = value.endInline;
+      endKey = value.endKey;
 
-  var isVoidBlock = endBlock && endBlock.isVoid;
-  var isVoidInline = endInline && endInline.isVoid;
-  var isVoid = isVoidBlock || isVoidInline;
+  var startVoid = value.document.getClosestVoid(startKey);
+  var endVoid = value.document.getClosestVoid(endKey);
 
   // If the selection is collapsed, and it isn't inside a void node, abort.
-  if (native.isCollapsed && !isVoid) return;
+  if (native.isCollapsed && !startVoid) return;
 
   // Create a fake selection so that we can add a Base64-encoded copy of the
   // fragment to the HTML, to decode on future pastes.
@@ -37567,33 +38033,29 @@ function cloneFragment(event, value) {
   var contents = range.cloneContents();
   var attach = contents.childNodes[0];
 
-  // If the end node is a void node, we need to move the end of the range from
-  // the void node's spacer span, to the end of the void node's content.
-  if (isVoid) {
-    var _r = range.cloneRange();
-    var n = isVoidBlock ? endBlock : endInline;
-    var node = findDOMNode(n, window);
-    _r.setEndAfter(node);
-    contents = _r.cloneContents();
-    attach = contents.childNodes[contents.childNodes.length - 1].firstChild;
+  // Make sure attach is a non-empty node, since empty nodes will not get copied
+  contents.childNodes.forEach(function (node) {
+    if (node.textContent && node.textContent.trim() !== '') {
+      attach = node;
+    }
+  });
+
+  // COMPAT: If the end node is a void node, we need to move the end of the
+  // range from the void node's spacer span, to the end of the void node's
+  // content, since the spacer is before void's content in the DOM.
+  if (endVoid) {
+    var r = range.cloneRange();
+    var node = findDOMNode(endVoid, window);
+    r.setEndAfter(node);
+    contents = r.cloneContents();
   }
 
-  // COMPAT: in Safari and Chrome when selecting a single marked word,
-  // marks are not preserved when copying.
-  // If the attatched is not void, and the startKey and endKey is the same,
-  // check if there is marks involved. If so, set the range start just before the
-  // startText node
-  if ((IS_CHROME || IS_SAFARI) && !isVoid && startKey === endKey) {
-    var hasMarks = startText.characters.slice(value.selection.anchorOffset, value.selection.focusOffset).filter(function (char) {
-      return char.marks.size !== 0;
-    }).size !== 0;
-    if (hasMarks) {
-      var _r2 = range.cloneRange();
-      var _node = findDOMNode(startText, window);
-      _r2.setStartBefore(_node);
-      contents = _r2.cloneContents();
-      attach = contents.childNodes[contents.childNodes.length - 1].firstChild;
-    }
+  // COMPAT: If the start node is a void node, we need to attach the encoded
+  // fragment to the void node's content node instead of the spacer, because
+  // attaching it to empty `<div>/<span>` nodes will end up having it erased by
+  // most browsers. (2018/04/27)
+  if (startVoid) {
+    attach = contents.childNodes[0].childNodes[1].firstChild;
   }
 
   // Remove any zero-width space spans from the cloned DOM so that they don't
@@ -37602,16 +38064,6 @@ function cloneFragment(event, value) {
     var isNewline = zw.getAttribute(ZERO_WIDTH_ATTRIBUTE) === 'n';
     zw.textContent = isNewline ? '\n' : '';
   });
-
-  // COMPAT: In Chrome and Safari, if the last element in the selection to
-  // copy has `contenteditable="false"` the copy will fail, and nothing will
-  // be put in the clipboard. So we remove them all. (2017/05/04)
-  if (IS_CHROME || IS_SAFARI) {
-    var els = [].slice.call(contents.querySelectorAll('[contenteditable="false"]'));
-    els.forEach(function (el) {
-      return el.removeAttribute('contenteditable');
-    });
-  }
 
   // Set a `data-slate-fragment` attribute on a non-empty node, so it shows up
   // in the HTML, and can be used for intra-Slate pasting. If it's a text
@@ -37630,35 +38082,35 @@ function cloneFragment(event, value) {
 
   attach.setAttribute('data-slate-fragment', encoded);
 
-  // Add the phony content to the DOM, and select it, so it will be copied.
-  var editor = window.document.querySelector('[data-slate-editor]');
+  // Add the phony content to a div element. This is needed to copy the
+  // contents into the html clipboard register.
   var div = window.document.createElement('div');
+  div.appendChild(contents);
+
+  // For browsers supporting it, we set the clipboard registers manually,
+  // since the result is more predictable.
+  if (event.clipboardData && event.clipboardData.setData) {
+    event.preventDefault();
+    event.clipboardData.setData(TEXT, div.textContent);
+    event.clipboardData.setData(FRAGMENT, encoded);
+    event.clipboardData.setData(HTML, div.innerHTML);
+    return;
+  }
+
+  // COMPAT: For browser that don't support the Clipboard API's setData method,
+  // we must rely on the browser to natively copy what's selected.
+  // So we add the div (containing our content) to the DOM, and select it.
+  var editor = event.target.closest('[data-slate-editor]');
   div.setAttribute('contenteditable', true);
   div.style.position = 'absolute';
   div.style.left = '-9999px';
-
-  // COMPAT: In Firefox, the viewport jumps to find the phony div, so it
-  // should be created at the current scroll offset with `style.top`.
-  // The box model attributes which can interact with 'top' are also reset.
-  div.style.border = '0px';
-  div.style.padding = '0px';
-  div.style.margin = '0px';
-  div.style.top = (window.pageYOffset || window.document.documentElement.scrollTop) + 'px';
-
-  div.appendChild(contents);
   editor.appendChild(div);
-
-  // COMPAT: In Firefox, trying to use the terser `native.selectAllChildren`
-  // throws an error, so we use the older `range` equivalent. (2016/06/21)
-  var r = window.document.createRange();
-  r.selectNodeContents(div);
-  native.removeAllRanges();
-  native.addRange(r);
+  native.selectAllChildren(div);
 
   // Revert to the previous selection right after copying.
   window.requestAnimationFrame(function () {
     editor.removeChild(div);
-    native.removeAllRanges();
+    removeAllRanges(native);
     native.addRange(range);
   });
 }
@@ -37683,9 +38135,11 @@ function findNode(element, value) {
 }
 
 /**
- * Export.
+ * Get the target range from a DOM `event`.
  *
- * @type {Function}
+ * @param {Event} event
+ * @param {Value} value
+ * @return {Range}
  */
 
 function getEventRange(event, value) {
@@ -37714,7 +38168,17 @@ function getEventRange(event, value) {
 
     var text = node.getFirstText();
     var _range = slate.Range.create();
-    return isPrevious ? _range.moveToEndOf(document.getPreviousText(text.key)) : _range.moveToStartOf(document.getNextText(text.key));
+
+    if (isPrevious) {
+      var previousText = document.getPreviousText(text.key);
+
+      if (previousText) {
+        return _range.moveToEndOf(previousText);
+      }
+    }
+
+    var nextText = document.getNextText(text.key);
+    return nextText ? _range.moveToStartOf(nextText) : null;
   }
 
   // Else resolve a range from the caret position where the drop occured.
@@ -37739,37 +38203,16 @@ function getEventRange(event, value) {
 }
 
 /**
- * Export.
+ * Transfer types.
  *
- * @type {Function}
+ * @type {String}
  */
 
-/**
- * The transfer types that Slate recognizes.
- *
- * @type {Object}
- */
-
-var TRANSFER_TYPES = {
-  FRAGMENT: 'application/x-slate-fragment',
-  HTML: 'text/html',
-  NODE: 'application/x-slate-node',
-  RICH: 'text/rtf',
-  TEXT: 'text/plain'
-
-  /**
-   * Export.
-   *
-   * @type {Object}
-   */
-
-};
-
-var FRAGMENT = TRANSFER_TYPES.FRAGMENT;
-var HTML = TRANSFER_TYPES.HTML;
+var FRAGMENT$1 = TRANSFER_TYPES.FRAGMENT;
+var HTML$1 = TRANSFER_TYPES.HTML;
 var NODE = TRANSFER_TYPES.NODE;
 var RICH = TRANSFER_TYPES.RICH;
-var TEXT = TRANSFER_TYPES.TEXT;
+var TEXT$1 = TRANSFER_TYPES.TEXT;
 
 /**
  * Fragment matching regexp for HTML nodes.
@@ -37787,16 +38230,19 @@ var FRAGMENT_MATCHER = / data-slate-fragment="([^\s"]+)"/;
  */
 
 function getEventTransfer(event) {
-  if (event.nativeEvent) {
+  // COMPAT: IE 11 doesn't populate nativeEvent with either
+  // dataTransfer or clipboardData. We'll need to use the base event
+  // object (2018/14/6)
+  if (!slateDevEnvironment.IS_IE && event.nativeEvent) {
     event = event.nativeEvent;
   }
 
   var transfer = event.dataTransfer || event.clipboardData;
-  var fragment = getType(transfer, FRAGMENT);
+  var fragment = getType(transfer, FRAGMENT$1);
   var node = getType(transfer, NODE);
-  var html = getType(transfer, HTML);
+  var html = getType(transfer, HTML$1);
   var rich = getType(transfer, RICH);
-  var text = getType(transfer, TEXT);
+  var text = getType(transfer, TEXT$1);
   var files = void 0;
 
   // If there isn't a fragment, but there is HTML, check to see if the HTML is
@@ -37817,9 +38263,9 @@ function getEventTransfer(event) {
   if (text) {
     var embeddedTypes = getEmbeddedTypes(text);
 
-    if (embeddedTypes[FRAGMENT]) fragment = embeddedTypes[FRAGMENT];
+    if (embeddedTypes[FRAGMENT$1]) fragment = embeddedTypes[FRAGMENT$1];
     if (embeddedTypes[NODE]) node = embeddedTypes[NODE];
-    if (embeddedTypes[TEXT]) text = embeddedTypes[TEXT];
+    if (embeddedTypes[TEXT$1]) text = embeddedTypes[TEXT$1];
   }
 
   // Decode a fragment or node if they exist.
@@ -37912,7 +38358,7 @@ function getType(transfer, type) {
   if (!transfer.types || !transfer.types.length) {
     // COMPAT: In IE 11, there is no `types` field but `getData('Text')`
     // is supported`. (2017/06/23)
-    return type == TEXT ? transfer.getData('Text') || null : null;
+    return type == TEXT$1 ? transfer.getData('Text') || null : null;
   }
 
   // COMPAT: In Edge, transfer.types doesn't respond to `indexOf`. (2017/10/25)
@@ -37922,12 +38368,12 @@ function getType(transfer, type) {
 }
 
 /**
- * Export.
+ * The default plain text transfer type.
  *
- * @type {Function}
+ * @type {String}
  */
 
-var TEXT$1 = TRANSFER_TYPES.TEXT;
+var TEXT$2 = TRANSFER_TYPES.TEXT;
 
 /**
  * Set data with `type` and `content` on an `event`.
@@ -37957,7 +38403,7 @@ function setEventTransfer(event, type, content) {
     transfer.setData(mime, content);
   } catch (err) {
     var prefix = 'SLATE-DATA-EMBED::';
-    var text = transfer.getData(TEXT$1);
+    var text = transfer.getData(TEXT$2);
     var obj = {};
 
     // If the existing plain text data is prefixed, it's Slate JSON data.
@@ -37969,17 +38415,17 @@ function setEventTransfer(event, type, content) {
       }
     } else {
       // Otherwise, it's just set it as is.
-      obj[TEXT$1] = text;
+      obj[TEXT$2] = text;
     }
 
     obj[mime] = content;
     var string = '' + prefix + JSON.stringify(obj);
-    transfer.setData(TEXT$1, string);
+    transfer.setData(TEXT$2, string);
   }
 }
 
 /**
- * Export.
+ * Debug.
  *
  * @type {Function}
  */
@@ -38276,10 +38722,9 @@ function AfterPlugin() {
     // Get the selection point.
 
     var native = window.getSelection();
-    var anchorNode = native.anchorNode,
-        anchorOffset = native.anchorOffset;
+    var anchorNode = native.anchorNode;
 
-    var point = findPoint(anchorNode, anchorOffset, value);
+    var point = findPoint(anchorNode, 0, value);
     if (!point) return;
 
     // Get the text node and leaf in question.
@@ -38297,7 +38742,7 @@ function AfterPlugin() {
     var leaf = leaves.find(function (r) {
       start = end;
       end += r.text.length;
-      if (end >= point.offset) return true;
+      if (end > point.offset) return true;
     }) || lastLeaf;
 
     // Get the text information.
@@ -38344,61 +38789,61 @@ function AfterPlugin() {
     // `onNativeBeforeInput` handler of the `<Content>` component in order to
     // preserve native autocorrect behavior, so they shouldn't be handled here.
 
-    if (HOTKEYS.SPLIT_BLOCK(event) && !IS_IOS) {
+    if (Hotkeys.isSplitBlock(event) && !slateDevEnvironment.IS_IOS) {
       return value.isInVoid ? change.collapseToStartOfNextText() : change.splitBlock();
     }
 
-    if (HOTKEYS.DELETE_CHAR_BACKWARD(event) && !IS_IOS) {
+    if (Hotkeys.isDeleteCharBackward(event) && !slateDevEnvironment.IS_IOS) {
       return change.deleteCharBackward();
     }
 
-    if (HOTKEYS.DELETE_CHAR_FORWARD(event) && !IS_IOS) {
+    if (Hotkeys.isDeleteCharForward(event) && !slateDevEnvironment.IS_IOS) {
       return change.deleteCharForward();
     }
 
-    if (HOTKEYS.DELETE_LINE_BACKWARD(event)) {
+    if (Hotkeys.isDeleteLineBackward(event)) {
       return change.deleteLineBackward();
     }
 
-    if (HOTKEYS.DELETE_LINE_FORWARD(event)) {
+    if (Hotkeys.isDeleteLineForward(event)) {
       return change.deleteLineForward();
     }
 
-    if (HOTKEYS.DELETE_WORD_BACKWARD(event)) {
+    if (Hotkeys.isDeleteWordBackward(event)) {
       return change.deleteWordBackward();
     }
 
-    if (HOTKEYS.DELETE_WORD_FORWARD(event)) {
+    if (Hotkeys.isDeleteWordForward(event)) {
       return change.deleteWordForward();
     }
 
-    if (HOTKEYS.REDO(event)) {
+    if (Hotkeys.isRedo(event)) {
       return change.redo();
     }
 
-    if (HOTKEYS.UNDO(event)) {
+    if (Hotkeys.isUndo(event)) {
       return change.undo();
     }
 
     // COMPAT: Certain browsers don't handle the selection updates properly. In
     // Chrome, the selection isn't properly extended. And in Firefox, the
     // selection isn't properly collapsed. (2017/10/17)
-    if (HOTKEYS.COLLAPSE_LINE_BACKWARD(event)) {
+    if (Hotkeys.isCollapseLineBackward(event)) {
       event.preventDefault();
       return change.collapseLineBackward();
     }
 
-    if (HOTKEYS.COLLAPSE_LINE_FORWARD(event)) {
+    if (Hotkeys.isCollapseLineForward(event)) {
       event.preventDefault();
       return change.collapseLineForward();
     }
 
-    if (HOTKEYS.EXTEND_LINE_BACKWARD(event)) {
+    if (Hotkeys.isExtendLineBackward(event)) {
       event.preventDefault();
       return change.extendLineBackward();
     }
 
-    if (HOTKEYS.EXTEND_LINE_FORWARD(event)) {
+    if (Hotkeys.isExtendLineForward(event)) {
       event.preventDefault();
       return change.extendLineForward();
     }
@@ -38406,7 +38851,7 @@ function AfterPlugin() {
     // COMPAT: If a void node is selected, or a zero-width text node adjacent to
     // an inline is selected, we need to handle these hotkeys manually because
     // browsers won't know what to do.
-    if (HOTKEYS.COLLAPSE_CHAR_BACKWARD(event)) {
+    if (Hotkeys.isCollapseCharBackward(event)) {
       var document = value.document,
           isInVoid = value.isInVoid,
           previousText = value.previousText,
@@ -38419,7 +38864,7 @@ function AfterPlugin() {
       }
     }
 
-    if (HOTKEYS.COLLAPSE_CHAR_FORWARD(event)) {
+    if (Hotkeys.isCollapseCharForward(event)) {
       var _document = value.document,
           _isInVoid = value.isInVoid,
           nextText = value.nextText,
@@ -38432,7 +38877,7 @@ function AfterPlugin() {
       }
     }
 
-    if (HOTKEYS.EXTEND_CHAR_BACKWARD(event)) {
+    if (Hotkeys.isExtendCharBackward(event)) {
       var _document2 = value.document,
           _isInVoid2 = value.isInVoid,
           _previousText = value.previousText,
@@ -38445,7 +38890,7 @@ function AfterPlugin() {
       }
     }
 
-    if (HOTKEYS.EXTEND_CHAR_FORWARD(event)) {
+    if (Hotkeys.isExtendCharForward(event)) {
       var _document3 = value.document,
           _isInVoid3 = value.isInVoid,
           _nextText = value.nextText,
@@ -38582,7 +39027,6 @@ function AfterPlugin() {
 
     return React.createElement(Content, _extends({}, handlers, {
       autoCorrect: props.autoCorrect,
-      autoFocus: props.autoFocus,
       className: props.className,
       children: props.children,
       editor: editor,
@@ -38678,9 +39122,9 @@ function AfterPlugin() {
 }
 
 /**
- * Export.
+ * Debug.
  *
- * @type {Object}
+ * @type {Function}
  */
 
 var debug$6 = Debug('slate:before');
@@ -38717,7 +39161,7 @@ function BeforePlugin() {
     // broken if we called `preventDefault()` on React's synthetic event here.
     // Since native `onbeforeinput` mainly benefits autocorrect and spellcheck
     // for mobile, on desktop it brings IME issue, limit its scope for now.
-    if ((IS_IOS || IS_ANDROID) && SUPPORTED_EVENTS.beforeinput) return true;
+    if ((slateDevEnvironment.IS_IOS || slateDevEnvironment.IS_ANDROID) && slateDevEnvironment.SUPPORTED_EVENTS.beforeinput) return true;
 
     debug$6('onBeforeInput', { event: event });
   }
@@ -38812,7 +39256,10 @@ function BeforePlugin() {
       // HACK: we need to re-render the editor here so that it will update its
       // placeholder in case one is currently rendered. This should be handled
       // differently ideally, in a less invasive way?
-      editor.setState({ isComposing: false });
+      // (apply force re-render if isComposing changes)
+      if (editor.state.isComposing) {
+        editor.setState({ isComposing: false });
+      }
     });
 
     debug$6('onCompositionEnd', { event: event });
@@ -38833,7 +39280,10 @@ function BeforePlugin() {
     // HACK: we need to re-render the editor here so that it will update its
     // placeholder in case one is currently rendered. This should be handled
     // differently ideally, in a less invasive way?
-    editor.setState({ isComposing: true });
+    // (apply force re-render if isComposing changes)
+    if (!editor.state.isComposing) {
+      editor.setState({ isComposing: true });
+    }
 
     debug$6('onCompositionStart', { event: event });
   }
@@ -38943,10 +39393,10 @@ function BeforePlugin() {
     if (node.isVoid) event.preventDefault();
 
     // If a drag is already in progress, don't do this again.
-    if (isDragging) return true;
-
-    isDragging = true;
-    event.nativeEvent.dataTransfer.dropEffect = 'move';
+    if (!isDragging) {
+      isDragging = true;
+      event.nativeEvent.dataTransfer.dropEffect = 'move';
+    }
 
     debug$6('onDragOver', { event: event });
   }
@@ -38974,9 +39424,6 @@ function BeforePlugin() {
    */
 
   function onDrop(event, change, editor) {
-    // Stop propagation so the event isn't visible to parent editors.
-    event.stopPropagation();
-
     // Nothing happens in read-only mode.
     if (editor.props.readOnly) return true;
 
@@ -39007,7 +39454,7 @@ function BeforePlugin() {
     // COMPAT: If the editor has nested editable elements, the focus can go to
     // those elements. In Firefox, this must be prevented because it results in
     // issues with keyboard navigation. (2017/03/30)
-    if (IS_FIREFOX && event.target != el) {
+    if (slateDevEnvironment.IS_FIREFOX && event.target != el) {
       el.focus();
       return true;
     }
@@ -39045,13 +39492,13 @@ function BeforePlugin() {
     // typing. However, certain characters also move the selection before
     // we're able to handle it, so prevent their default behavior.
     if (isComposing) {
-      if (HOTKEYS.COMPOSING(event)) event.preventDefault();
+      if (Hotkeys.isComposing(event)) event.preventDefault();
       return true;
     }
 
     // Certain hotkeys have native behavior in contenteditable elements which
     // will cause our value to be out of sync, so prevent them.
-    if (HOTKEYS.CONTENTEDITABLE(event) && !IS_IOS) {
+    if (Hotkeys.isContentEditable(event) && !slateDevEnvironment.IS_IOS) {
       event.preventDefault();
     }
 
@@ -39125,12 +39572,6 @@ function BeforePlugin() {
 }
 
 /**
- * Export.
- *
- * @type {Object}
- */
-
-/**
  * Noop.
  *
  * @return {Void}
@@ -39139,7 +39580,7 @@ function BeforePlugin() {
 function noop() {}
 
 /**
- * Export.
+ * Debug.
  *
  * @type {Function}
  */
@@ -39220,7 +39661,8 @@ var Editor = function (_React$Component) {
    */
 
   /**
-   * When the component first mounts, flush any temporary changes.
+   * When the component first mounts, flush any temporary changes,
+   * and then, focus the editor if `autoFocus` is set.
    */
 
   /**
@@ -39400,6 +39842,10 @@ var _initialiseProps$4 = function _initialiseProps() {
 
   this.componentDidMount = function () {
     _this2.flushChange();
+
+    if (_this2.props.autoFocus) {
+      _this2.focus();
+    }
   };
 
   this.componentDidUpdate = function () {
@@ -39514,13 +39960,13 @@ var _initialiseProps$4 = function _initialiseProps() {
   };
 };
 
-var _iteratorNormalCompletion$1 = true;
-var _didIteratorError$1 = false;
-var _iteratorError$1 = undefined;
+var _iteratorNormalCompletion = true;
+var _didIteratorError = false;
+var _iteratorError = undefined;
 
 try {
-  for (var _iterator$1 = EVENT_HANDLERS[Symbol.iterator](), _step$1; !(_iteratorNormalCompletion$1 = (_step$1 = _iterator$1.next()).done); _iteratorNormalCompletion$1 = true) {
-    var prop = _step$1.value;
+  for (var _iterator = EVENT_HANDLERS[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    var prop = _step.value;
 
     Editor.propTypes[prop] = Types.func;
   }
@@ -39531,16 +39977,16 @@ try {
    * @type {Component}
    */
 } catch (err) {
-  _didIteratorError$1 = true;
-  _iteratorError$1 = err;
+  _didIteratorError = true;
+  _iteratorError = err;
 } finally {
   try {
-    if (!_iteratorNormalCompletion$1 && _iterator$1.return) {
-      _iterator$1.return();
+    if (!_iteratorNormalCompletion && _iterator.return) {
+      _iterator.return();
     }
   } finally {
-    if (_didIteratorError$1) {
-      throw _iteratorError$1;
+    if (_didIteratorError) {
+      throw _iteratorError;
     }
   }
 }
@@ -39573,7 +40019,7 @@ exports.BeforePlugin = BeforePlugin;
 exports.default = index;
 
 
-},{"debug":412,"get-window":60,"is-hotkey":65,"is-in-browser":66,"lodash/throttle":425,"prop-types":245,"react":403,"react-dom":250,"react-immutable-proptypes":377,"react-portal":378,"selection-is-backward":405,"slate":428,"slate-base64-serializer":406,"slate-dev-logger":407,"slate-plain-serializer":409,"slate-prop-types":410}],412:[function(require,module,exports){
+},{"debug":414,"get-window":60,"immutable":62,"lodash/throttle":427,"prop-types":245,"react":403,"react-dom":250,"react-immutable-proptypes":377,"react-portal":378,"selection-is-backward":405,"slate":430,"slate-base64-serializer":406,"slate-dev-environment":407,"slate-dev-logger":408,"slate-hotkeys":409,"slate-plain-serializer":411,"slate-prop-types":412}],414:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -39597,12 +40043,17 @@ exports.storage = 'undefined' != typeof chrome
  */
 
 exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
+  '#0000CC', '#0000FF', '#0033CC', '#0033FF', '#0066CC', '#0066FF', '#0099CC',
+  '#0099FF', '#00CC00', '#00CC33', '#00CC66', '#00CC99', '#00CCCC', '#00CCFF',
+  '#3300CC', '#3300FF', '#3333CC', '#3333FF', '#3366CC', '#3366FF', '#3399CC',
+  '#3399FF', '#33CC00', '#33CC33', '#33CC66', '#33CC99', '#33CCCC', '#33CCFF',
+  '#6600CC', '#6600FF', '#6633CC', '#6633FF', '#66CC00', '#66CC33', '#9900CC',
+  '#9900FF', '#9933CC', '#9933FF', '#99CC00', '#99CC33', '#CC0000', '#CC0033',
+  '#CC0066', '#CC0099', '#CC00CC', '#CC00FF', '#CC3300', '#CC3333', '#CC3366',
+  '#CC3399', '#CC33CC', '#CC33FF', '#CC6600', '#CC6633', '#CC9900', '#CC9933',
+  '#CCCC00', '#CCCC33', '#FF0000', '#FF0033', '#FF0066', '#FF0099', '#FF00CC',
+  '#FF00FF', '#FF3300', '#FF3333', '#FF3366', '#FF3399', '#FF33CC', '#FF33FF',
+  '#FF6600', '#FF6633', '#FF9900', '#FF9933', '#FFCC00', '#FFCC33'
 ];
 
 /**
@@ -39619,6 +40070,11 @@ function useColors() {
   // explicitly
   if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
     return true;
+  }
+
+  // Internet Explorer and Edge do not support colors.
+  if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+    return false;
   }
 
   // is webkit? http://stackoverflow.com/a/16459606/376773
@@ -39762,7 +40218,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":413,"_process":241}],413:[function(require,module,exports){
+},{"./debug":415,"_process":241}],415:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -39779,6 +40235,11 @@ exports.enabled = enabled;
 exports.humanize = require('ms');
 
 /**
+ * Active `debug` instances.
+ */
+exports.instances = [];
+
+/**
  * The currently active debug mode names, and names to skip.
  */
 
@@ -39792,12 +40253,6 @@ exports.skips = [];
  */
 
 exports.formatters = {};
-
-/**
- * Previous log timestamp.
- */
-
-var prevTime;
 
 /**
  * Select a color.
@@ -39826,6 +40281,8 @@ function selectColor(namespace) {
  */
 
 function createDebug(namespace) {
+
+  var prevTime;
 
   function debug() {
     // disabled?
@@ -39883,13 +40340,26 @@ function createDebug(namespace) {
   debug.enabled = exports.enabled(namespace);
   debug.useColors = exports.useColors();
   debug.color = selectColor(namespace);
+  debug.destroy = destroy;
 
   // env-specific initialization logic for debug instances
   if ('function' === typeof exports.init) {
     exports.init(debug);
   }
 
+  exports.instances.push(debug);
+
   return debug;
+}
+
+function destroy () {
+  var index = exports.instances.indexOf(this);
+  if (index !== -1) {
+    exports.instances.splice(index, 1);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -39906,10 +40376,11 @@ function enable(namespaces) {
   exports.names = [];
   exports.skips = [];
 
+  var i;
   var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
   var len = split.length;
 
-  for (var i = 0; i < len; i++) {
+  for (i = 0; i < len; i++) {
     if (!split[i]) continue; // ignore empty strings
     namespaces = split[i].replace(/\*/g, '.*?');
     if (namespaces[0] === '-') {
@@ -39917,6 +40388,11 @@ function enable(namespaces) {
     } else {
       exports.names.push(new RegExp('^' + namespaces + '$'));
     }
+  }
+
+  for (i = 0; i < exports.instances.length; i++) {
+    var instance = exports.instances[i];
+    instance.enabled = exports.enabled(instance.namespace);
   }
 }
 
@@ -39939,6 +40415,9 @@ function disable() {
  */
 
 function enabled(name) {
+  if (name[name.length - 1] === '*') {
+    return true;
+  }
   var i, len;
   for (i = 0, len = exports.skips.length; i < len; i++) {
     if (exports.skips[i].test(name)) {
@@ -39966,19 +40445,19 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":238}],414:[function(require,module,exports){
+},{"ms":238}],416:[function(require,module,exports){
 arguments[4][79][0].apply(exports,arguments)
-},{"./_root":419,"dup":79}],415:[function(require,module,exports){
+},{"./_root":421,"dup":79}],417:[function(require,module,exports){
 arguments[4][104][0].apply(exports,arguments)
-},{"./_Symbol":414,"./_getRawTag":417,"./_objectToString":418,"dup":104}],416:[function(require,module,exports){
+},{"./_Symbol":416,"./_getRawTag":419,"./_objectToString":420,"dup":104}],418:[function(require,module,exports){
 arguments[4][148][0].apply(exports,arguments)
-},{"dup":148}],417:[function(require,module,exports){
+},{"dup":148}],419:[function(require,module,exports){
 arguments[4][154][0].apply(exports,arguments)
-},{"./_Symbol":414,"dup":154}],418:[function(require,module,exports){
+},{"./_Symbol":416,"dup":154}],420:[function(require,module,exports){
 arguments[4][191][0].apply(exports,arguments)
-},{"dup":191}],419:[function(require,module,exports){
+},{"dup":191}],421:[function(require,module,exports){
 arguments[4][195][0].apply(exports,arguments)
-},{"./_freeGlobal":416,"dup":195}],420:[function(require,module,exports){
+},{"./_freeGlobal":418,"dup":195}],422:[function(require,module,exports){
 var isObject = require('./isObject'),
     now = require('./now'),
     toNumber = require('./toNumber');
@@ -40170,13 +40649,13 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"./isObject":421,"./now":424,"./toNumber":426}],421:[function(require,module,exports){
+},{"./isObject":423,"./now":426,"./toNumber":428}],423:[function(require,module,exports){
 arguments[4][222][0].apply(exports,arguments)
-},{"dup":222}],422:[function(require,module,exports){
+},{"dup":222}],424:[function(require,module,exports){
 arguments[4][223][0].apply(exports,arguments)
-},{"dup":223}],423:[function(require,module,exports){
+},{"dup":223}],425:[function(require,module,exports){
 arguments[4][225][0].apply(exports,arguments)
-},{"./_baseGetTag":415,"./isObjectLike":422,"dup":225}],424:[function(require,module,exports){
+},{"./_baseGetTag":417,"./isObjectLike":424,"dup":225}],426:[function(require,module,exports){
 var root = require('./_root');
 
 /**
@@ -40201,7 +40680,7 @@ var now = function() {
 
 module.exports = now;
 
-},{"./_root":419}],425:[function(require,module,exports){
+},{"./_root":421}],427:[function(require,module,exports){
 var debounce = require('./debounce'),
     isObject = require('./isObject');
 
@@ -40272,7 +40751,7 @@ function throttle(func, wait, options) {
 
 module.exports = throttle;
 
-},{"./debounce":420,"./isObject":421}],426:[function(require,module,exports){
+},{"./debounce":422,"./isObject":423}],428:[function(require,module,exports){
 var isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
 
@@ -40340,7 +40819,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isObject":421,"./isSymbol":423}],427:[function(require,module,exports){
+},{"./isObject":423,"./isSymbol":425}],429:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40382,8 +40861,7 @@ exports.PARENT_OBJECT_INVALID = PARENT_OBJECT_INVALID;
 exports.PARENT_TYPE_INVALID = PARENT_TYPE_INVALID;
 
 
-},{}],428:[function(require,module,exports){
-(function (global){
+},{}],430:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40391,8 +40869,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var isPlainObject = _interopDefault(require('is-plain-object'));
-var immutable = require('immutable');
 var logger = _interopDefault(require('slate-dev-logger'));
+var immutable = require('immutable');
 var direction = _interopDefault(require('direction'));
 var esrever = require('esrever');
 var Debug = _interopDefault(require('debug'));
@@ -40402,6 +40880,93 @@ var slateSchemaViolations = require('slate-schema-violations');
 var pick = _interopDefault(require('lodash/pick'));
 var omit = _interopDefault(require('lodash/omit'));
 var isEmpty = _interopDefault(require('is-empty'));
+
+/**
+ * Slate-specific model types.
+ *
+ * @type {Object}
+ */
+
+var MODEL_TYPES = {
+  BLOCK: '@@__SLATE_BLOCK__@@',
+  CHANGE: '@@__SLATE_CHANGE__@@',
+  CHARACTER: '@@__SLATE_CHARACTER__@@',
+  DOCUMENT: '@@__SLATE_DOCUMENT__@@',
+  HISTORY: '@@__SLATE_HISTORY__@@',
+  INLINE: '@@__SLATE_INLINE__@@',
+  LEAF: '@@__SLATE_LEAF__@@',
+  MARK: '@@__SLATE_MARK__@@',
+  OPERATION: '@@__SLATE_OPERATION__@@',
+  RANGE: '@@__SLATE_RANGE__@@',
+  SCHEMA: '@@__SLATE_SCHEMA__@@',
+  STACK: '@@__SLATE_STACK__@@',
+  TEXT: '@@__SLATE_TEXT__@@',
+  VALUE: '@@__SLATE_VALUE__@@'
+
+  /**
+   * Export type identification function
+   *
+   * @param {string} type
+   * @param {any} any
+   * @return {boolean}
+   */
+
+};function isType(type, any) {
+  return !!(any && any[MODEL_TYPES[type]]);
+}
+
+/**
+ * An auto-incrementing index for generating keys.
+ *
+ * @type {Number}
+ */
+
+var n = void 0;
+
+/**
+ * The global key generating function.
+ *
+ * @type {Function}
+ */
+
+var generate = void 0;
+
+/**
+ * Generate a key.
+ *
+ * @return {String}
+ */
+
+function generateKey() {
+  return generate();
+}
+
+/**
+ * Set a different unique ID generating `function`.
+ *
+ * @param {Function} func
+ */
+
+function setKeyGenerator(func) {
+  generate = func;
+}
+
+/**
+ * Reset the key generating function to its initial state.
+ */
+
+function resetKeyGenerator() {
+  n = 0;
+  generate = function generate() {
+    return "" + n++;
+  };
+}
+
+/**
+ * Set the initial state.
+ */
+
+resetKeyGenerator();
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -40574,6 +41139,498 @@ var toConsumableArray = function (arr) {
 };
 
 /**
+ * Dependencies.
+ */
+
+/**
+ * Default properties.
+ *
+ * @type {Object}
+ */
+
+var DEFAULTS = {
+  data: new immutable.Map(),
+  isVoid: false,
+  key: undefined,
+  nodes: new immutable.List(),
+  type: undefined
+
+  /**
+   * Block.
+   *
+   * @type {Block}
+   */
+
+};
+var Block = function (_Record) {
+  inherits(Block, _Record);
+
+  function Block() {
+    classCallCheck(this, Block);
+    return possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).apply(this, arguments));
+  }
+
+  createClass(Block, [{
+    key: 'toJSON',
+
+
+    /**
+     * Return a JSON representation of the block.
+     *
+     * @param {Object} options
+     * @return {Object}
+     */
+
+    value: function toJSON() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var object = {
+        object: this.object,
+        type: this.type,
+        isVoid: this.isVoid,
+        data: this.data.toJSON(),
+        nodes: this.nodes.toArray().map(function (n) {
+          return n.toJSON(options);
+        })
+      };
+
+      if (options.preserveKeys) {
+        object.key = this.key;
+      }
+
+      return object;
+    }
+
+    /**
+     * Alias `toJS`.
+     */
+
+  }, {
+    key: 'toJS',
+    value: function toJS(options) {
+      return this.toJSON(options);
+    }
+  }, {
+    key: 'object',
+
+
+    /**
+     * Object.
+     *
+     * @return {String}
+     */
+
+    get: function get$$1() {
+      return 'block';
+    }
+  }, {
+    key: 'kind',
+    get: function get$$1() {
+      logger.deprecate('slate@0.32.0', 'The `kind` property of Slate objects has been renamed to `object`.');
+      return this.object;
+    }
+
+    /**
+     * Check if the block is empty.
+     * Returns true if block is not void and all it's children nodes are empty.
+     * Void node is never empty, regardless of it's content.
+     *
+     * @return {Boolean}
+     */
+
+  }, {
+    key: 'isEmpty',
+    get: function get$$1() {
+      return !this.isVoid && !this.nodes.some(function (child) {
+        return !child.isEmpty;
+      });
+    }
+
+    /**
+     * Get the concatenated text of all the block's children.
+     *
+     * @return {String}
+     */
+
+  }, {
+    key: 'text',
+    get: function get$$1() {
+      return this.getText();
+    }
+  }], [{
+    key: 'create',
+
+    /**
+     * Create a new `Block` from `attrs`.
+     *
+     * @param {Object|String|Block} attrs
+     * @return {Block}
+     */
+
+    value: function create() {
+      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (Block.isBlock(attrs)) {
+        return attrs;
+      }
+
+      if (typeof attrs == 'string') {
+        attrs = { type: attrs };
+      }
+
+      if (isPlainObject(attrs)) {
+        return Block.fromJSON(attrs);
+      }
+
+      throw new Error('`Block.create` only accepts objects, strings or blocks, but you passed it: ' + attrs);
+    }
+
+    /**
+     * Create a list of `Blocks` from `attrs`.
+     *
+     * @param {Array<Block|Object>|List<Block|Object>} attrs
+     * @return {List<Block>}
+     */
+
+  }, {
+    key: 'createList',
+    value: function createList() {
+      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      if (immutable.List.isList(attrs) || Array.isArray(attrs)) {
+        var list = new immutable.List(attrs.map(Block.create));
+        return list;
+      }
+
+      throw new Error('`Block.createList` only accepts arrays or lists, but you passed it: ' + attrs);
+    }
+
+    /**
+     * Create a `Block` from a JSON `object`.
+     *
+     * @param {Object|Block} object
+     * @return {Block}
+     */
+
+  }, {
+    key: 'fromJSON',
+    value: function fromJSON(object) {
+      if (Block.isBlock(object)) {
+        return object;
+      }
+
+      var _object$data = object.data,
+          data = _object$data === undefined ? {} : _object$data,
+          _object$isVoid = object.isVoid,
+          isVoid = _object$isVoid === undefined ? false : _object$isVoid,
+          _object$key = object.key,
+          key = _object$key === undefined ? generateKey() : _object$key,
+          _object$nodes = object.nodes,
+          nodes = _object$nodes === undefined ? [] : _object$nodes,
+          type = object.type;
+
+
+      if (typeof type != 'string') {
+        throw new Error('`Block.fromJSON` requires a `type` string.');
+      }
+
+      var block = new Block({
+        key: key,
+        type: type,
+        isVoid: !!isVoid,
+        data: immutable.Map(data),
+        nodes: Block.createChildren(nodes)
+      });
+
+      return block;
+    }
+
+    /**
+     * Alias `fromJS`.
+     */
+
+    /**
+     * Check if `any` is a `Block`.
+     *
+     * @param {Any} any
+     * @return {Boolean}
+     */
+
+  }, {
+    key: 'isBlockList',
+
+
+    /**
+     * Check if `any` is a block list.
+     *
+     * @param {Any} any
+     * @return {Boolean}
+     */
+
+    value: function isBlockList(any) {
+      return immutable.List.isList(any) && any.every(function (item) {
+        return Block.isBlock(item);
+      });
+    }
+  }]);
+  return Block;
+}(immutable.Record(DEFAULTS));
+
+/**
+ * Attach a pseudo-symbol for type checking.
+ */
+
+Block.fromJS = Block.fromJSON;
+Block.isBlock = isType.bind(null, 'BLOCK');
+Block.prototype[MODEL_TYPES.BLOCK] = true;
+
+/**
+ * Dependencies.
+ */
+
+/**
+ * Default properties.
+ *
+ * @type {Object}
+ */
+
+var DEFAULTS$1 = {
+  data: new immutable.Map(),
+  isVoid: false,
+  key: undefined,
+  nodes: new immutable.List(),
+  type: undefined
+
+  /**
+   * Inline.
+   *
+   * @type {Inline}
+   */
+
+};
+var Inline = function (_Record) {
+  inherits(Inline, _Record);
+
+  function Inline() {
+    classCallCheck(this, Inline);
+    return possibleConstructorReturn(this, (Inline.__proto__ || Object.getPrototypeOf(Inline)).apply(this, arguments));
+  }
+
+  createClass(Inline, [{
+    key: 'toJSON',
+
+
+    /**
+     * Return a JSON representation of the inline.
+     *
+     * @param {Object} options
+     * @return {Object}
+     */
+
+    value: function toJSON() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var object = {
+        object: this.object,
+        type: this.type,
+        isVoid: this.isVoid,
+        data: this.data.toJSON(),
+        nodes: this.nodes.toArray().map(function (n) {
+          return n.toJSON(options);
+        })
+      };
+
+      if (options.preserveKeys) {
+        object.key = this.key;
+      }
+
+      return object;
+    }
+
+    /**
+     * Alias `toJS`.
+     */
+
+  }, {
+    key: 'toJS',
+    value: function toJS(options) {
+      return this.toJSON(options);
+    }
+  }, {
+    key: 'object',
+
+
+    /**
+     * Object.
+     *
+     * @return {String}
+     */
+
+    get: function get$$1() {
+      return 'inline';
+    }
+  }, {
+    key: 'kind',
+    get: function get$$1() {
+      logger.deprecate('slate@0.32.0', 'The `kind` property of Slate objects has been renamed to `object`.');
+      return this.object;
+    }
+
+    /**
+     * Check if the inline is empty.
+     * Returns true if inline is not void and all it's children nodes are empty.
+     * Void node is never empty, regardless of it's content.
+     *
+     * @return {Boolean}
+     */
+
+  }, {
+    key: 'isEmpty',
+    get: function get$$1() {
+      return !this.isVoid && !this.nodes.some(function (child) {
+        return !child.isEmpty;
+      });
+    }
+
+    /**
+     * Get the concatenated text of all the inline's children.
+     *
+     * @return {String}
+     */
+
+  }, {
+    key: 'text',
+    get: function get$$1() {
+      return this.getText();
+    }
+  }], [{
+    key: 'create',
+
+    /**
+     * Create a new `Inline` with `attrs`.
+     *
+     * @param {Object|String|Inline} attrs
+     * @return {Inline}
+     */
+
+    value: function create() {
+      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (Inline.isInline(attrs)) {
+        return attrs;
+      }
+
+      if (typeof attrs == 'string') {
+        attrs = { type: attrs };
+      }
+
+      if (isPlainObject(attrs)) {
+        return Inline.fromJSON(attrs);
+      }
+
+      throw new Error('`Inline.create` only accepts objects, strings or inlines, but you passed it: ' + attrs);
+    }
+
+    /**
+     * Create a list of `Inlines` from an array.
+     *
+     * @param {Array<Inline|Object>|List<Inline|Object>} elements
+     * @return {List<Inline>}
+     */
+
+  }, {
+    key: 'createList',
+    value: function createList() {
+      var elements = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      if (immutable.List.isList(elements) || Array.isArray(elements)) {
+        var list = new immutable.List(elements.map(Inline.create));
+        return list;
+      }
+
+      throw new Error('`Inline.createList` only accepts arrays or lists, but you passed it: ' + elements);
+    }
+
+    /**
+     * Create a `Inline` from a JSON `object`.
+     *
+     * @param {Object|Inline} object
+     * @return {Inline}
+     */
+
+  }, {
+    key: 'fromJSON',
+    value: function fromJSON(object) {
+      if (Inline.isInline(object)) {
+        return object;
+      }
+
+      var _object$data = object.data,
+          data = _object$data === undefined ? {} : _object$data,
+          _object$isVoid = object.isVoid,
+          isVoid = _object$isVoid === undefined ? false : _object$isVoid,
+          _object$key = object.key,
+          key = _object$key === undefined ? generateKey() : _object$key,
+          _object$nodes = object.nodes,
+          nodes = _object$nodes === undefined ? [] : _object$nodes,
+          type = object.type;
+
+
+      if (typeof type != 'string') {
+        throw new Error('`Inline.fromJS` requires a `type` string.');
+      }
+
+      var inline = new Inline({
+        key: key,
+        type: type,
+        isVoid: !!isVoid,
+        data: new immutable.Map(data),
+        nodes: Inline.createChildren(nodes)
+      });
+
+      return inline;
+    }
+
+    /**
+     * Alias `fromJS`.
+     */
+
+    /**
+     * Check if `any` is a `Inline`.
+     *
+     * @param {Any} any
+     * @return {Boolean}
+     */
+
+  }, {
+    key: 'isInlineList',
+
+
+    /**
+     * Check if `any` is a list of inlines.
+     *
+     * @param {Any} any
+     * @return {Boolean}
+     */
+
+    value: function isInlineList(any) {
+      return immutable.List.isList(any) && any.every(function (item) {
+        return Inline.isInline(item);
+      });
+    }
+  }]);
+  return Inline;
+}(immutable.Record(DEFAULTS$1));
+
+/**
+ * Attach a pseudo-symbol for type checking.
+ */
+
+Inline.fromJS = Inline.fromJSON;
+Inline.isInline = isType.bind(null, 'INLINE');
+Inline.prototype[MODEL_TYPES.INLINE] = true;
+
+/**
  * Data.
  *
  * This isn't an immutable record, it's just a thin wrapper around `Map` so that
@@ -40641,272 +41698,7 @@ var Data = function () {
 Data.fromJS = Data.fromJSON;
 
 /**
- * Slate-specific model types.
- *
- * @type {Object}
- */
-
-var MODEL_TYPES = {
-  BLOCK: '@@__SLATE_BLOCK__@@',
-  CHANGE: '@@__SLATE_CHANGE__@@',
-  CHARACTER: '@@__SLATE_CHARACTER__@@',
-  DOCUMENT: '@@__SLATE_DOCUMENT__@@',
-  HISTORY: '@@__SLATE_HISTORY__@@',
-  INLINE: '@@__SLATE_INLINE__@@',
-  LEAF: '@@__SLATE_LEAF__@@',
-  MARK: '@@__SLATE_MARK__@@',
-  OPERATION: '@@__SLATE_OPERATION__@@',
-  RANGE: '@@__SLATE_RANGE__@@',
-  SCHEMA: '@@__SLATE_SCHEMA__@@',
-  STACK: '@@__SLATE_STACK__@@',
-  TEXT: '@@__SLATE_TEXT__@@',
-  VALUE: '@@__SLATE_VALUE__@@'
-
-  /**
-   * Export.
-   *
-   * @type {Object}
-   */
-
-};
-
-var global$1 = typeof global !== "undefined" ? global :
-            typeof self !== "undefined" ? self :
-            typeof window !== "undefined" ? window : {}
-
-// shim for using process in browser
-// based off https://github.com/defunctzombie/node-process/blob/master/browser.js
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-var cachedSetTimeout = defaultSetTimout;
-var cachedClearTimeout = defaultClearTimeout;
-if (typeof global$1.setTimeout === 'function') {
-    cachedSetTimeout = setTimeout;
-}
-if (typeof global$1.clearTimeout === 'function') {
-    cachedClearTimeout = clearTimeout;
-}
-
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-function nextTick(fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-}
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-var title = 'browser';
-var platform = 'browser';
-var browser = true;
-var env = {};
-var argv = [];
-var version = ''; // empty string to avoid regexp issues
-var versions = {};
-var release = {};
-var config = {};
-
-function noop() {}
-
-var on = noop;
-var addListener = noop;
-var once = noop;
-var off = noop;
-var removeListener = noop;
-var removeAllListeners = noop;
-var emit = noop;
-
-function binding(name) {
-    throw new Error('process.binding is not supported');
-}
-
-function cwd () { return '/' }
-function chdir (dir) {
-    throw new Error('process.chdir is not supported');
-}
-function umask() { return 0; }
-
-// from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
-var performance = global$1.performance || {};
-var performanceNow =
-  performance.now        ||
-  performance.mozNow     ||
-  performance.msNow      ||
-  performance.oNow       ||
-  performance.webkitNow  ||
-  function(){ return (new Date()).getTime() };
-
-// generate timestamp or delta
-// see http://nodejs.org/api/process.html#process_process_hrtime
-function hrtime(previousTimestamp){
-  var clocktime = performanceNow.call(performance)*1e-3;
-  var seconds = Math.floor(clocktime);
-  var nanoseconds = Math.floor((clocktime%1)*1e9);
-  if (previousTimestamp) {
-    seconds = seconds - previousTimestamp[0];
-    nanoseconds = nanoseconds - previousTimestamp[1];
-    if (nanoseconds<0) {
-      seconds--;
-      nanoseconds += 1e9;
-    }
-  }
-  return [seconds,nanoseconds]
-}
-
-var startTime = new Date();
-function uptime() {
-  var currentTime = new Date();
-  var dif = currentTime - startTime;
-  return dif / 1000;
-}
-
-var process = {
-  nextTick: nextTick,
-  title: title,
-  browser: browser,
-  env: env,
-  argv: argv,
-  version: version,
-  versions: versions,
-  on: on,
-  addListener: addListener,
-  once: once,
-  off: off,
-  removeListener: removeListener,
-  removeAllListeners: removeAllListeners,
-  emit: emit,
-  binding: binding,
-  cwd: cwd,
-  chdir: chdir,
-  umask: umask,
-  hrtime: hrtime,
-  platform: platform,
-  release: release,
-  config: config,
-  uptime: uptime
-};
-
-/**
- * Is in development?
- *
- * @type {Boolean}
- */
-
-var IS_DEV = typeof process !== 'undefined' && process.env && "development" !== 'production';
-
-/**
- * GLOBAL: True if memoization should is enabled. Only effective when `IS_DEV`.
+ * GLOBAL: True if memoization should is enabled.
  *
  * @type {Boolean}
  */
@@ -40915,7 +41707,6 @@ var ENABLED = true;
 
 /**
  * GLOBAL: Changing this cache key will clear all previous cached results.
- * Only effective when `IS_DEV`.
  *
  * @type {Number}
  */
@@ -40957,15 +41748,11 @@ var UNSET = undefined;
  */
 
 function memoize(object, properties) {
-  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  var _options$takesArgumen = options.takesArguments,
-      takesArguments = _options$takesArgumen === undefined ? true : _options$takesArgumen;
-
   var _loop = function _loop(property) {
     var original = object[property];
 
     if (!original) {
-      throw new Error('Object does not have a property named "' + property + '".');
+      throw new Error("Object does not have a property named \"" + property + "\".");
     }
 
     object[property] = function () {
@@ -40973,20 +41760,24 @@ function memoize(object, properties) {
         args[_key] = arguments[_key];
       }
 
-      if (IS_DEV) {
-        // If memoization is disabled, call into the original method.
-        if (!ENABLED) return original.apply(this, args);
+      // If memoization is disabled, call into the original method.
+      if (!ENABLED) return original.apply(this, args);
 
-        // If the cache key is different, previous caches must be cleared.
-        if (CACHE_KEY !== this.__cache_key) {
-          this.__cache_key = CACHE_KEY;
-          this.__cache = new Map(); // eslint-disable-line no-undef,no-restricted-globals
-        }
+      // If the cache key is different, previous caches must be cleared.
+      if (CACHE_KEY !== this.__cache_key) {
+        this.__cache_key = CACHE_KEY;
+        this.__cache = new Map(); // eslint-disable-line no-undef,no-restricted-globals
+        this.__cache_no_args = {};
       }
 
       if (!this.__cache) {
         this.__cache = new Map(); // eslint-disable-line no-undef,no-restricted-globals
       }
+      if (!this.__cache_no_args) {
+        this.__cache_no_args = {};
+      }
+
+      var takesArguments = args.length !== 0;
 
       var cachedValue = void 0;
       var keys = void 0;
@@ -40995,7 +41786,7 @@ function memoize(object, properties) {
         keys = [property].concat(args);
         cachedValue = getIn(this.__cache, keys);
       } else {
-        cachedValue = this.__cache.get(property);
+        cachedValue = this.__cache_no_args[property];
       }
 
       // If we've got a result already, return it.
@@ -41010,7 +41801,7 @@ function memoize(object, properties) {
       if (takesArguments) {
         this.__cache = setIn(this.__cache, keys, v);
       } else {
-        this.__cache.set(property, v);
+        this.__cache_no_args[property] = v;
       }
 
       return value;
@@ -41022,7 +41813,6 @@ function memoize(object, properties) {
   var _iteratorError = undefined;
 
   try {
-
     for (var _iterator = properties[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var property = _step.value;
 
@@ -41168,7 +41958,7 @@ function useMemoization(enabled) {
  * @type {Object}
  */
 
-var DEFAULTS = {
+var DEFAULTS$2 = {
   data: new immutable.Map(),
   type: undefined
 
@@ -41290,7 +42080,7 @@ var Mark = function (_Record) {
       }
 
       if (elements == null) {
-        return new immutable.Set();
+        return immutable.Set();
       }
 
       throw new Error('`Mark.createSet` only accepts sets, arrays or null, but you passed it: ' + elements);
@@ -41360,10 +42150,6 @@ var Mark = function (_Record) {
      * Alias `fromJS`.
      */
 
-  }, {
-    key: 'isMark',
-
-
     /**
      * Check if `any` is a `Mark`.
      *
@@ -41371,9 +42157,9 @@ var Mark = function (_Record) {
      * @return {Boolean}
      */
 
-    value: function isMark(any) {
-      return !!(any && any[MODEL_TYPES.MARK]);
-    }
+  }, {
+    key: 'isMarkSet',
+
 
     /**
      * Check if `any` is a set of marks.
@@ -41382,8 +42168,6 @@ var Mark = function (_Record) {
      * @return {Boolean}
      */
 
-  }, {
-    key: 'isMarkSet',
     value: function isMarkSet(any) {
       return immutable.Set.isSet(any) && any.every(function (item) {
         return Mark.isMark(item);
@@ -41391,22 +42175,335 @@ var Mark = function (_Record) {
     }
   }]);
   return Mark;
-}(immutable.Record(DEFAULTS));
+}(immutable.Record(DEFAULTS$2));
 
 /**
  * Attach a pseudo-symbol for type checking.
  */
 
 Mark.fromJS = Mark.fromJSON;
+Mark.isMark = isType.bind(null, 'MARK');
 Mark.prototype[MODEL_TYPES.MARK] = true;
 
 /**
  * Memoize read methods.
  */
 
-memoize(Mark.prototype, ['getComponent'], {
-  takesArguments: true
+memoize(Mark.prototype, ['getComponent']);
+
+/**
+ * Changes.
+ *
+ * @type {Object}
+ */
+
+var Changes = {};
+
+/**
+ * Mix in the changes that pass through to their at-range equivalents because
+ * they don't have any effect on the selection.
+ */
+
+var PROXY_TRANSFORMS = ['deleteBackward', 'deleteCharBackward', 'deleteLineBackward', 'deleteWordBackward', 'deleteForward', 'deleteCharForward', 'deleteWordForward', 'deleteLineForward', 'setBlocks', 'setInlines', 'splitInline', 'unwrapBlock', 'unwrapInline', 'wrapBlock', 'wrapInline'];
+
+PROXY_TRANSFORMS.forEach(function (method) {
+  Changes[method] = function (change) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var value = change.value;
+    var selection = value.selection;
+
+    var methodAtRange = method + 'AtRange';
+    change[methodAtRange].apply(change, [selection].concat(args));
+    if (method.match(/Backward$/)) {
+      change.collapseToStart();
+    } else if (method.match(/Forward$/)) {
+      change.collapseToEnd();
+    }
+  };
 });
+
+Changes.setBlock = function () {
+  logger.deprecate('slate@0.33.0', 'The `setBlock` method of Slate changes has been renamed to `setBlocks`.');
+  Changes.setBlocks.apply(Changes, arguments);
+};
+
+Changes.setInline = function () {
+  logger.deprecate('slate@0.33.0', 'The `setInline` method of Slate changes has been renamed to `setInlines`.');
+  Changes.setInlines.apply(Changes, arguments);
+};
+
+/**
+ * Add a `mark` to the characters in the current selection.
+ *
+ * @param {Change} change
+ * @param {Mark} mark
+ */
+
+Changes.addMark = function (change, mark) {
+  mark = Mark.create(mark);
+  var value = change.value;
+  var document = value.document,
+      selection = value.selection;
+
+
+  if (selection.isExpanded) {
+    change.addMarkAtRange(selection, mark);
+  } else if (selection.marks) {
+    var marks = selection.marks.add(mark);
+    var sel = selection.set('marks', marks);
+    change.select(sel);
+  } else {
+    var _marks = document.getActiveMarksAtRange(selection).add(mark);
+    var _sel = selection.set('marks', _marks);
+    change.select(_sel);
+  }
+};
+
+/**
+ * Add a list of `marks` to the characters in the current selection.
+ *
+ * @param {Change} change
+ * @param {Mark} mark
+ */
+
+Changes.addMarks = function (change, marks) {
+  marks.forEach(function (mark) {
+    return change.addMark(mark);
+  });
+};
+
+/**
+ * Delete at the current selection.
+ *
+ * @param {Change} change
+ */
+
+Changes.delete = function (change) {
+  var value = change.value;
+  var selection = value.selection;
+
+  change.deleteAtRange(selection);
+
+  // Ensure that the selection is collapsed to the start, because in certain
+  // cases when deleting across inline nodes, when splitting the inline node the
+  // end point of the selection will end up after the split point.
+  change.collapseToStart();
+};
+
+/**
+ * Insert a `block` at the current selection.
+ *
+ * @param {Change} change
+ * @param {String|Object|Block} block
+ */
+
+Changes.insertBlock = function (change, block) {
+  block = Block.create(block);
+  var value = change.value;
+  var selection = value.selection;
+
+  change.insertBlockAtRange(selection, block);
+
+  // If the node was successfully inserted, update the selection.
+  var node = change.value.document.getNode(block.key);
+  if (node) change.collapseToEndOf(node);
+};
+
+/**
+ * Insert a `fragment` at the current selection.
+ *
+ * @param {Change} change
+ * @param {Document} fragment
+ */
+
+Changes.insertFragment = function (change, fragment) {
+  if (!fragment.nodes.size) return;
+
+  var value = change.value;
+  var _value = value,
+      document = _value.document,
+      selection = _value.selection;
+  var _value2 = value,
+      startText = _value2.startText,
+      endText = _value2.endText,
+      startInline = _value2.startInline;
+
+  var lastText = fragment.getLastText();
+  var lastInline = fragment.getClosestInline(lastText.key);
+  var firstChild = fragment.nodes.first();
+  var lastChild = fragment.nodes.last();
+  var keys = document.getTexts().map(function (text) {
+    return text.key;
+  });
+  var isAppending = !startInline || selection.hasEdgeAtStartOf(startText) || selection.hasEdgeAtEndOf(endText);
+
+  var isInserting = fragment.hasBlocks(firstChild.key) || fragment.hasBlocks(lastChild.key);
+
+  change.insertFragmentAtRange(selection, fragment);
+  value = change.value;
+  document = value.document;
+
+  var newTexts = document.getTexts().filter(function (n) {
+    return !keys.includes(n.key);
+  });
+  var newText = isAppending ? newTexts.last() : newTexts.takeLast(2).first();
+
+  if (newText && lastInline || isInserting) {
+    change.select(selection.collapseToEndOf(newText));
+  } else if (newText) {
+    change.select(selection.collapseToStartOf(newText).move(lastText.text.length));
+  } else {
+    change.select(selection.collapseToStart().move(lastText.text.length));
+  }
+};
+
+/**
+ * Insert an `inline` at the current selection.
+ *
+ * @param {Change} change
+ * @param {String|Object|Inline} inline
+ */
+
+Changes.insertInline = function (change, inline) {
+  inline = Inline.create(inline);
+  var value = change.value;
+  var selection = value.selection;
+
+  change.insertInlineAtRange(selection, inline);
+
+  // If the node was successfully inserted, update the selection.
+  var node = change.value.document.getNode(inline.key);
+  if (node) change.collapseToEndOf(node);
+};
+
+/**
+ * Insert a string of `text` with optional `marks` at the current selection.
+ *
+ * @param {Change} change
+ * @param {String} text
+ * @param {Set<Mark>} marks (optional)
+ */
+
+Changes.insertText = function (change, text, marks) {
+  var value = change.value;
+  var document = value.document,
+      selection = value.selection;
+
+  marks = marks || selection.marks || document.getInsertMarksAtRange(selection);
+  change.insertTextAtRange(selection, text, marks);
+
+  // If the text was successfully inserted, and the selection had marks on it,
+  // unset the selection's marks.
+  if (selection.marks && document != change.value.document) {
+    change.select({ marks: null });
+  }
+};
+
+/**
+ * Split the block node at the current selection, to optional `depth`.
+ *
+ * @param {Change} change
+ * @param {Number} depth (optional)
+ */
+
+Changes.splitBlock = function (change) {
+  var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var value = change.value;
+  var selection = value.selection,
+      document = value.document;
+
+  var marks = selection.marks || document.getInsertMarksAtRange(selection);
+  change.splitBlockAtRange(selection, depth).collapseToEnd();
+  if (marks && marks.size !== 0) {
+    change.select({ marks: marks });
+  }
+};
+
+/**
+ * Remove a `mark` from the characters in the current selection.
+ *
+ * @param {Change} change
+ * @param {Mark} mark
+ */
+
+Changes.removeMark = function (change, mark) {
+  mark = Mark.create(mark);
+  var value = change.value;
+  var document = value.document,
+      selection = value.selection;
+
+
+  if (selection.isExpanded) {
+    change.removeMarkAtRange(selection, mark);
+  } else if (selection.marks) {
+    var marks = selection.marks.remove(mark);
+    var sel = selection.set('marks', marks);
+    change.select(sel);
+  } else {
+    var _marks2 = document.getActiveMarksAtRange(selection).remove(mark);
+    var _sel2 = selection.set('marks', _marks2);
+    change.select(_sel2);
+  }
+};
+
+/**
+ * Add or remove a `mark` from the characters in the current selection,
+ * depending on whether it's already there.
+ *
+ * @param {Change} change
+ * @param {Mark} mark
+ */
+
+Changes.toggleMark = function (change, mark) {
+  mark = Mark.create(mark);
+  var value = change.value;
+
+  var exists = value.activeMarks.has(mark);
+
+  if (exists) {
+    change.removeMark(mark);
+  } else {
+    change.addMark(mark);
+  }
+};
+
+/**
+ * Wrap the current selection with prefix/suffix.
+ *
+ * @param {Change} change
+ * @param {String} prefix
+ * @param {String} suffix
+ */
+
+Changes.wrapText = function (change, prefix) {
+  var suffix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : prefix;
+  var value = change.value;
+  var selection = value.selection;
+
+  change.wrapTextAtRange(selection, prefix, suffix);
+
+  // If the selection was collapsed, it will have moved the start offset too.
+  if (selection.isCollapsed) {
+    change.moveStart(0 - prefix.length);
+  }
+
+  // Adding the suffix will have pushed the end of the selection further on, so
+  // we need to move it back to account for this.
+  change.moveEnd(0 - suffix.length);
+
+  // There's a chance that the selection points moved "through" each other,
+  // resulting in a now-incorrect selection direction.
+  if (selection.isForward != change.value.selection.isForward) {
+    change.flip();
+  }
+};
+
+/**
+ * Dependencies.
+ */
 
 /**
  * Default properties.
@@ -41414,14 +42511,207 @@ memoize(Mark.prototype, ['getComponent'], {
  * @type {Object}
  */
 
-var DEFAULTS$1 = {
+var DEFAULTS$3 = {
+  data: new immutable.Map(),
+  key: undefined,
+  nodes: new immutable.List()
+
+  /**
+   * Document.
+   *
+   * @type {Document}
+   */
+
+};
+var Document = function (_Record) {
+  inherits(Document, _Record);
+
+  function Document() {
+    classCallCheck(this, Document);
+    return possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).apply(this, arguments));
+  }
+
+  createClass(Document, [{
+    key: 'toJSON',
+
+
+    /**
+     * Return a JSON representation of the document.
+     *
+     * @param {Object} options
+     * @return {Object}
+     */
+
+    value: function toJSON() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var object = {
+        object: this.object,
+        data: this.data.toJSON(),
+        nodes: this.nodes.toArray().map(function (n) {
+          return n.toJSON(options);
+        })
+      };
+
+      if (options.preserveKeys) {
+        object.key = this.key;
+      }
+
+      return object;
+    }
+
+    /**
+     * Alias `toJS`.
+     */
+
+  }, {
+    key: 'toJS',
+    value: function toJS(options) {
+      return this.toJSON(options);
+    }
+  }, {
+    key: 'object',
+
+
+    /**
+     * Object.
+     *
+     * @return {String}
+     */
+
+    get: function get$$1() {
+      return 'document';
+    }
+  }, {
+    key: 'kind',
+    get: function get$$1() {
+      logger.deprecate('slate@0.32.0', 'The `kind` property of Slate objects has been renamed to `object`.');
+      return this.object;
+    }
+
+    /**
+     * Check if the document is empty.
+     * Returns true if all it's children nodes are empty.
+     *
+     * @return {Boolean}
+     */
+
+  }, {
+    key: 'isEmpty',
+    get: function get$$1() {
+      return !this.nodes.some(function (child) {
+        return !child.isEmpty;
+      });
+    }
+
+    /**
+     * Get the concatenated text of all the document's children.
+     *
+     * @return {String}
+     */
+
+  }, {
+    key: 'text',
+    get: function get$$1() {
+      return this.getText();
+    }
+  }], [{
+    key: 'create',
+
+    /**
+     * Create a new `Document` with `attrs`.
+     *
+     * @param {Object|Array|List|Text} attrs
+     * @return {Document}
+     */
+
+    value: function create() {
+      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (Document.isDocument(attrs)) {
+        return attrs;
+      }
+
+      if (immutable.List.isList(attrs) || Array.isArray(attrs)) {
+        attrs = { nodes: attrs };
+      }
+
+      if (isPlainObject(attrs)) {
+        return Document.fromJSON(attrs);
+      }
+
+      throw new Error('`Document.create` only accepts objects, arrays, lists or documents, but you passed it: ' + attrs);
+    }
+
+    /**
+     * Create a `Document` from a JSON `object`.
+     *
+     * @param {Object|Document} object
+     * @return {Document}
+     */
+
+  }, {
+    key: 'fromJSON',
+    value: function fromJSON(object) {
+      if (Document.isDocument(object)) {
+        return object;
+      }
+
+      var _object$data = object.data,
+          data = _object$data === undefined ? {} : _object$data,
+          _object$key = object.key,
+          key = _object$key === undefined ? generateKey() : _object$key,
+          _object$nodes = object.nodes,
+          nodes = _object$nodes === undefined ? [] : _object$nodes;
+
+
+      var document = new Document({
+        key: key,
+        data: new immutable.Map(data),
+        nodes: Document.createChildren(nodes)
+      });
+
+      return document;
+    }
+
+    /**
+     * Alias `fromJS`.
+     */
+
+    /**
+     * Check if `any` is a `Document`.
+     *
+     * @param {Any} any
+     * @return {Boolean}
+     */
+
+  }]);
+  return Document;
+}(immutable.Record(DEFAULTS$3));
+
+/**
+ * Attach a pseudo-symbol for type checking.
+ */
+
+Document.fromJS = Document.fromJSON;
+Document.isDocument = isType.bind(null, 'DOCUMENT');
+Document.prototype[MODEL_TYPES.DOCUMENT] = true;
+
+/**
+ * Default properties.
+ *
+ * @type {Object}
+ */
+
+var DEFAULTS$4 = {
   anchorKey: null,
   anchorOffset: 0,
   focusKey: null,
   focusOffset: 0,
   isBackward: null,
   isFocused: false,
-  marks: null
+  marks: null,
+  isAtomic: false
 
   /**
    * Range.
@@ -41994,7 +43284,8 @@ var Range = function (_Record) {
         isFocused: this.isFocused,
         marks: this.marks == null ? null : this.marks.toArray().map(function (m) {
           return m.toJSON();
-        })
+        }),
+        isAtomic: this.isAtomic
       };
 
       return object;
@@ -42212,7 +43503,8 @@ var Range = function (_Record) {
           focusOffset: attrs.focusOffset,
           isBackward: attrs.isBackward,
           isFocused: attrs.isFocused,
-          marks: attrs.marks
+          marks: attrs.marks,
+          isAtomic: attrs.isAtomic
         };
       }
 
@@ -42227,6 +43519,7 @@ var Range = function (_Record) {
         if ('isBackward' in attrs) props.isBackward = attrs.isBackward;
         if ('isFocused' in attrs) props.isFocused = attrs.isFocused;
         if ('marks' in attrs) props.marks = attrs.marks == null ? null : Mark.createSet(attrs.marks);
+        if ('isAtomic' in attrs) props.isAtomic = attrs.isAtomic;
         return props;
       }
 
@@ -42256,7 +43549,9 @@ var Range = function (_Record) {
           _object$isFocused = object.isFocused,
           isFocused = _object$isFocused === undefined ? false : _object$isFocused,
           _object$marks = object.marks,
-          marks = _object$marks === undefined ? null : _object$marks;
+          marks = _object$marks === undefined ? null : _object$marks,
+          _object$isAtomic = object.isAtomic,
+          isAtomic = _object$isAtomic === undefined ? false : _object$isAtomic;
 
 
       var range = new Range({
@@ -42266,7 +43561,8 @@ var Range = function (_Record) {
         focusOffset: focusOffset,
         isBackward: isBackward,
         isFocused: isFocused,
-        marks: marks == null ? null : new immutable.Set(marks.map(Mark.fromJSON))
+        marks: marks == null ? null : new immutable.Set(marks.map(Mark.fromJSON)),
+        isAtomic: isAtomic
       });
 
       return range;
@@ -42292,7 +43588,7 @@ var Range = function (_Record) {
     }
   }]);
   return Range;
-}(immutable.Record(DEFAULTS$1));
+}(immutable.Record(DEFAULTS$4));
 
 /**
  * Attach a pseudo-symbol for type checking.
@@ -42393,7 +43689,7 @@ function getLast(node) {
  * @type {Object}
  */
 
-var DEFAULTS$2 = {
+var DEFAULTS$5 = {
   marks: new immutable.Set(),
   text: ''
 
@@ -42545,10 +43841,6 @@ var Character = function (_Record) {
      * Alias `fromJS`.
      */
 
-  }, {
-    key: 'isCharacter',
-
-
     /**
      * Check if `any` is a `Character`.
      *
@@ -42556,9 +43848,9 @@ var Character = function (_Record) {
      * @return {Boolean}
      */
 
-    value: function isCharacter(any) {
-      return !!(any && any[MODEL_TYPES.CHARACTER]);
-    }
+  }, {
+    key: 'isCharacterList',
+
 
     /**
      * Check if `any` is a character list.
@@ -42567,8 +43859,6 @@ var Character = function (_Record) {
      * @return {Boolean}
      */
 
-  }, {
-    key: 'isCharacterList',
     value: function isCharacterList(any) {
       return immutable.List.isList(any) && any.every(function (item) {
         return Character.isCharacter(item);
@@ -42576,13 +43866,14 @@ var Character = function (_Record) {
     }
   }]);
   return Character;
-}(immutable.Record(DEFAULTS$2));
+}(immutable.Record(DEFAULTS$5));
 
 /**
  * Attach a pseudo-symbol for type checking.
  */
 
 Character.fromJS = Character.fromJSON;
+Character.isCharacter = isType.bind(null, 'CHARACTER');
 Character.prototype[MODEL_TYPES.CHARACTER] = true;
 
 /**
@@ -42591,8 +43882,8 @@ Character.prototype[MODEL_TYPES.CHARACTER] = true;
  * @type {Object}
  */
 
-var DEFAULTS$3 = {
-  marks: new immutable.Set(),
+var DEFAULTS$6 = {
+  marks: immutable.Set(),
   text: ''
 
   /**
@@ -42621,6 +43912,7 @@ var Leaf = function (_Record) {
      */
 
     value: function getCharacters() {
+      logger.deprecate('slate@0.34.0', 'The `characters` property of Slate objects is deprecated');
       var marks = this.marks;
 
       var characters = Character.createList(this.text.split('').map(function (char) {
@@ -42631,6 +43923,57 @@ var Leaf = function (_Record) {
       }));
 
       return characters;
+    }
+
+    /**
+     * Update a `mark` at leaf, replace with newMark
+     *
+     * @param {Mark} mark
+     * @param {Mark} newMark
+     * @returns {Leaf}
+     */
+
+  }, {
+    key: 'updateMark',
+    value: function updateMark(mark, newMark) {
+      var marks = this.marks;
+
+      if (newMark.equals(mark)) return this;
+      if (!marks.has(mark)) return this;
+      var newMarks = marks.withMutations(function (collection) {
+        collection.remove(mark).add(newMark);
+      });
+      return this.set('marks', newMarks);
+    }
+
+    /**
+     * Add a `set` of marks at `index` and `length`.
+     *
+     * @param {Set<Mark>} set
+     * @returns {Text}
+     */
+
+  }, {
+    key: 'addMarks',
+    value: function addMarks(set$$1) {
+      var marks = this.marks;
+
+      return this.set('marks', marks.union(set$$1));
+    }
+
+    /**
+     * Remove a `mark` at `index` and `length`.
+     *
+     * @param {Mark} mark
+     * @returns {Text}
+     */
+
+  }, {
+    key: 'removeMark',
+    value: function removeMark(mark) {
+      var marks = this.marks;
+
+      return this.set('marks', marks.remove(mark));
     }
 
     /**
@@ -42710,6 +44053,118 @@ var Leaf = function (_Record) {
     }
 
     /**
+     * Create a valid List of `Leaf` from `leaves`
+     *
+     * @param {List<Leaf>} leaves
+     * @return {List<Leaf>}
+     */
+
+  }, {
+    key: 'createLeaves',
+    value: function createLeaves(leaves) {
+      if (leaves.size <= 1) return leaves;
+
+      var invalid = false;
+
+      // TODO: we can make this faster with [List] and then flatten
+      var result = immutable.List().withMutations(function (cache) {
+        // Search from the leaves left end to find invalid node;
+        leaves.findLast(function (leaf, index) {
+          var firstLeaf = cache.first();
+
+          // If the first leaf of cache exist, check whether the first leaf is connectable with the current leaf
+          if (firstLeaf) {
+            // If marks equals, then the two leaves can be connected
+            if (firstLeaf.marks.equals(leaf.marks)) {
+              invalid = true;
+              cache.set(0, firstLeaf.set('text', '' + leaf.text + firstLeaf.text));
+              return;
+            }
+
+            // If the cached leaf is empty, drop the empty leaf with the upcoming leaf
+            if (firstLeaf.text === '') {
+              invalid = true;
+              cache.set(0, leaf);
+              return;
+            }
+
+            // If the current leaf is empty, drop the leaf
+            if (leaf.text === '') {
+              invalid = true;
+              return;
+            }
+          }
+
+          cache.unshift(leaf);
+        });
+      });
+
+      if (!invalid) return leaves;
+      return result;
+    }
+
+    /**
+     * Split a list of leaves to two lists; if the leaves are valid leaves, the returned leaves are also valid
+     * Corner Cases:
+     *   1. if offset is smaller than 0, then return [List(), leaves]
+     *   2. if offset is bigger than the text length, then return [leaves, List()]
+     *
+     * @param {List<Leaf> leaves
+     * @return {Array<List<Leaf>>}
+     */
+
+  }, {
+    key: 'splitLeaves',
+    value: function splitLeaves(leaves, offset) {
+      if (offset < 0) return [immutable.List(), leaves];
+
+      if (leaves.size === 0) {
+        return [immutable.List(), immutable.List()];
+      }
+
+      var endOffset = 0;
+      var index = -1;
+      var left = void 0,
+          right = void 0;
+
+      leaves.find(function (leaf) {
+        index++;
+        var startOffset = endOffset;
+        var text = leaf.text;
+
+        endOffset += text.length;
+
+        if (endOffset < offset) return false;
+        if (startOffset > offset) return false;
+
+        var length = offset - startOffset;
+        left = leaf.set('text', text.slice(0, length));
+        right = leaf.set('text', text.slice(length));
+        return true;
+      });
+
+      if (!left) return [leaves, immutable.List()];
+
+      if (left.text === '') {
+        if (index === 0) {
+          return [immutable.List.of(left), leaves];
+        }
+
+        return [leaves.take(index), leaves.skip(index)];
+      }
+
+      if (right.text === '') {
+        if (index === leaves.size - 1) {
+          return [leaves, immutable.List.of(right)];
+        }
+
+        return [leaves.take(index + 1), leaves.skip(index + 1)];
+      }
+
+      return [leaves.take(index).push(left), leaves.skip(index + 1).unshift(right)];
+    }
+
+    /**
      * Create a `Leaf` list from `attrs`.
      *
      * @param {Array<Leaf|Object>|List<Leaf|Object>} attrs
@@ -42747,7 +44202,7 @@ var Leaf = function (_Record) {
 
       var leaf = new Leaf({
         text: text,
-        marks: new immutable.Set(marks.map(Mark.fromJSON))
+        marks: immutable.Set(marks.map(Mark.fromJSON))
       });
 
       return leaf;
@@ -42757,10 +44212,6 @@ var Leaf = function (_Record) {
      * Alias `fromJS`.
      */
 
-  }, {
-    key: 'isLeaf',
-
-
     /**
      * Check if `any` is a `Leaf`.
      *
@@ -42768,9 +44219,9 @@ var Leaf = function (_Record) {
      * @return {Boolean}
      */
 
-    value: function isLeaf(any) {
-      return !!(any && any[MODEL_TYPES.LEAF]);
-    }
+  }, {
+    key: 'isLeafList',
+
 
     /**
      * Check if `any` is a list of leaves.
@@ -42779,8 +44230,6 @@ var Leaf = function (_Record) {
      * @return {Boolean}
      */
 
-  }, {
-    key: 'isLeafList',
     value: function isLeafList(any) {
       return immutable.List.isList(any) && any.every(function (item) {
         return Leaf.isLeaf(item);
@@ -42788,67 +44237,15 @@ var Leaf = function (_Record) {
     }
   }]);
   return Leaf;
-}(immutable.Record(DEFAULTS$3));
+}(immutable.Record(DEFAULTS$6));
 
 /**
  * Attach a pseudo-symbol for type checking.
  */
 
 Leaf.fromJS = Leaf.fromJSON;
+Leaf.isLeaf = isType.bind(null, 'LEAF');
 Leaf.prototype[MODEL_TYPES.LEAF] = true;
-
-/**
- * An auto-incrementing index for generating keys.
- *
- * @type {Number}
- */
-
-var n = void 0;
-
-/**
- * The global key generating function.
- *
- * @type {Function}
- */
-
-var generate = void 0;
-
-/**
- * Generate a key.
- *
- * @return {String}
- */
-
-function generateKey() {
-  return generate();
-}
-
-/**
- * Set a different unique ID generating `function`.
- *
- * @param {Function} func
- */
-
-function setKeyGenerator(func) {
-  generate = func;
-}
-
-/**
- * Reset the key generating function to its initial state.
- */
-
-function resetKeyGenerator() {
-  n = 0;
-  generate = function generate() {
-    return "" + n++;
-  };
-}
-
-/**
- * Set the initial state.
- */
-
-resetKeyGenerator();
 
 /**
  * Default properties.
@@ -42856,8 +44253,8 @@ resetKeyGenerator();
  * @type {Object}
  */
 
-var DEFAULTS$4 = {
-  characters: new immutable.List(),
+var DEFAULTS$7 = {
+  leaves: immutable.List(),
   key: undefined
 
   /**
@@ -42876,8 +44273,64 @@ var Text = function (_Record) {
   }
 
   createClass(Text, [{
-    key: 'addMark',
+    key: 'getString',
 
+
+    /**
+     * Get the concatenated text of the node, cached for text getter
+     *
+     * @returns {String}
+     */
+
+    value: function getString() {
+      return this.leaves.reduce(function (string, leaf) {
+        return string + leaf.text;
+      }, '');
+    }
+
+    /**
+     * Get the concatenated characters of the node;
+     *
+     * @returns {String}
+     */
+
+  }, {
+    key: 'searchLeafAtOffset',
+
+
+    /**
+     * Find the 'first' leaf at offset; By 'first' the alorighthm prefers `endOffset === offset` than `startOffset === offset`
+     * Corner Cases:
+     *   1. if offset is negative, return the first leaf;
+     *   2. if offset is larger than text length, the leaf is null, startOffset, endOffset and index is of the last leaf
+     *
+     * @param {number}
+     * @returns {Object}
+     *   @property {number} startOffset
+     *   @property {number} endOffset
+     *   @property {number} index
+     *   @property {Leaf} leaf
+     */
+
+    value: function searchLeafAtOffset(offset) {
+      var endOffset = 0;
+      var startOffset = 0;
+      var index = -1;
+
+      var leaf = this.leaves.find(function (l) {
+        index++;
+        startOffset = endOffset;
+        endOffset = startOffset + l.text.length;
+        return endOffset >= offset;
+      });
+
+      return {
+        leaf: leaf,
+        endOffset: endOffset,
+        index: index,
+        startOffset: startOffset
+      };
+    }
 
     /**
      * Add a `mark` at `index` and `length`.
@@ -42888,13 +44341,17 @@ var Text = function (_Record) {
      * @return {Text}
      */
 
+  }, {
+    key: 'addMark',
     value: function addMark(index, length, mark) {
-      var marks = new immutable.Set([mark]);
+      var marks = immutable.Set.of(mark);
       return this.addMarks(index, length, marks);
     }
 
     /**
      * Add a `set` of marks at `index` and `length`.
+     * Corner Cases:
+     *   1. If empty text, and if length === 0 and index === 0
      *
      * @param {Number} index
      * @param {Number} length
@@ -42905,54 +44362,38 @@ var Text = function (_Record) {
   }, {
     key: 'addMarks',
     value: function addMarks(index, length, set$$1) {
-      var characters = this.characters.map(function (char, i) {
-        if (i < index) return char;
-        if (i >= index + length) return char;
-        var _char = char,
-            marks = _char.marks;
+      if (this.text === '' && length === 0 && index === 0) {
+        var _leaves = this.leaves;
 
-        marks = marks.union(set$$1);
-        char = char.set('marks', marks);
-        return char;
-      });
+        var first = _leaves.first();
 
-      return this.set('characters', characters);
-    }
+        if (!first) {
+          return this.set('leaves', immutable.List.of(Leaf.fromJSON({ text: '', marks: set$$1 })));
+        }
 
-    /**
-     * Derive a set of decorated characters with `decorations`.
-     *
-     * @param {List<Decoration>} decorations
-     * @return {List<Character>}
-     */
+        var newFirst = first.addMarks(set$$1);
+        if (newFirst === first) return this;
+        return this.set('leaves', immutable.List.of(newFirst));
+      }
 
-  }, {
-    key: 'getDecoratedCharacters',
-    value: function getDecoratedCharacters(decorations) {
-      var node = this;
-      var _node = node,
-          key = _node.key,
-          characters = _node.characters;
+      if (this.text === '') return this;
+      if (length === 0) return this;
+      if (index >= this.text.length) return this;
 
-      // PERF: Exit early if there are no characters to be decorated.
+      var _Leaf$splitLeaves = Leaf.splitLeaves(this.leaves, index),
+          _Leaf$splitLeaves2 = slicedToArray(_Leaf$splitLeaves, 2),
+          before = _Leaf$splitLeaves2[0],
+          bundle = _Leaf$splitLeaves2[1];
 
-      if (characters.size == 0) return characters;
+      var _Leaf$splitLeaves3 = Leaf.splitLeaves(bundle, length),
+          _Leaf$splitLeaves4 = slicedToArray(_Leaf$splitLeaves3, 2),
+          middle = _Leaf$splitLeaves4[0],
+          after = _Leaf$splitLeaves4[1];
 
-      decorations.forEach(function (range) {
-        var startKey = range.startKey,
-            endKey = range.endKey,
-            startOffset = range.startOffset,
-            endOffset = range.endOffset,
-            marks = range.marks;
-
-        var hasStart = startKey == key;
-        var hasEnd = endKey == key;
-        var index = hasStart ? startOffset : 0;
-        var length = hasEnd ? endOffset - index : characters.size;
-        node = node.addMarks(index, length, marks);
-      });
-
-      return node.characters;
+      var leaves = before.concat(middle.map(function (x) {
+        return x.addMarks(set$$1);
+      }), after);
+      return this.setLeaves(leaves);
     }
 
     /**
@@ -42969,7 +44410,7 @@ var Text = function (_Record) {
     }
 
     /**
-     * Derive the leaves for a list of `characters`.
+     * Derive the leaves for a list of `decorations`.
      *
      * @param {Array|Void} decorations (optional)
      * @return {List<Leaf>}
@@ -42978,58 +44419,167 @@ var Text = function (_Record) {
   }, {
     key: 'getLeaves',
     value: function getLeaves() {
+      var _this2 = this;
+
       var decorations = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var leaves = this.leaves;
 
-      var characters = this.getDecoratedCharacters(decorations);
-      var leaves = [];
+      if (leaves.size === 0) return immutable.List.of(Leaf.create({}));
+      if (!decorations || decorations.length === 0) return leaves;
+      if (this.text.length === 0) return leaves;
+      var key = this.key;
 
-      // PERF: cache previous values for faster lookup.
-      var prevChar = void 0;
-      var prevLeaf = void 0;
 
-      // If there are no characters, return one empty range.
-      if (characters.size == 0) {
-        leaves.push({});
-      } else {
-        // Otherwise, loop the characters and build the leaves...
-        characters.forEach(function (char, i) {
-          var marks = char.marks,
-              text = char.text;
+      decorations.forEach(function (range) {
+        var startKey = range.startKey,
+            endKey = range.endKey,
+            startOffset = range.startOffset,
+            endOffset = range.endOffset,
+            marks = range.marks;
 
-          // The first one can always just be created.
+        var hasStart = startKey == key;
+        var hasEnd = endKey == key;
 
-          if (i == 0) {
-            prevChar = char;
-            prevLeaf = { text: text, marks: marks };
-            leaves.push(prevLeaf);
+        if (hasStart && hasEnd) {
+          var index = hasStart ? startOffset : 0;
+          var length = hasEnd ? endOffset - index : _this2.text.length - index;
+
+          if (length < 1) return;
+          if (index >= _this2.text.length) return;
+
+          if (index !== 0 || length < _this2.text.length) {
+            var _Leaf$splitLeaves5 = Leaf.splitLeaves(_this2.leaves, index),
+                _Leaf$splitLeaves6 = slicedToArray(_Leaf$splitLeaves5, 2),
+                before = _Leaf$splitLeaves6[0],
+                bundle = _Leaf$splitLeaves6[1];
+
+            var _Leaf$splitLeaves7 = Leaf.splitLeaves(bundle, length),
+                _Leaf$splitLeaves8 = slicedToArray(_Leaf$splitLeaves7, 2),
+                middle = _Leaf$splitLeaves8[0],
+                after = _Leaf$splitLeaves8[1];
+
+            leaves = before.concat(middle.map(function (x) {
+              return x.addMarks(marks);
+            }), after);
             return;
           }
+        }
 
-          // Otherwise, compare the current and previous marks.
-          var prevMarks = prevChar.marks;
-          var isSame = immutable.is(marks, prevMarks);
+        leaves = leaves.map(function (x) {
+          return x.addMarks(marks);
+        });
+      });
 
-          // If the marks are the same, add the text to the previous range.
-          if (isSame) {
-            prevChar = char;
-            prevLeaf.text += text;
-            return;
-          }
+      if (leaves === this.leaves) return leaves;
+      return Leaf.createLeaves(leaves);
+    }
 
-          // Otherwise, create a new range.
-          prevChar = char;
-          prevLeaf = { text: text, marks: marks };
-          leaves.push(prevLeaf);
-        }, []);
+    /**
+     * Get all of the active marks on between two offsets
+     * Corner Cases:
+     *   1. if startOffset is equal or bigger than endOffset, then return Set();
+     *   2. If no text is selected between start and end, then return Set()
+     *
+     * @return {Set<Mark>}
+     */
+
+  }, {
+    key: 'getActiveMarksBetweenOffsets',
+    value: function getActiveMarksBetweenOffsets(startOffset, endOffset) {
+      if (startOffset <= 0 && endOffset >= this.text.length) {
+        return this.getActiveMarks();
       }
 
-      // PERF: convert the leaves to immutable objects after iterating.
-      leaves = new immutable.List(leaves.map(function (object) {
-        return new Leaf(object);
-      }));
+      if (startOffset >= endOffset) return immutable.Set();
+      // For empty text in a paragraph, use getActiveMarks;
+      if (this.text === '') return this.getActiveMarks();
 
-      // Return the leaves.
-      return leaves;
+      var result = null;
+      var leafEnd = 0;
+
+      this.leaves.forEach(function (leaf) {
+        var leafStart = leafEnd;
+        leafEnd = leafStart + leaf.text.length;
+
+        if (leafEnd <= startOffset) return;
+        if (leafStart >= endOffset) return false;
+
+        if (!result) {
+          result = leaf.marks;
+          return;
+        }
+
+        result = result.intersect(leaf.marks);
+        if (result && result.size === 0) return false;
+        return false;
+      });
+
+      return result || immutable.Set();
+    }
+
+    /**
+     * Get all of the active marks on the text
+     *
+     * @return {Set<Mark>}
+     */
+
+  }, {
+    key: 'getActiveMarks',
+    value: function getActiveMarks() {
+      var _this3 = this;
+
+      if (this.leaves.size === 0) return immutable.Set();
+
+      var result = this.leaves.first().marks;
+      if (result.size === 0) return result;
+
+      return result.withMutations(function (x) {
+        _this3.leaves.forEach(function (c) {
+          x.intersect(c.marks);
+          if (x.size === 0) return false;
+        });
+      });
+    }
+
+    /**
+     * Get all of the marks on between two offsets
+     * Corner Cases:
+     *   1. if startOffset is equal or bigger than endOffset, then return Set();
+     *   2. If no text is selected between start and end, then return Set()
+     *
+     * @return {OrderedSet<Mark>}
+     */
+
+  }, {
+    key: 'getMarksBetweenOffsets',
+    value: function getMarksBetweenOffsets(startOffset, endOffset) {
+      if (startOffset <= 0 && endOffset >= this.text.length) {
+        return this.getMarks();
+      }
+
+      if (startOffset >= endOffset) return immutable.Set();
+      // For empty text in a paragraph, use getActiveMarks;
+      if (this.text === '') return this.getActiveMarks();
+
+      var result = null;
+      var leafEnd = 0;
+
+      this.leaves.forEach(function (leaf) {
+        var leafStart = leafEnd;
+        leafEnd = leafStart + leaf.text.length;
+
+        if (leafEnd <= startOffset) return;
+        if (leafStart >= endOffset) return false;
+
+        if (!result) {
+          result = leaf.marks;
+          return;
+        }
+
+        result = result.union(leaf.marks);
+      });
+
+      return result || immutable.Set();
     }
 
     /**
@@ -43054,13 +44604,26 @@ var Text = function (_Record) {
   }, {
     key: 'getMarksAsArray',
     value: function getMarksAsArray() {
-      return this.characters.reduce(function (array, char) {
-        return array.concat(char.marks.toArray());
-      }, []);
+      if (this.leaves.size === 0) return [];
+      var first = this.leaves.first().marks;
+      if (this.leaves.size === 1) return first.toArray();
+
+      var result = [];
+
+      this.leaves.forEach(function (leaf) {
+        result.push(leaf.marks.toArray());
+      });
+
+      return Array.prototype.concat.apply(first.toArray(), result);
     }
 
     /**
      * Get the marks on the text at `index`.
+     * Corner Cases:
+     *   1. if no text is before the index, and index !== 0, then return Set()
+     *   2. (for insert after split node or mark at range) if index === 0, and text === '', then return the leaf.marks
+     *   3. if index === 0, text !== '', return Set()
+     *
      *
      * @param {Number} index
      * @return {Set<Mark>}
@@ -43069,12 +44632,11 @@ var Text = function (_Record) {
   }, {
     key: 'getMarksAtIndex',
     value: function getMarksAtIndex(index) {
-      if (index == 0) return Mark.createSet();
-      var characters = this.characters;
+      var _searchLeafAtOffset = this.searchLeafAtOffset(index),
+          leaf = _searchLeafAtOffset.leaf;
 
-      var char = characters.get(index - 1);
-      if (!char) return Mark.createSet();
-      return char.marks;
+      if (!leaf) return immutable.Set();
+      return leaf.marks;
     }
 
     /**
@@ -43106,24 +44668,40 @@ var Text = function (_Record) {
     /**
      * Insert `text` at `index`.
      *
-     * @param {Numbder} index
+     * @param {Numbder} offset
      * @param {String} text
-     * @param {String} marks (optional)
+     * @param {Set} marks (optional)
      * @return {Text}
      */
 
   }, {
     key: 'insertText',
-    value: function insertText(index, text, marks) {
-      var characters = this.characters;
+    value: function insertText(offset, text, marks) {
+      if (this.text === '') {
+        return this.set('leaves', immutable.List.of(Leaf.create({ text: text, marks: marks })));
+      }
 
-      var chars = Character.createList(text.split('').map(function (char) {
-        return { text: char, marks: marks };
-      }));
+      if (text.length === 0) return this;
+      if (!marks) marks = immutable.Set();
 
-      characters = characters.slice(0, index).concat(chars).concat(characters.slice(index));
+      var _searchLeafAtOffset2 = this.searchLeafAtOffset(offset),
+          startOffset = _searchLeafAtOffset2.startOffset,
+          leaf = _searchLeafAtOffset2.leaf,
+          index = _searchLeafAtOffset2.index;
 
-      return this.set('characters', characters);
+      var delta = offset - startOffset;
+      var beforeText = leaf.text.slice(0, delta);
+      var afterText = leaf.text.slice(delta);
+      var leaves = this.leaves;
+
+
+      if (leaf.marks.equals(marks)) {
+        return this.set('leaves', leaves.set(index, leaf.set('text', beforeText + text + afterText)));
+      }
+
+      var nextLeaves = leaves.splice(index, 1, leaf.set('text', beforeText), Leaf.create({ text: text, marks: marks }), leaf.set('text', afterText));
+
+      return this.setLeaves(nextLeaves);
     }
 
     /**
@@ -43151,39 +44729,89 @@ var Text = function (_Record) {
   }, {
     key: 'removeMark',
     value: function removeMark(index, length, mark) {
-      var characters = this.characters.map(function (char, i) {
-        if (i < index) return char;
-        if (i >= index + length) return char;
-        var _char2 = char,
-            marks = _char2.marks;
+      if (this.text === '' && index === 0 && length === 0) {
+        var first = this.leaves.first();
+        if (!first) return this;
+        var newFirst = first.removeMark(mark);
+        if (newFirst === first) return this;
+        return this.set('leaves', immutable.List.of(newFirst));
+      }
 
-        marks = marks.remove(mark);
-        char = char.set('marks', marks);
-        return char;
-      });
+      if (length <= 0) return this;
+      if (index >= this.text.length) return this;
 
-      return this.set('characters', characters);
+      var _Leaf$splitLeaves9 = Leaf.splitLeaves(this.leaves, index),
+          _Leaf$splitLeaves10 = slicedToArray(_Leaf$splitLeaves9, 2),
+          before = _Leaf$splitLeaves10[0],
+          bundle = _Leaf$splitLeaves10[1];
+
+      var _Leaf$splitLeaves11 = Leaf.splitLeaves(bundle, length),
+          _Leaf$splitLeaves12 = slicedToArray(_Leaf$splitLeaves11, 2),
+          middle = _Leaf$splitLeaves12[0],
+          after = _Leaf$splitLeaves12[1];
+
+      var leaves = before.concat(middle.map(function (x) {
+        return x.removeMark(mark);
+      }), after);
+      return this.setLeaves(leaves);
     }
 
     /**
-     * Remove text from the text node at `index` for `length`.
+     * Remove text from the text node at `start` for `length`.
      *
-     * @param {Number} index
+     * @param {Number} start
      * @param {Number} length
      * @return {Text}
      */
 
   }, {
     key: 'removeText',
-    value: function removeText(index, length) {
-      var characters = this.characters;
+    value: function removeText(start, length) {
+      if (length <= 0) return this;
+      if (start >= this.text.length) return this;
 
-      var start = index;
-      var end = index + length;
-      characters = characters.filterNot(function (char, i) {
-        return start <= i && i < end;
-      });
-      return this.set('characters', characters);
+      // PERF: For simple backspace, we can operate directly on the leaf
+      if (length === 1) {
+        var _searchLeafAtOffset3 = this.searchLeafAtOffset(start),
+            leaf = _searchLeafAtOffset3.leaf,
+            index = _searchLeafAtOffset3.index,
+            startOffset = _searchLeafAtOffset3.startOffset;
+
+        var offset = start - startOffset;
+
+        if (leaf) {
+          if (leaf.text.length === 1) {
+            var _leaves2 = this.leaves.remove(index);
+            return this.setLeaves(_leaves2);
+          }
+
+          var beforeText = leaf.text.slice(0, offset);
+          var afterText = leaf.text.slice(offset + length);
+          var text = beforeText + afterText;
+
+          if (text.length > 0) {
+            return this.set('leaves', this.leaves.set(index, leaf.set('text', text)));
+          }
+        }
+      }
+
+      var _Leaf$splitLeaves13 = Leaf.splitLeaves(this.leaves, start),
+          _Leaf$splitLeaves14 = slicedToArray(_Leaf$splitLeaves13, 2),
+          before = _Leaf$splitLeaves14[0],
+          bundle = _Leaf$splitLeaves14[1];
+
+      var after = Leaf.splitLeaves(bundle, length)[1];
+      var leaves = Leaf.createLeaves(before.concat(after));
+
+      if (leaves.size === 1) {
+        var first = leaves.first();
+
+        if (first.text === '') {
+          return this.set('leaves', immutable.List.of(first.set('marks', this.getActiveMarks())));
+        }
+      }
+
+      return this.set('leaves', leaves);
     }
 
     /**
@@ -43237,20 +44865,62 @@ var Text = function (_Record) {
     value: function updateMark(index, length, mark, properties) {
       var newMark = mark.merge(properties);
 
-      var characters = this.characters.map(function (char, i) {
-        if (i < index) return char;
-        if (i >= index + length) return char;
-        var _char3 = char,
-            marks = _char3.marks;
+      if (this.text === '' && length === 0 && index === 0) {
+        var _leaves3 = this.leaves;
 
-        if (!marks.has(mark)) return char;
-        marks = marks.remove(mark);
-        marks = marks.add(newMark);
-        char = char.set('marks', marks);
-        return char;
-      });
+        var first = _leaves3.first();
+        if (!first) return this;
+        var newFirst = first.updateMark(mark, newMark);
+        if (newFirst === first) return this;
+        return this.set('leaves', immutable.List.of(newFirst));
+      }
 
-      return this.set('characters', characters);
+      if (length <= 0) return this;
+      if (index >= this.text.length) return this;
+
+      var _Leaf$splitLeaves15 = Leaf.splitLeaves(this.leaves, index),
+          _Leaf$splitLeaves16 = slicedToArray(_Leaf$splitLeaves15, 2),
+          before = _Leaf$splitLeaves16[0],
+          bundle = _Leaf$splitLeaves16[1];
+
+      var _Leaf$splitLeaves17 = Leaf.splitLeaves(bundle, length),
+          _Leaf$splitLeaves18 = slicedToArray(_Leaf$splitLeaves17, 2),
+          middle = _Leaf$splitLeaves18[0],
+          after = _Leaf$splitLeaves18[1];
+
+      var leaves = before.concat(middle.map(function (x) {
+        return x.updateMark(mark, newMark);
+      }), after);
+
+      return this.setLeaves(leaves);
+    }
+
+    /**
+     * Split this text and return two different texts
+     * @param {Number} position
+     * @returns {Array<Text>}
+     */
+
+  }, {
+    key: 'splitText',
+    value: function splitText(offset) {
+      var splitted = Leaf.splitLeaves(this.leaves, offset);
+      var one = this.set('leaves', splitted[0]);
+      var two = this.set('leaves', splitted[1]).regenerateKey();
+      return [one, two];
+    }
+
+    /**
+     * merge this text and another text at the end
+     * @param {Text} text
+     * @returns {Text}
+     */
+
+  }, {
+    key: 'mergeText',
+    value: function mergeText(text) {
+      var leaves = this.leaves.concat(text.leaves);
+      return this.setLeaves(leaves);
     }
 
     /**
@@ -43264,6 +44934,44 @@ var Text = function (_Record) {
     key: 'validate',
     value: function validate(schema) {
       return schema.validateNode(this);
+    }
+
+    /**
+     * Get the first invalid descendant
+     * PERF: Do not cache this method; because it can cause cycle reference
+     *
+     * @param {Schema} schema
+     * @returns {Text|Null}
+     */
+
+  }, {
+    key: 'getFirstInvalidDescendant',
+    value: function getFirstInvalidDescendant(schema) {
+      return this.validate(schema) ? this : null;
+    }
+
+    /**
+     * Set leaves with normalized `leaves`
+     *
+     * @param {Schema} schema
+     * @returns {Text|Null}
+     */
+
+  }, {
+    key: 'setLeaves',
+    value: function setLeaves(leaves) {
+      var result = Leaf.createLeaves(leaves);
+
+      if (result.size === 1) {
+        var first = result.first();
+        if (!first.marks || first.marks.size === 0) {
+          if (first.text === '') {
+            return this.set('leaves', immutable.List());
+          }
+        }
+      }
+
+      return this.set('leaves', Leaf.createLeaves(leaves));
     }
   }, {
     key: 'object',
@@ -43306,9 +45014,14 @@ var Text = function (_Record) {
   }, {
     key: 'text',
     get: function get$$1() {
-      return this.characters.reduce(function (string, char) {
-        return string + char.text;
-      }, '');
+      return this.getString();
+    }
+  }, {
+    key: 'characters',
+    get: function get$$1() {
+      return this.leaves.flatMap(function (x) {
+        return x.getCharacters();
+      });
     }
   }], [{
     key: 'create',
@@ -43381,18 +45094,26 @@ var Text = function (_Record) {
         return object;
       }
 
-      var _object$leaves = object.leaves,
-          leaves = _object$leaves === undefined ? [] : _object$leaves,
-          _object$key = object.key,
+      var _object$key = object.key,
           key = _object$key === undefined ? generateKey() : _object$key;
+      var _object$leaves = object.leaves,
+          leaves = _object$leaves === undefined ? immutable.List() : _object$leaves;
 
 
-      var characters = leaves.map(Leaf.fromJSON).reduce(function (l, r) {
-        return l.concat(r.getCharacters());
-      }, new immutable.List());
+      if (Array.isArray(leaves)) {
+        leaves = immutable.List(leaves.map(function (x) {
+          return Leaf.create(x);
+        }));
+      } else if (immutable.List.isList(leaves)) {
+        leaves = leaves.map(function (x) {
+          return Leaf.create(x);
+        });
+      } else {
+        throw new Error('leaves must be either Array or Immutable.List');
+      }
 
       var node = new Text({
-        characters: characters,
+        leaves: Leaf.createLeaves(leaves),
         key: key
       });
 
@@ -43403,10 +45124,6 @@ var Text = function (_Record) {
      * Alias `fromJS`.
      */
 
-  }, {
-    key: 'isText',
-
-
     /**
      * Check if `any` is a `Text`.
      *
@@ -43414,9 +45131,9 @@ var Text = function (_Record) {
      * @return {Boolean}
      */
 
-    value: function isText(any) {
-      return !!(any && any[MODEL_TYPES.TEXT]);
-    }
+  }, {
+    key: 'isTextList',
+
 
     /**
      * Check if `any` is a list of texts.
@@ -43425,8 +45142,6 @@ var Text = function (_Record) {
      * @return {Boolean}
      */
 
-  }, {
-    key: 'isTextList',
     value: function isTextList(any) {
       return immutable.List.isList(any) && any.every(function (item) {
         return Text.isText(item);
@@ -43434,53 +45149,21 @@ var Text = function (_Record) {
     }
   }]);
   return Text;
-}(immutable.Record(DEFAULTS$4));
+}(immutable.Record(DEFAULTS$7));
 
 /**
  * Attach a pseudo-symbol for type checking.
  */
 
 Text.fromJS = Text.fromJSON;
+Text.isText = isType.bind(null, 'TEXT');
 Text.prototype[MODEL_TYPES.TEXT] = true;
 
 /**
  * Memoize read methods.
  */
 
-memoize(Text.prototype, ['getMarks', 'getMarksAsArray'], {
-  takesArguments: false
-});
-
-memoize(Text.prototype, ['getDecoratedCharacters', 'getDecorations', 'getLeaves', 'getMarksAtIndex', 'validate'], {
-  takesArguments: true
-});
-
-/**
- * Check if an `index` of a `text` node is in a `range`.
- *
- * @param {Number} index
- * @param {Text} text
- * @param {Range} range
- * @return {Boolean}
- */
-
-function isIndexInRange(index, text, range) {
-  var startKey = range.startKey,
-      startOffset = range.startOffset,
-      endKey = range.endKey,
-      endOffset = range.endOffset;
-
-
-  if (text.key == startKey && text.key == endKey) {
-    return startOffset <= index && index < endOffset;
-  } else if (text.key == startKey) {
-    return startOffset <= index;
-  } else if (text.key == endKey) {
-    return index < endOffset;
-  } else {
-    return true;
-  }
-}
+memoize(Text.prototype, ['getDecorations', 'getActiveMarks', 'getMarks', 'getMarksAsArray', 'validate', 'getString']);
 
 /**
  * Node.
@@ -43817,22 +45500,9 @@ var Node = function () {
   }, {
     key: 'getCharacters',
     value: function getCharacters() {
-      var array = this.getCharactersAsArray();
-      return new immutable.List(array);
-    }
-
-    /**
-     * Get all of the characters for every text node as an array
-     *
-     * @return {Array}
-     */
-
-  }, {
-    key: 'getCharactersAsArray',
-    value: function getCharactersAsArray() {
-      return this.nodes.reduce(function (arr, node) {
-        return node.object == 'text' ? arr.concat(node.characters.toArray()) : arr.concat(node.getCharactersAsArray());
-      }, []);
+      return this.getTexts().flatMap(function (t) {
+        return t.characters;
+      });
     }
 
     /**
@@ -43845,30 +45515,28 @@ var Node = function () {
   }, {
     key: 'getCharactersAtRange',
     value: function getCharactersAtRange(range) {
-      var array = this.getCharactersAtRangeAsArray(range);
-      return new immutable.List(array);
-    }
-
-    /**
-     * Get a list of the characters in a `range` as an array.
-     *
-     * @param {Range} range
-     * @return {Array}
-     */
-
-  }, {
-    key: 'getCharactersAtRangeAsArray',
-    value: function getCharactersAtRangeAsArray(range) {
       range = range.normalize(this);
-      if (range.isUnset) return [];
+      if (range.isUnset) return immutable.List();
+      var _range2 = range,
+          startKey = _range2.startKey,
+          endKey = _range2.endKey,
+          startOffset = _range2.startOffset,
+          endOffset = _range2.endOffset;
 
-      return this.getTextsAtRange(range).reduce(function (arr, text) {
-        var chars = text.characters.filter(function (char, i) {
-          return isIndexInRange(i, text, range);
-        }).toArray();
+      if (startKey === endKey) {
+        var endText = this.getDescendant(endKey);
+        return endText.characters.slice(startOffset, endOffset);
+      }
 
-        return arr.concat(chars);
-      }, []);
+      return this.getTextsAtRange(range).flatMap(function (t) {
+        if (t.key === startKey) {
+          return t.characters.slice(startOffset);
+        }
+        if (t.key === endKey) {
+          return t.characters.slice(0, endOffset);
+        }
+        return t.characters;
+      });
     }
 
     /**
@@ -44125,11 +45793,11 @@ var Node = function () {
       var node = this;
 
       // Make sure the children exist.
-      var _range2 = range,
-          startKey = _range2.startKey,
-          startOffset = _range2.startOffset,
-          endKey = _range2.endKey,
-          endOffset = _range2.endOffset;
+      var _range3 = range,
+          startKey = _range3.startKey,
+          startOffset = _range3.startOffset,
+          endKey = _range3.endKey,
+          endOffset = _range3.endOffset;
 
       var startText = node.assertDescendant(startKey);
       var endText = node.assertDescendant(endKey);
@@ -44260,15 +45928,17 @@ var Node = function () {
         throw new Error('Could not find a descendant node with key "' + key + '".');
       }
 
-      return ancestors
+      var result = ancestors
       // Skip this node...
-      .skipLast()
+      .shift()
       // Take parents until there are more than one child...
       .reverse().takeUntil(function (p) {
         return p.nodes.size > 1;
       })
       // And pick the highest.
       .last();
+      if (!result) return null;
+      return result;
     }
 
     /**
@@ -44466,9 +46136,13 @@ var Node = function () {
   }, {
     key: 'getMarksAsArray',
     value: function getMarksAsArray() {
-      return this.nodes.reduce(function (marks, node) {
-        return marks.concat(node.getMarksAsArray());
-      }, []);
+      // PERF: use only one concat rather than multiple concat
+      // becuase one concat is faster
+      var result = [];
+      this.nodes.forEach(function (node) {
+        result.push(node.getMarksAsArray());
+      });
+      return Array.prototype.concat.apply([], result);
     }
 
     /**
@@ -44481,8 +46155,7 @@ var Node = function () {
   }, {
     key: 'getMarksAtRange',
     value: function getMarksAtRange(range) {
-      var array = this.getMarksAtRangeAsArray(range);
-      return new immutable.Set(array);
+      return new immutable.Set(this.getOrderedMarksAtRange(range));
     }
 
     /**
@@ -44495,8 +46168,19 @@ var Node = function () {
   }, {
     key: 'getInsertMarksAtRange',
     value: function getInsertMarksAtRange(range) {
-      var array = this.getInsertMarksAtRangeAsArray(range);
-      return new immutable.Set(array);
+      range = range.normalize(this);
+      if (range.isUnset) return immutable.Set();
+      if (range.isCollapsed) {
+        // PERF: range is not cachable, use key and offset as proxies for cache
+        return this.getMarksAtPosition(range.startKey, range.startOffset);
+      }
+
+      var _range4 = range,
+          startKey = _range4.startKey,
+          startOffset = _range4.startOffset;
+
+      var text = this.getDescendant(startKey);
+      return text.getMarksAtIndex(startOffset + 1);
     }
 
     /**
@@ -44509,8 +46193,54 @@ var Node = function () {
   }, {
     key: 'getOrderedMarksAtRange',
     value: function getOrderedMarksAtRange(range) {
-      var array = this.getMarksAtRangeAsArray(range);
-      return new immutable.OrderedSet(array);
+      range = range.normalize(this);
+      if (range.isUnset) return immutable.OrderedSet();
+      if (range.isCollapsed) {
+        // PERF: range is not cachable, use key and offset as proxies for cache
+        return this.getMarksAtPosition(range.startKey, range.startOffset);
+      }
+
+      var _range5 = range,
+          startKey = _range5.startKey,
+          startOffset = _range5.startOffset,
+          endKey = _range5.endKey,
+          endOffset = _range5.endOffset;
+
+      return this.getOrderedMarksBetweenPositions(startKey, startOffset, endKey, endOffset);
+    }
+
+    /**
+     * Get a set of the marks in a `range`.
+     * PERF: arguments use key and offset for utilizing cache
+     *
+     * @param {string} startKey
+     * @param {number} startOffset
+     * @param {string} endKey
+     * @param {number} endOffset
+     * @returns {OrderedSet<Mark>}
+     */
+
+  }, {
+    key: 'getOrderedMarksBetweenPositions',
+    value: function getOrderedMarksBetweenPositions(startKey, startOffset, endKey, endOffset) {
+      if (startKey === endKey) {
+        var startText = this.getDescendant(startKey);
+        return startText.getMarksBetweenOffsets(startOffset, endOffset);
+      }
+
+      var texts = this.getTextsBetweenPositionsAsArray(startKey, endKey);
+
+      return immutable.OrderedSet().withMutations(function (result) {
+        texts.forEach(function (text) {
+          if (text.key === startKey) {
+            result.union(text.getMarksBetweenOffsets(startOffset, text.text.length));
+          } else if (text.key === endKey) {
+            result.union(text.getMarksBetweenOffsets(0, endOffset));
+          } else {
+            result.union(text.getMarks());
+          }
+        });
+      });
     }
 
     /**
@@ -44523,118 +46253,90 @@ var Node = function () {
   }, {
     key: 'getActiveMarksAtRange',
     value: function getActiveMarksAtRange(range) {
-      var array = this.getActiveMarksAtRangeAsArray(range);
-      return new immutable.Set(array);
-    }
-
-    /**
-     * Get a set of the marks in a `range`, by unioning.
-     *
-     * @param {Range} range
-     * @return {Array}
-     */
-
-  }, {
-    key: 'getMarksAtRangeAsArray',
-    value: function getMarksAtRangeAsArray(range) {
       range = range.normalize(this);
-      if (range.isUnset) return [];
-      if (range.isCollapsed) return this.getMarksAtCollapsedRangeAsArray(range);
+      if (range.isUnset) return immutable.Set();
+      if (range.isCollapsed) {
+        var _range6 = range,
+            _startKey = _range6.startKey,
+            _startOffset = _range6.startOffset;
 
-      return this.getCharactersAtRange(range).reduce(function (memo, char) {
-        if (char) {
-          char.marks.toArray().forEach(function (c) {
-            return memo.push(c);
-          });
-        }
-        return memo;
-      }, []);
-    }
-
-    /**
-     * Get a set of the marks in a `range` for insertion behavior.
-     *
-     * @param {Range} range
-     * @return {Array}
-     */
-
-  }, {
-    key: 'getInsertMarksAtRangeAsArray',
-    value: function getInsertMarksAtRangeAsArray(range) {
-      range = range.normalize(this);
-      if (range.isUnset) return [];
-      if (range.isCollapsed) return this.getMarksAtCollapsedRangeAsArray(range);
-
-      var text = this.getDescendant(range.startKey);
-      var char = text.characters.get(range.startOffset);
-      if (!char) return [];
-
-      return char.marks.toArray();
-    }
-
-    /**
-     * Get a set of marks in a `range`, by treating it as collapsed.
-     *
-     * @param {Range} range
-     * @return {Array}
-     */
-
-  }, {
-    key: 'getMarksAtCollapsedRangeAsArray',
-    value: function getMarksAtCollapsedRangeAsArray(range) {
-      if (range.isUnset) return [];
-
-      var startKey = range.startKey,
-          startOffset = range.startOffset;
-
-
-      if (startOffset == 0) {
-        var previous = this.getPreviousText(startKey);
-        if (!previous || previous.text.length == 0) return [];
-        if (this.getClosestBlock(startKey) !== this.getClosestBlock(previous.key)) {
-          return [];
-        }
-        var _char = previous.characters.get(previous.text.length - 1);
-        if (!_char) return [];
-
-        return _char.marks.toArray();
+        return this.getMarksAtPosition(_startKey, _startOffset).toSet();
       }
 
-      var text = this.getDescendant(startKey);
-      var char = text.characters.get(startOffset - 1);
-      if (!char) return [];
+      var _range7 = range,
+          startKey = _range7.startKey,
+          endKey = _range7.endKey,
+          startOffset = _range7.startOffset,
+          endOffset = _range7.endOffset;
 
-      return char.marks.toArray();
+      var startText = this.getDescendant(startKey);
+
+      if (startKey !== endKey) {
+        while (startKey !== endKey && endOffset === 0) {
+          var _endText = this.getPreviousText(endKey);
+          endKey = _endText.key;
+          endOffset = _endText.text.length;
+        }
+
+        while (startKey !== endKey && startOffset === startText.text.length) {
+          startText = this.getNextText(startKey);
+          startKey = startText.key;
+          startOffset = 0;
+        }
+      }
+
+      if (startKey === endKey) {
+        return startText.getActiveMarksBetweenOffsets(startOffset, endOffset);
+      }
+
+      var startMarks = startText.getActiveMarksBetweenOffsets(startOffset, startText.text.length);
+      if (startMarks.size === 0) return immutable.Set();
+      var endText = this.getDescendant(endKey);
+      var endMarks = endText.getActiveMarksBetweenOffsets(0, endOffset);
+      var marks = startMarks.intersect(endMarks);
+      // If marks is already empty, the active marks is empty
+      if (marks.size === 0) return marks;
+
+      var text = this.getNextText(startKey);
+      while (text.key !== endKey) {
+        if (text.text.length !== 0) {
+          marks = marks.intersect(text.getActiveMarks());
+          if (marks.size === 0) return immutable.Set();
+        }
+        text = this.getNextText(text.key);
+      }
+      return marks;
     }
 
     /**
-     * Get a set of marks in a `range`, by intersecting.
+     * Get a set of marks in a `position`, the equivalent of a collapsed range
      *
-     * @param {Range} range
-     * @return {Array}
+     * @param {string} key
+     * @param {number} offset
+     * @return {Set}
      */
 
   }, {
-    key: 'getActiveMarksAtRangeAsArray',
-    value: function getActiveMarksAtRangeAsArray(range) {
-      range = range.normalize(this);
-      if (range.isUnset) return [];
-      if (range.isCollapsed) return this.getMarksAtCollapsedRangeAsArray(range);
+    key: 'getMarksAtPosition',
+    value: function getMarksAtPosition(key, offset) {
+      var text = this.getDescendant(key);
+      var currentMarks = text.getMarksAtIndex(offset);
+      if (offset !== 0) return currentMarks;
+      var closestBlock = this.getClosestBlock(key);
 
-      // Otherwise, get a set of the marks for each character in the range.
-      var chars = this.getCharactersAtRange(range);
-      var first = chars.first();
-      if (!first) return [];
+      if (closestBlock.text === '') {
+        // insert mark for empty block; the empty block are often created by split node or add marks in a range including empty blocks
+        return currentMarks;
+      }
 
-      var memo = first.marks;
+      var previous = this.getPreviousText(key);
+      if (!previous) return immutable.Set();
 
-      chars.slice(1).forEach(function (char) {
-        var marks = char ? char.marks : [];
-        memo = memo.intersect(marks);
-        return memo.size != 0;
-      });
+      if (closestBlock.hasDescendant(previous.key)) {
+        return previous.getMarksAtIndex(previous.text.length);
+      }
 
-      return memo.toArray();
+      return currentMarks;
     }
 
     /**
@@ -44818,9 +46520,9 @@ var Node = function () {
         throw new Error('The range must be collapsed to calculcate its offset.');
       }
 
-      var _range3 = range,
-          startKey = _range3.startKey,
-          startOffset = _range3.startOffset;
+      var _range8 = range,
+          startKey = _range8.startKey,
+          startOffset = _range8.startOffset;
 
       return this.getOffset(startKey) + startOffset;
     }
@@ -45144,8 +46846,38 @@ var Node = function () {
   }, {
     key: 'getTextsAtRange',
     value: function getTextsAtRange(range) {
-      var array = this.getTextsAtRangeAsArray(range);
-      return new immutable.List(array);
+      range = range.normalize(this);
+      if (range.isUnset) return immutable.List();
+      var _range9 = range,
+          startKey = _range9.startKey,
+          endKey = _range9.endKey;
+
+      return new immutable.List(this.getTextsBetweenPositionsAsArray(startKey, endKey));
+    }
+
+    /**
+     * Get all of the text nodes in a `range` as an array.
+     * PERF: use key in arguments for cache
+     *
+     * @param {string} startKey
+     * @param {string} endKey
+     * @returns {Array}
+     */
+
+  }, {
+    key: 'getTextsBetweenPositionsAsArray',
+    value: function getTextsBetweenPositionsAsArray(startKey, endKey) {
+      var startText = this.getDescendant(startKey);
+
+      // PERF: the most common case is when the range is in a single text node,
+      // where we can avoid a lot of iterating of the tree.
+      if (startKey == endKey) return [startText];
+
+      var endText = this.getDescendant(endKey);
+      var texts = this.getTextsAsArray();
+      var start = texts.indexOf(startText);
+      var end = texts.indexOf(endText, start);
+      return texts.slice(start, end + 1);
     }
 
     /**
@@ -45160,22 +46892,11 @@ var Node = function () {
     value: function getTextsAtRangeAsArray(range) {
       range = range.normalize(this);
       if (range.isUnset) return [];
+      var _range10 = range,
+          startKey = _range10.startKey,
+          endKey = _range10.endKey;
 
-      var _range4 = range,
-          startKey = _range4.startKey,
-          endKey = _range4.endKey;
-
-      var startText = this.getDescendant(startKey);
-
-      // PERF: the most common case is when the range is in a single text node,
-      // where we can avoid a lot of iterating of the tree.
-      if (startKey == endKey) return [startText];
-
-      var endText = this.getDescendant(endKey);
-      var texts = this.getTextsAsArray();
-      var start = texts.indexOf(startText);
-      var end = texts.indexOf(endText);
-      return texts.slice(start, end + 1);
+      return this.getTextsBetweenPositionsAsArray(startKey, endKey);
     }
 
     /**
@@ -45189,6 +46910,38 @@ var Node = function () {
     key: 'hasChild',
     value: function hasChild(key) {
       return !!this.getChild(key);
+    }
+
+    /**
+     * Check if a node has block node children.
+     *
+     * @param {String} key
+     * @return {Boolean}
+     */
+
+  }, {
+    key: 'hasBlocks',
+    value: function hasBlocks(key) {
+      var node = this.assertNode(key);
+      return !!(node.nodes && node.nodes.find(function (n) {
+        return n.object === 'block';
+      }));
+    }
+
+    /**
+     * Check if a node has inline node children.
+     *
+     * @param {String} key
+     * @return {Boolean}
+     */
+
+  }, {
+    key: 'hasInlines',
+    value: function hasInlines(key) {
+      var node = this.assertNode(key);
+      return !!(node.nodes && node.nodes.find(function (n) {
+        return Inline.isInline(n) || Text.isText(n);
+      }));
     }
 
     /**
@@ -45270,10 +47023,10 @@ var Node = function () {
       range = range.normalize(this);
 
       var node = this;
-      var _range5 = range,
-          startKey = _range5.startKey,
-          endKey = _range5.endKey,
-          isCollapsed = _range5.isCollapsed;
+      var _range11 = range,
+          startKey = _range11.startKey,
+          endKey = _range11.endKey,
+          isCollapsed = _range11.isCollapsed;
 
       // PERF: solve the most common cast where the start or end key are inside
       // the node, for collapsed selections.
@@ -45350,10 +47103,9 @@ var Node = function () {
         throw new Error('Tried to merge two nodes of different objects: "' + one.object + '" and "' + two.object + '".');
       }
 
-      // If the nodes are text nodes, concatenate their characters together.
+      // If the nodes are text nodes, concatenate their leaves together
       if (one.object == 'text') {
-        var characters = one.characters.concat(two.characters);
-        one = one.set('characters', characters);
+        one = one.mergeText(two);
       } else {
         // Otherwise, concatenate their child nodes together.
         var nodes = one.nodes.concat(two.nodes);
@@ -45406,13 +47158,12 @@ var Node = function () {
       var nodes = this.nodes;
 
 
-      nodes.forEach(function (node, i) {
+      nodes.forEach(function (node, index) {
         var ret = node;
         if (ret.object != 'text') ret = ret.mapDescendants(iterator);
-        ret = iterator(ret, i, _this3.nodes);
+        ret = iterator(ret, index, _this3.nodes);
         if (ret == node) return;
 
-        var index = nodes.indexOf(node);
         nodes = nodes.set(index, ret);
       });
 
@@ -45451,7 +47202,7 @@ var Node = function () {
       var index = parent.nodes.findIndex(function (n) {
         return n.key === key;
       });
-      var nodes = parent.nodes.splice(index, 1);
+      var nodes = parent.nodes.delete(index);
 
       parent = parent.set('nodes', nodes);
       node = node.updateNode(parent);
@@ -45468,7 +47219,7 @@ var Node = function () {
   }, {
     key: 'removeNode',
     value: function removeNode(index) {
-      var nodes = this.nodes.splice(index, 1);
+      var nodes = this.nodes.delete(index);
       return this.set('nodes', nodes);
     }
 
@@ -45491,17 +47242,20 @@ var Node = function () {
       // If the child is a text node, the `position` refers to the text offset at
       // which to split it.
       if (child.object == 'text') {
-        var befores = child.characters.take(position);
-        var afters = child.characters.skip(position);
-        one = child.set('characters', befores);
-        two = child.set('characters', afters).regenerateKey();
+        
+        var _child$splitText = child.splitText(position);
+
+        var _child$splitText2 = slicedToArray(_child$splitText, 2);
+
+        one = _child$splitText2[0];
+        two = _child$splitText2[1];
       } else {
         // Otherwise, if the child is not a text node, the `position` refers to the
         // index at which to split its children.
-        var _befores = child.nodes.take(position);
-        var _afters = child.nodes.skip(position);
-        one = child.set('nodes', _befores);
-        two = child.set('nodes', _afters).regenerateKey();
+        var befores = child.nodes.take(position);
+        var afters = child.nodes.skip(position);
+        one = child.set('nodes', befores);
+        two = child.set('nodes', afters).regenerateKey();
       }
 
       // Remove the old node and insert the newly split children.
@@ -45553,6 +47307,24 @@ var Node = function () {
     key: 'validate',
     value: function validate(schema) {
       return schema.validateNode(this);
+    }
+
+    /**
+     * Get the first invalid descendant
+     *
+     * @param {Schema} schema
+     * @return {Node|Text|Null}
+     */
+
+  }, {
+    key: 'getFirstInvalidDescendant',
+    value: function getFirstInvalidDescendant(schema) {
+      var result = null;
+      this.nodes.find(function (n) {
+        result = n.validate(schema) ? n : n.getFirstInvalidDescendant(schema);
+        return result;
+      });
+      return result;
     }
   }], [{
     key: 'create',
@@ -45612,7 +47384,7 @@ var Node = function () {
       var elements = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       if (immutable.List.isList(elements) || Array.isArray(elements)) {
-        var list = new immutable.List(elements.map(Node.create));
+        var list = immutable.List(elements.map(Node.create));
         return list;
       }
 
@@ -45704,7 +47476,9 @@ var Node = function () {
      */
 
     value: function isNode(any) {
-      return Block.isBlock(any) || Document.isDocument(any) || Inline.isInline(any) || Text.isText(any);
+      return !!['BLOCK', 'DOCUMENT', 'INLINE', 'TEXT'].find(function (type) {
+        return isType(type, any);
+      });
     }
 
     /**
@@ -45742,736 +47516,7 @@ function assertKey(arg) {
  * Memoize read methods.
  */
 
-memoize(Node.prototype, ['getBlocksAsArray', 'getCharactersAsArray', 'getFirstText', 'getInlinesAsArray', 'getKeysAsArray', 'getLastText', 'getMarksAsArray', 'getText', 'getTextDirection', 'getTextsAsArray', 'isLeafBlock', 'isLeafInline'], {
-  takesArguments: false
-});
-
-memoize(Node.prototype, ['areDescendantsSorted', 'getActiveMarksAtRangeAsArray', 'getAncestors', 'getBlocksAtRangeAsArray', 'getBlocksByTypeAsArray', 'getCharactersAtRangeAsArray', 'getChild', 'getClosestBlock', 'getClosestInline', 'getClosestVoid', 'getCommonAncestor', 'getDecorations', 'getDepth', 'getDescendant', 'getDescendantAtPath', 'getFragmentAtRange', 'getFurthestBlock', 'getFurthestInline', 'getFurthestAncestor', 'getFurthestOnlyChildAncestor', 'getInlinesAtRangeAsArray', 'getInlinesByTypeAsArray', 'getMarksAtRangeAsArray', 'getInsertMarksAtRangeAsArray', 'getMarksByTypeAsArray', 'getNextBlock', 'getNextSibling', 'getNextText', 'getNode', 'getNodeAtPath', 'getOffset', 'getOffsetAtRange', 'getParent', 'getPath', 'getPlaceholder', 'getPreviousBlock', 'getPreviousSibling', 'getPreviousText', 'getTextAtOffset', 'getTextsAtRangeAsArray', 'validate'], {
-  takesArguments: true
-});
-
-/**
- * Prevent circular dependencies.
- */
-
-/**
- * Dependencies.
- */
-
-/**
- * Default properties.
- *
- * @type {Object}
- */
-
-var DEFAULTS$5 = {
-  data: new immutable.Map(),
-  isVoid: false,
-  key: undefined,
-  nodes: new immutable.List(),
-  type: undefined
-
-  /**
-   * Inline.
-   *
-   * @type {Inline}
-   */
-
-};
-var Inline = function (_Record) {
-  inherits(Inline, _Record);
-
-  function Inline() {
-    classCallCheck(this, Inline);
-    return possibleConstructorReturn(this, (Inline.__proto__ || Object.getPrototypeOf(Inline)).apply(this, arguments));
-  }
-
-  createClass(Inline, [{
-    key: 'toJSON',
-
-
-    /**
-     * Return a JSON representation of the inline.
-     *
-     * @param {Object} options
-     * @return {Object}
-     */
-
-    value: function toJSON() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      var object = {
-        object: this.object,
-        type: this.type,
-        isVoid: this.isVoid,
-        data: this.data.toJSON(),
-        nodes: this.nodes.toArray().map(function (n) {
-          return n.toJSON(options);
-        })
-      };
-
-      if (options.preserveKeys) {
-        object.key = this.key;
-      }
-
-      return object;
-    }
-
-    /**
-     * Alias `toJS`.
-     */
-
-  }, {
-    key: 'toJS',
-    value: function toJS(options) {
-      return this.toJSON(options);
-    }
-  }, {
-    key: 'object',
-
-
-    /**
-     * Object.
-     *
-     * @return {String}
-     */
-
-    get: function get$$1() {
-      return 'inline';
-    }
-  }, {
-    key: 'kind',
-    get: function get$$1() {
-      logger.deprecate('slate@0.32.0', 'The `kind` property of Slate objects has been renamed to `object`.');
-      return this.object;
-    }
-
-    /**
-     * Check if the inline is empty.
-     *
-     * @return {Boolean}
-     */
-
-  }, {
-    key: 'isEmpty',
-    get: function get$$1() {
-      return this.text == '';
-    }
-
-    /**
-     * Get the concatenated text of all the inline's children.
-     *
-     * @return {String}
-     */
-
-  }, {
-    key: 'text',
-    get: function get$$1() {
-      return this.getText();
-    }
-  }], [{
-    key: 'create',
-
-    /**
-     * Create a new `Inline` with `attrs`.
-     *
-     * @param {Object|String|Inline} attrs
-     * @return {Inline}
-     */
-
-    value: function create() {
-      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      if (Inline.isInline(attrs)) {
-        return attrs;
-      }
-
-      if (typeof attrs == 'string') {
-        attrs = { type: attrs };
-      }
-
-      if (isPlainObject(attrs)) {
-        return Inline.fromJSON(attrs);
-      }
-
-      throw new Error('`Inline.create` only accepts objects, strings or inlines, but you passed it: ' + attrs);
-    }
-
-    /**
-     * Create a list of `Inlines` from an array.
-     *
-     * @param {Array<Inline|Object>|List<Inline|Object>} elements
-     * @return {List<Inline>}
-     */
-
-  }, {
-    key: 'createList',
-    value: function createList() {
-      var elements = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      if (immutable.List.isList(elements) || Array.isArray(elements)) {
-        var list = new immutable.List(elements.map(Inline.create));
-        return list;
-      }
-
-      throw new Error('`Inline.createList` only accepts arrays or lists, but you passed it: ' + elements);
-    }
-
-    /**
-     * Create a `Inline` from a JSON `object`.
-     *
-     * @param {Object|Inline} object
-     * @return {Inline}
-     */
-
-  }, {
-    key: 'fromJSON',
-    value: function fromJSON(object) {
-      if (Inline.isInline(object)) {
-        return object;
-      }
-
-      var _object$data = object.data,
-          data = _object$data === undefined ? {} : _object$data,
-          _object$isVoid = object.isVoid,
-          isVoid = _object$isVoid === undefined ? false : _object$isVoid,
-          _object$key = object.key,
-          key = _object$key === undefined ? generateKey() : _object$key,
-          _object$nodes = object.nodes,
-          nodes = _object$nodes === undefined ? [] : _object$nodes,
-          type = object.type;
-
-
-      if (typeof type != 'string') {
-        throw new Error('`Inline.fromJS` requires a `type` string.');
-      }
-
-      var inline = new Inline({
-        key: key,
-        type: type,
-        isVoid: !!isVoid,
-        data: new immutable.Map(data),
-        nodes: new immutable.List(nodes.map(Node.fromJSON))
-      });
-
-      return inline;
-    }
-
-    /**
-     * Alias `fromJS`.
-     */
-
-  }, {
-    key: 'isInline',
-
-
-    /**
-     * Check if `any` is a `Inline`.
-     *
-     * @param {Any} any
-     * @return {Boolean}
-     */
-
-    value: function isInline(any) {
-      return !!(any && any[MODEL_TYPES.INLINE]);
-    }
-
-    /**
-     * Check if `any` is a list of inlines.
-     *
-     * @param {Any} any
-     * @return {Boolean}
-     */
-
-  }, {
-    key: 'isInlineList',
-    value: function isInlineList(any) {
-      return immutable.List.isList(any) && any.every(function (item) {
-        return Inline.isInline(item);
-      });
-    }
-  }]);
-  return Inline;
-}(immutable.Record(DEFAULTS$5));
-
-/**
- * Attach a pseudo-symbol for type checking.
- */
-
-Inline.fromJS = Inline.fromJSON;
-Inline.prototype[MODEL_TYPES.INLINE] = true;
-
-/**
- * Mix in `Node` methods.
- */
-
-Object.getOwnPropertyNames(Node.prototype).forEach(function (method) {
-  if (method == 'constructor') return;
-  Inline.prototype[method] = Node.prototype[method];
-});
-
-/**
- * Prevent circular dependencies.
- */
-
-/**
- * Dependencies.
- */
-
-/**
- * Default properties.
- *
- * @type {Object}
- */
-
-var DEFAULTS$6 = {
-  data: new immutable.Map(),
-  key: undefined,
-  nodes: new immutable.List()
-
-  /**
-   * Document.
-   *
-   * @type {Document}
-   */
-
-};
-var Document = function (_Record) {
-  inherits(Document, _Record);
-
-  function Document() {
-    classCallCheck(this, Document);
-    return possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).apply(this, arguments));
-  }
-
-  createClass(Document, [{
-    key: 'toJSON',
-
-
-    /**
-     * Return a JSON representation of the document.
-     *
-     * @param {Object} options
-     * @return {Object}
-     */
-
-    value: function toJSON() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      var object = {
-        object: this.object,
-        data: this.data.toJSON(),
-        nodes: this.nodes.toArray().map(function (n) {
-          return n.toJSON(options);
-        })
-      };
-
-      if (options.preserveKeys) {
-        object.key = this.key;
-      }
-
-      return object;
-    }
-
-    /**
-     * Alias `toJS`.
-     */
-
-  }, {
-    key: 'toJS',
-    value: function toJS(options) {
-      return this.toJSON(options);
-    }
-  }, {
-    key: 'object',
-
-
-    /**
-     * Object.
-     *
-     * @return {String}
-     */
-
-    get: function get$$1() {
-      return 'document';
-    }
-  }, {
-    key: 'kind',
-    get: function get$$1() {
-      logger.deprecate('slate@0.32.0', 'The `kind` property of Slate objects has been renamed to `object`.');
-      return this.object;
-    }
-
-    /**
-     * Check if the document is empty.
-     *
-     * @return {Boolean}
-     */
-
-  }, {
-    key: 'isEmpty',
-    get: function get$$1() {
-      return this.text == '';
-    }
-
-    /**
-     * Get the concatenated text of all the document's children.
-     *
-     * @return {String}
-     */
-
-  }, {
-    key: 'text',
-    get: function get$$1() {
-      return this.getText();
-    }
-  }], [{
-    key: 'create',
-
-    /**
-     * Create a new `Document` with `attrs`.
-     *
-     * @param {Object|Array|List|Text} attrs
-     * @return {Document}
-     */
-
-    value: function create() {
-      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      if (Document.isDocument(attrs)) {
-        return attrs;
-      }
-
-      if (immutable.List.isList(attrs) || Array.isArray(attrs)) {
-        attrs = { nodes: attrs };
-      }
-
-      if (isPlainObject(attrs)) {
-        return Document.fromJSON(attrs);
-      }
-
-      throw new Error('`Document.create` only accepts objects, arrays, lists or documents, but you passed it: ' + attrs);
-    }
-
-    /**
-     * Create a `Document` from a JSON `object`.
-     *
-     * @param {Object|Document} object
-     * @return {Document}
-     */
-
-  }, {
-    key: 'fromJSON',
-    value: function fromJSON(object) {
-      if (Document.isDocument(object)) {
-        return object;
-      }
-
-      var _object$data = object.data,
-          data = _object$data === undefined ? {} : _object$data,
-          _object$key = object.key,
-          key = _object$key === undefined ? generateKey() : _object$key,
-          _object$nodes = object.nodes,
-          nodes = _object$nodes === undefined ? [] : _object$nodes;
-
-
-      var document = new Document({
-        key: key,
-        data: new immutable.Map(data),
-        nodes: new immutable.List(nodes.map(Node.fromJSON))
-      });
-
-      return document;
-    }
-
-    /**
-     * Alias `fromJS`.
-     */
-
-  }, {
-    key: 'isDocument',
-
-
-    /**
-     * Check if `any` is a `Document`.
-     *
-     * @param {Any} any
-     * @return {Boolean}
-     */
-
-    value: function isDocument(any) {
-      return !!(any && any[MODEL_TYPES.DOCUMENT]);
-    }
-  }]);
-  return Document;
-}(immutable.Record(DEFAULTS$6));
-
-/**
- * Attach a pseudo-symbol for type checking.
- */
-
-Document.fromJS = Document.fromJSON;
-Document.prototype[MODEL_TYPES.DOCUMENT] = true;
-
-/**
- * Mix in `Node` methods.
- */
-
-Object.getOwnPropertyNames(Node.prototype).forEach(function (method) {
-  if (method == 'constructor') return;
-  Document.prototype[method] = Node.prototype[method];
-});
-
-/**
- * Prevent circular dependencies.
- */
-
-/**
- * Dependencies.
- */
-
-/**
- * Default properties.
- *
- * @type {Object}
- */
-
-var DEFAULTS$7 = {
-  data: new immutable.Map(),
-  isVoid: false,
-  key: undefined,
-  nodes: new immutable.List(),
-  type: undefined
-
-  /**
-   * Block.
-   *
-   * @type {Block}
-   */
-
-};
-var Block = function (_Record) {
-  inherits(Block, _Record);
-
-  function Block() {
-    classCallCheck(this, Block);
-    return possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).apply(this, arguments));
-  }
-
-  createClass(Block, [{
-    key: 'toJSON',
-
-
-    /**
-     * Return a JSON representation of the block.
-     *
-     * @param {Object} options
-     * @return {Object}
-     */
-
-    value: function toJSON() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      var object = {
-        object: this.object,
-        type: this.type,
-        isVoid: this.isVoid,
-        data: this.data.toJSON(),
-        nodes: this.nodes.toArray().map(function (n) {
-          return n.toJSON(options);
-        })
-      };
-
-      if (options.preserveKeys) {
-        object.key = this.key;
-      }
-
-      return object;
-    }
-
-    /**
-     * Alias `toJS`.
-     */
-
-  }, {
-    key: 'toJS',
-    value: function toJS(options) {
-      return this.toJSON(options);
-    }
-  }, {
-    key: 'object',
-
-
-    /**
-     * Object.
-     *
-     * @return {String}
-     */
-
-    get: function get$$1() {
-      return 'block';
-    }
-  }, {
-    key: 'kind',
-    get: function get$$1() {
-      logger.deprecate('slate@0.32.0', 'The `kind` property of Slate objects has been renamed to `object`.');
-      return this.object;
-    }
-
-    /**
-     * Check if the block is empty.
-     *
-     * @return {Boolean}
-     */
-
-  }, {
-    key: 'isEmpty',
-    get: function get$$1() {
-      return this.text == '';
-    }
-
-    /**
-     * Get the concatenated text of all the block's children.
-     *
-     * @return {String}
-     */
-
-  }, {
-    key: 'text',
-    get: function get$$1() {
-      return this.getText();
-    }
-  }], [{
-    key: 'create',
-
-    /**
-     * Create a new `Block` from `attrs`.
-     *
-     * @param {Object|String|Block} attrs
-     * @return {Block}
-     */
-
-    value: function create() {
-      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      if (Block.isBlock(attrs)) {
-        return attrs;
-      }
-
-      if (typeof attrs == 'string') {
-        attrs = { type: attrs };
-      }
-
-      if (isPlainObject(attrs)) {
-        return Block.fromJSON(attrs);
-      }
-
-      throw new Error('`Block.create` only accepts objects, strings or blocks, but you passed it: ' + attrs);
-    }
-
-    /**
-     * Create a list of `Blocks` from `attrs`.
-     *
-     * @param {Array<Block|Object>|List<Block|Object>} attrs
-     * @return {List<Block>}
-     */
-
-  }, {
-    key: 'createList',
-    value: function createList() {
-      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      if (immutable.List.isList(attrs) || Array.isArray(attrs)) {
-        var list = new immutable.List(attrs.map(Block.create));
-        return list;
-      }
-
-      throw new Error('`Block.createList` only accepts arrays or lists, but you passed it: ' + attrs);
-    }
-
-    /**
-     * Create a `Block` from a JSON `object`.
-     *
-     * @param {Object|Block} object
-     * @return {Block}
-     */
-
-  }, {
-    key: 'fromJSON',
-    value: function fromJSON(object) {
-      if (Block.isBlock(object)) {
-        return object;
-      }
-
-      var _object$data = object.data,
-          data = _object$data === undefined ? {} : _object$data,
-          _object$isVoid = object.isVoid,
-          isVoid = _object$isVoid === undefined ? false : _object$isVoid,
-          _object$key = object.key,
-          key = _object$key === undefined ? generateKey() : _object$key,
-          _object$nodes = object.nodes,
-          nodes = _object$nodes === undefined ? [] : _object$nodes,
-          type = object.type;
-
-
-      if (typeof type != 'string') {
-        throw new Error('`Block.fromJSON` requires a `type` string.');
-      }
-
-      var block = new Block({
-        key: key,
-        type: type,
-        isVoid: !!isVoid,
-        data: new immutable.Map(data),
-        nodes: new immutable.List(nodes.map(Node.fromJSON))
-      });
-
-      return block;
-    }
-
-    /**
-     * Alias `fromJS`.
-     */
-
-  }, {
-    key: 'isBlock',
-
-
-    /**
-     * Check if `any` is a `Block`.
-     *
-     * @param {Any} any
-     * @return {Boolean}
-     */
-
-    value: function isBlock(any) {
-      return !!(any && any[MODEL_TYPES.BLOCK]);
-    }
-
-    /**
-     * Check if `any` is a block list.
-     *
-     * @param {Any} any
-     * @return {Boolean}
-     */
-
-  }, {
-    key: 'isBlockList',
-    value: function isBlockList(any) {
-      return immutable.List.isList(any) && any.every(function (item) {
-        return Block.isBlock(item);
-      });
-    }
-  }]);
-  return Block;
-}(immutable.Record(DEFAULTS$7));
-
-/**
- * Attach a pseudo-symbol for type checking.
- */
-
-Block.fromJS = Block.fromJSON;
-Block.prototype[MODEL_TYPES.BLOCK] = true;
+memoize(Node.prototype, ['areDescendantsSorted', 'getAncestors', 'getBlocksAsArray', 'getBlocksAtRangeAsArray', 'getBlocksByTypeAsArray', 'getChild', 'getClosestBlock', 'getClosestInline', 'getClosestVoid', 'getCommonAncestor', 'getDecorations', 'getDepth', 'getDescendant', 'getDescendantAtPath', 'getFirstText', 'getFragmentAtRange', 'getFurthestBlock', 'getFurthestInline', 'getFurthestAncestor', 'getFurthestOnlyChildAncestor', 'getInlinesAsArray', 'getInlinesAtRangeAsArray', 'getInlinesByTypeAsArray', 'getMarksAsArray', 'getMarksAtPosition', 'getOrderedMarksBetweenPositions', 'getInsertMarksAtRange', 'getKeysAsArray', 'getLastText', 'getMarksByTypeAsArray', 'getNextBlock', 'getNextSibling', 'getNextText', 'getNode', 'getNodeAtPath', 'getOffset', 'getOffsetAtRange', 'getParent', 'getPath', 'getPlaceholder', 'getPreviousBlock', 'getPreviousSibling', 'getPreviousText', 'getText', 'getTextAtOffset', 'getTextDirection', 'getTextsAsArray', 'getTextsBetweenPositionsAsArray', 'isLeafBlock', 'isLeafInline', 'validate', 'getFirstInvalidDescendant']);
 
 /**
  * Mix in `Node` methods.
@@ -46480,303 +47525,13 @@ Block.prototype[MODEL_TYPES.BLOCK] = true;
 Object.getOwnPropertyNames(Node.prototype).forEach(function (method) {
   if (method == 'constructor') return;
   Block.prototype[method] = Node.prototype[method];
+  Inline.prototype[method] = Node.prototype[method];
+  Document.prototype[method] = Node.prototype[method];
 });
 
-/**
- * Changes.
- *
- * @type {Object}
- */
-
-var Changes = {};
-
-/**
- * Mix in the changes that pass through to their at-range equivalents because
- * they don't have any effect on the selection.
- */
-
-var PROXY_TRANSFORMS = ['deleteBackward', 'deleteCharBackward', 'deleteLineBackward', 'deleteWordBackward', 'deleteForward', 'deleteCharForward', 'deleteWordForward', 'deleteLineForward', 'setBlocks', 'setInlines', 'splitInline', 'unwrapBlock', 'unwrapInline', 'wrapBlock', 'wrapInline'];
-
-PROXY_TRANSFORMS.forEach(function (method) {
-  Changes[method] = function (change) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    var value = change.value;
-    var selection = value.selection;
-
-    var methodAtRange = method + 'AtRange';
-    change[methodAtRange].apply(change, [selection].concat(args));
-  };
-});
-
-Changes.setBlock = function () {
-  logger.deprecate('slate@0.33.0', 'The `setBlock` method of Slate changes has been renamed to `setBlocks`.');
-  Changes.setBlocks.apply(Changes, arguments);
-};
-
-Changes.setInline = function () {
-  logger.deprecate('slate@0.33.0', 'The `setInline` method of Slate changes has been renamed to `setInlines`.');
-  Changes.setInlines.apply(Changes, arguments);
-};
-
-/**
- * Add a `mark` to the characters in the current selection.
- *
- * @param {Change} change
- * @param {Mark} mark
- */
-
-Changes.addMark = function (change, mark) {
-  mark = Mark.create(mark);
-  var value = change.value;
-  var document = value.document,
-      selection = value.selection;
-
-
-  if (selection.isExpanded) {
-    change.addMarkAtRange(selection, mark);
-  } else if (selection.marks) {
-    var marks = selection.marks.add(mark);
-    var sel = selection.set('marks', marks);
-    change.select(sel);
-  } else {
-    var _marks = document.getActiveMarksAtRange(selection).add(mark);
-    var _sel = selection.set('marks', _marks);
-    change.select(_sel);
-  }
-};
-
-/**
- * Add a list of `marks` to the characters in the current selection.
- *
- * @param {Change} change
- * @param {Mark} mark
- */
-
-Changes.addMarks = function (change, marks) {
-  marks.forEach(function (mark) {
-    return change.addMark(mark);
-  });
-};
-
-/**
- * Delete at the current selection.
- *
- * @param {Change} change
- */
-
-Changes.delete = function (change) {
-  var value = change.value;
-  var selection = value.selection;
-
-  change.deleteAtRange(selection);
-
-  // Ensure that the selection is collapsed to the start, because in certain
-  // cases when deleting across inline nodes, when splitting the inline node the
-  // end point of the selection will end up after the split point.
-  change.collapseToStart();
-};
-
-/**
- * Insert a `block` at the current selection.
- *
- * @param {Change} change
- * @param {String|Object|Block} block
- */
-
-Changes.insertBlock = function (change, block) {
-  block = Block.create(block);
-  var value = change.value;
-  var selection = value.selection;
-
-  change.insertBlockAtRange(selection, block);
-
-  // If the node was successfully inserted, update the selection.
-  var node = change.value.document.getNode(block.key);
-  if (node) change.collapseToEndOf(node);
-};
-
-/**
- * Insert a `fragment` at the current selection.
- *
- * @param {Change} change
- * @param {Document} fragment
- */
-
-Changes.insertFragment = function (change, fragment) {
-  if (!fragment.nodes.size) return;
-
-  var value = change.value;
-  var _value = value,
-      document = _value.document,
-      selection = _value.selection;
-  var _value2 = value,
-      startText = _value2.startText,
-      endText = _value2.endText,
-      startInline = _value2.startInline;
-
-  var lastText = fragment.getLastText();
-  var lastInline = fragment.getClosestInline(lastText.key);
-  var keys = document.getTexts().map(function (text) {
-    return text.key;
-  });
-  var isAppending = !startInline || selection.hasEdgeAtStartOf(startText) || selection.hasEdgeAtEndOf(endText);
-
-  change.insertFragmentAtRange(selection, fragment);
-  value = change.value;
-  document = value.document;
-
-  var newTexts = document.getTexts().filter(function (n) {
-    return !keys.includes(n.key);
-  });
-  var newText = isAppending ? newTexts.last() : newTexts.takeLast(2).first();
-
-  if (newText && lastInline) {
-    change.select(selection.collapseToEndOf(newText));
-  } else if (newText) {
-    change.select(selection.collapseToStartOf(newText).move(lastText.text.length));
-  } else {
-    change.select(selection.collapseToStart().move(lastText.text.length));
-  }
-};
-
-/**
- * Insert an `inline` at the current selection.
- *
- * @param {Change} change
- * @param {String|Object|Inline} inline
- */
-
-Changes.insertInline = function (change, inline) {
-  inline = Inline.create(inline);
-  var value = change.value;
-  var selection = value.selection;
-
-  change.insertInlineAtRange(selection, inline);
-
-  // If the node was successfully inserted, update the selection.
-  var node = change.value.document.getNode(inline.key);
-  if (node) change.collapseToEndOf(node);
-};
-
-/**
- * Insert a string of `text` with optional `marks` at the current selection.
- *
- * @param {Change} change
- * @param {String} text
- * @param {Set<Mark>} marks (optional)
- */
-
-Changes.insertText = function (change, text, marks) {
-  var value = change.value;
-  var document = value.document,
-      selection = value.selection;
-
-  marks = marks || selection.marks || document.getInsertMarksAtRange(selection);
-  change.insertTextAtRange(selection, text, marks);
-
-  // If the text was successfully inserted, and the selection had marks on it,
-  // unset the selection's marks.
-  if (selection.marks && document != change.value.document) {
-    change.select({ marks: null });
-  }
-};
-
-/**
- * Split the block node at the current selection, to optional `depth`.
- *
- * @param {Change} change
- * @param {Number} depth (optional)
- */
-
-Changes.splitBlock = function (change) {
-  var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  var value = change.value;
-  var selection = value.selection;
-
-  change.splitBlockAtRange(selection, depth).collapseToEnd();
-};
-
-/**
- * Remove a `mark` from the characters in the current selection.
- *
- * @param {Change} change
- * @param {Mark} mark
- */
-
-Changes.removeMark = function (change, mark) {
-  mark = Mark.create(mark);
-  var value = change.value;
-  var document = value.document,
-      selection = value.selection;
-
-
-  if (selection.isExpanded) {
-    change.removeMarkAtRange(selection, mark);
-  } else if (selection.marks) {
-    var marks = selection.marks.remove(mark);
-    var sel = selection.set('marks', marks);
-    change.select(sel);
-  } else {
-    var _marks2 = document.getActiveMarksAtRange(selection).remove(mark);
-    var _sel2 = selection.set('marks', _marks2);
-    change.select(_sel2);
-  }
-};
-
-/**
- * Add or remove a `mark` from the characters in the current selection,
- * depending on whether it's already there.
- *
- * @param {Change} change
- * @param {Mark} mark
- */
-
-Changes.toggleMark = function (change, mark) {
-  mark = Mark.create(mark);
-  var value = change.value;
-
-  var exists = value.activeMarks.has(mark);
-
-  if (exists) {
-    change.removeMark(mark);
-  } else {
-    change.addMark(mark);
-  }
-};
-
-/**
- * Wrap the current selection with prefix/suffix.
- *
- * @param {Change} change
- * @param {String} prefix
- * @param {String} suffix
- */
-
-Changes.wrapText = function (change, prefix) {
-  var suffix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : prefix;
-  var value = change.value;
-  var selection = value.selection;
-
-  change.wrapTextAtRange(selection, prefix, suffix);
-
-  // If the selection was collapsed, it will have moved the start offset too.
-  if (selection.isCollapsed) {
-    change.moveStart(0 - prefix.length);
-  }
-
-  // Adding the suffix will have pushed the end of the selection further on, so
-  // we need to move it back to account for this.
-  change.moveEnd(0 - suffix.length);
-
-  // There's a chance that the selection points moved "through" each other,
-  // resulting in a now-incorrect selection direction.
-  if (selection.isForward != change.value.selection.isForward) {
-    change.flip();
-  }
-};
+Block.createChildren = Node.createList;
+Inline.createChildren = Node.createList;
+Document.createChildren = Node.createList;
 
 /**
  * Surrogate pair start and end points.
@@ -47317,6 +48072,7 @@ Changes$1.deleteBackwardAtRange = function (change, range) {
   var n = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
+  if (n === 0) return;
   var normalize = change.getFlag('normalize', options);
   var value = change.value;
   var document = value.document;
@@ -47458,7 +48214,7 @@ Changes$1.deleteLineForwardAtRange = function (change, range, options) {
   var startBlock = document.getClosestBlock(startKey);
   var offset = startBlock.getOffset(startKey);
   var o = offset + startOffset;
-  change.deleteForwardAtRange(range, o, options);
+  change.deleteForwardAtRange(range, startBlock.text.length - o, options);
 };
 
 /**
@@ -47499,6 +48255,7 @@ Changes$1.deleteForwardAtRange = function (change, range) {
   var n = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
+  if (n === 0) return;
   var normalize = change.getFlag('normalize', options);
   var value = change.value;
   var document = value.document;
@@ -47678,7 +48435,11 @@ Changes$1.insertFragmentAtRange = function (change, range, fragment) {
   // If the range is expanded, delete it first.
   if (range.isExpanded) {
     change.deleteAtRange(range, { normalize: false });
-    range = range.collapseToStart();
+    if (change.value.document.getDescendant(range.startKey)) {
+      range = range.collapseToStart();
+    } else {
+      range = range.collapseTo(range.endKey, 0);
+    }
   }
 
   // If the fragment is empty, there's nothing to do after deleting.
@@ -47706,12 +48467,23 @@ Changes$1.insertFragmentAtRange = function (change, range, fragment) {
   var parent = document.getParent(startBlock.key);
   var index = parent.nodes.indexOf(startBlock);
   var blocks = fragment.getBlocks();
+  var firstChild = fragment.nodes.first();
+  var lastChild = fragment.nodes.last();
   var firstBlock = blocks.first();
   var lastBlock = blocks.last();
 
   // If the fragment only contains a void block, use `insertBlock` instead.
   if (firstBlock == lastBlock && firstBlock.isVoid) {
     change.insertBlockAtRange(range, firstBlock, options);
+    return;
+  }
+
+  // If the fragment starts or ends with single nested block, (e.g., table),
+  // do not merge this fragment with existing blocks.
+  if (fragment.hasBlocks(firstChild.key) || fragment.hasBlocks(lastChild.key)) {
+    fragment.nodes.reverse().forEach(function (node) {
+      change.insertBlockAtRange(range, node, options);
+    });
     return;
   }
 
@@ -47865,11 +48637,23 @@ Changes$1.insertTextAtRange = function (change, range, text, marks) {
   }
 
   // PERF: Unless specified, don't normalize if only inserting text.
-  if (normalize !== undefined) {
-    normalize = range.isExpanded;
+  if (normalize === undefined) {
+    normalize = range.isExpanded && marks.size !== 0;
   }
+  change.insertTextByKey(key, offset, text, marks, { normalize: false });
 
-  change.insertTextByKey(key, offset, text, marks, { normalize: normalize });
+  if (normalize) {
+    // normalize in the narrowest existing block that originally contains startKey and endKey
+    var commonAncestor = document.getCommonAncestor(startKey, range.endKey);
+    var ancestors = document.getAncestors(commonAncestor.key).push(commonAncestor);
+    var normalizeAncestor = ancestors.findLast(function (n) {
+      return change.value.document.getDescendant(n.key);
+    });
+    // it is possible that normalizeAncestor doesn't return any node
+    // on that case fallback to startKey to be normalized
+    var normalizeKey = normalizeAncestor ? normalizeAncestor.key : startKey;
+    change.normalizeNodeByKey(normalizeKey);
+  }
 };
 
 /**
@@ -48004,14 +48788,11 @@ Changes$1.splitBlockAtRange = function (change, range) {
 
   var normalize = change.getFlag('normalize', options);
 
-  if (range.isExpanded) {
-    change.deleteAtRange(range, { normalize: normalize });
-    range = range.collapseToStart();
-  }
-
   var _range6 = range,
       startKey = _range6.startKey,
-      startOffset = _range6.startOffset;
+      startOffset = _range6.startOffset,
+      endOffset = _range6.endOffset,
+      endKey = _range6.endKey;
   var value = change.value;
   var document = value.document;
 
@@ -48025,7 +48806,19 @@ Changes$1.splitBlockAtRange = function (change, range) {
     h++;
   }
 
-  change.splitDescendantsByKey(node.key, startKey, startOffset, { normalize: normalize });
+  change.splitDescendantsByKey(node.key, startKey, startOffset, {
+    normalize: normalize && range.isCollapsed
+  });
+
+  if (range.isExpanded) {
+    if (range.isBackward) range = range.flip();
+    var nextBlock = change.value.document.getNextBlock(node.key);
+    range = range.moveAnchorToStartOf(nextBlock);
+    if (startKey === endKey) {
+      range = range.moveFocusTo(range.anchorKey, endOffset - startOffset);
+    }
+    change.deleteAtRange(range, { normalize: normalize });
+  }
 };
 
 /**
@@ -48846,6 +49639,68 @@ Changes$2.removeNodeByKey = function (change, key) {
 };
 
 /**
+ * Insert `text` at `offset` in node by `key`.
+ *
+ * @param {Change} change
+ * @param {String} key
+ * @param {String} text
+ * @param {Set<Mark>} marks (optional)
+ * @param {Object} options
+ *   @property {Boolean} normalize
+ */
+
+Changes$2.setTextByKey = function (change, key, text, marks) {
+  var options = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+
+  var textNode = change.value.document.getDescendant(key);
+  change.replaceTextByKey(key, 0, textNode.text.length, text, marks, options);
+};
+
+/**
+ * Replace A Length of Text with another string or text
+ * @param {Change} change
+ * @param {String} key
+ * @param {Number} offset
+ * @param {Number} length
+ * @param {string} text
+ * @param {Set<Mark>} marks (optional)
+ * @param {Object} options
+ *   @property {Boolean} normalize
+ *
+ */
+
+Changes$2.replaceTextByKey = function (change, key, offset, length, text, marks, options) {
+  var document = change.value.document;
+
+  var textNode = document.getDescendant(key);
+  if (length + offset > textNode.text.length) {
+    length = textNode.text.length - offset;
+  }
+  var range = Range.create({
+    anchorKey: key,
+    focusKey: key,
+    anchorOffset: offset,
+    focusOffset: offset + length
+  });
+  var activeMarks = document.getActiveMarksAtRange(range);
+
+  change.removeTextByKey(key, offset, length, { normalize: false });
+  if (!marks) {
+    // Do not use mark at index when marks and activeMarks are both empty
+    marks = activeMarks ? activeMarks : [];
+  } else if (activeMarks) {
+    // Do not use `has` because we may want to reset marks like font-size with an updated data;
+    activeMarks = activeMarks.filter(function (activeMark) {
+      return !marks.find(function (m) {
+        return activeMark.type === m.type;
+      });
+    });
+    marks = activeMarks.merge(marks);
+  }
+  change.insertTextByKey(key, offset, text, marks, options);
+};
+
+/**
  * Remove text at `offset` and `length` in node by `key`.
  *
  * @param {Change} change
@@ -48929,7 +49784,7 @@ Changes$2.replaceNodeByKey = function (change, key, newNode) {
   var parent = document.getParent(key);
   var index = parent.nodes.indexOf(node);
   change.removeNodeByKey(key, { normalize: false });
-  change.insertNodeByKey(parent.key, index, newNode, options);
+  change.insertNodeByKey(parent.key, index, newNode, { normalize: false });
   if (normalize) {
     change.normalizeNodeByKey(parent.key);
   }
@@ -49488,10 +50343,6 @@ var History = function (_Record) {
      * Alias `fromJS`.
      */
 
-  }, {
-    key: 'isHistory',
-
-
     /**
      * Check if `any` is a `History`.
      *
@@ -49499,9 +50350,6 @@ var History = function (_Record) {
      * @return {Boolean}
      */
 
-    value: function isHistory(any) {
-      return !!(any && any[MODEL_TYPES.HISTORY]);
-    }
   }]);
   return History;
 }(immutable.Record(DEFAULTS$8));
@@ -49511,6 +50359,7 @@ var History = function (_Record) {
  */
 
 History.fromJS = History.fromJSON;
+History.isHistory = isType.bind(null, 'HISTORY');
 History.prototype[MODEL_TYPES.HISTORY] = true;
 
 /**
@@ -49642,20 +50491,19 @@ var CORE_SCHEMA_RULES = [
 /**
  * Ensure that inline non-void nodes are never empty.
  *
- * This rule is applied to all blocks, because when they contain an empty
- * inline, we need to remove the inline from that parent block. If `validate`
- * was to be memoized, it should be against the parent node, not the inline
- * themselves.
+ * This rule is applied to all blocks and inlines, because when they contain an empty
+ * inline, we need to remove the empty inline from that parent node. If `validate`
+ * was to be memoized, it should be against the parent node, not the empty inline itself.
  *
  * @type {Object}
  */
 
 {
   validateNode: function validateNode(node) {
-    if (node.object != 'block') return;
+    if (node.object != 'inline' && node.object != 'block') return;
 
-    var invalids = node.nodes.filter(function (n) {
-      return n.object === 'inline' && n.isVoid === false && n.text === '';
+    var invalids = node.nodes.filter(function (child) {
+      return child.object === 'inline' && child.isEmpty;
     });
 
     if (!invalids.size) return;
@@ -49990,43 +50838,18 @@ var Stack = function (_Record) {
   }, {
     key: 'render',
     value: function render(property, props) {
-      var plugins = this.getPluginsWith(property).slice().reverse();
-      var _props$children = props.children,
-          children = _props$children === undefined ? null : _props$children;
-
       for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
         args[_key4 - 2] = arguments[_key4];
       }
 
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
-
-      try {
-
-        for (var _iterator4 = plugins[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var plugin = _step4.value;
-
-          var ret = plugin[property].apply(plugin, [props].concat(args));
-          if (ret == null) continue;
-          props.children = children = ret;
-        }
-      } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
-      }
-
-      return children;
+      var plugins = this.getPluginsWith(property);
+      return plugins.reduceRight(function (children, plugin) {
+        if (!plugin[property]) return children;
+        var ret = plugin[property].apply(plugin, [props].concat(args));
+        if (ret == null) return children;
+        props.children = ret;
+        return ret;
+      }, props.children === undefined ? null : props.children);
     }
   }, {
     key: 'object',
@@ -50091,9 +50914,7 @@ Stack.prototype[MODEL_TYPES.STACK] = true;
  * Memoize read methods.
  */
 
-memoize(Stack.prototype, ['getPluginsWith'], {
-  takesArguments: true
-});
+memoize(Stack.prototype, ['getPluginsWith']);
 
 /**
  * Debug.
@@ -50703,8 +51524,8 @@ function resolveNodeRule(object, type, obj) {
 }
 
 /**
- * A Lodash customizer for merging schema definitions. Special cases `objects`
- * and `types` arrays to be unioned, and ignores new `null` values.
+ * A Lodash customizer for merging schema definitions. Special cases `objects`,
+ * `marks` and `types` arrays to be unioned, and ignores new `null` values.
  *
  * @param {Mixed} target
  * @param {Mixed} source
@@ -50712,7 +51533,7 @@ function resolveNodeRule(object, type, obj) {
  */
 
 function customizer(target, source, key) {
-  if (key == 'objects' || key == 'types') {
+  if (key == 'objects' || key == 'types' || key == 'marks') {
     return target == null ? source : target.concat(source);
   } else {
     return source == null ? target : source;
@@ -50729,9 +51550,7 @@ Schema.prototype[MODEL_TYPES.SCHEMA] = true;
  * Memoize read methods.
  */
 
-memoize(Schema.prototype, ['getParentRules'], {
-  takesArguments: true
-});
+memoize(Schema.prototype, ['getParentRules']);
 
 /**
  * Default properties.
@@ -50826,6 +51645,20 @@ var Value = function (_Record) {
         object.selection.focusPath = selection.isSet ? document.getPath(selection.focusKey) : null;
         delete object.selection.anchorKey;
         delete object.selection.focusKey;
+      }
+
+      if (options.preserveDecorations && object.decorations && !options.preserveKeys) {
+        var _document = this.document;
+
+        object.decorations = object.decorations.map(function (decoration) {
+          var withPath = _extends({}, decoration, {
+            anchorPath: _document.getPath(decoration.anchorKey),
+            focusPath: _document.getPath(decoration.focusKey)
+          });
+          delete withPath.anchorKey;
+          delete withPath.focusKey;
+          return withPath;
+        });
       }
 
       return object;
@@ -51363,7 +52196,7 @@ var Value = function (_Record) {
     get: function get$$1() {
       if (this.isCollapsed) return true;
       if (this.endOffset != 0 && this.startOffset != 0) return false;
-      return this.fragment.text.length == 0;
+      return this.fragment.isEmpty;
     }
 
     /**
@@ -51391,12 +52224,14 @@ var Value = function (_Record) {
 
     value: function create() {
       var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
       if (Value.isValue(attrs)) {
         return attrs;
       }
 
       if (isPlainObject(attrs)) {
-        return Value.fromJSON(attrs);
+        return Value.fromJSON(attrs, options);
       }
 
       throw new Error('`Value.create` only accepts objects or values, but you passed it: ' + attrs);
@@ -52701,7 +53536,9 @@ Changes$6.normalizeNodeByKey = function (change, key) {
   if (!ancestors) return;
 
   ancestors.forEach(function (ancestor) {
-    normalizeNode(change, ancestor, schema);
+    if (change.value.document.getDescendant(ancestor.key)) {
+      normalizeNode(change, ancestor, schema);
+    }
   });
 };
 
@@ -52719,34 +53556,17 @@ function normalizeNodeAndChildren(change, node, schema) {
     return;
   }
 
-  var normalizedKeys = [];
-  var child = node.nodes.first();
+  var child = node.getFirstInvalidDescendant(schema);
   var path = change.value.document.getPath(node.key);
-
-  // We can't just loop the children and normalize them, because in the process
-  // of normalizing one child, we might end up creating another. Instead, we
-  // have to normalize one at a time, and check for new children along the way.
   while (node && child) {
-    var lastSize = change.operations.size;
     normalizeNodeAndChildren(change, child, schema);
-    normalizedKeys.push(child.key);
-
-    // PERF: if size is unchanged, then no operation happens
-    // Therefore we can simply normalize the next child
-    if (lastSize === change.operations.size) {
-      var nextIndex = node.nodes.indexOf(child) + 1;
-      child = node.nodes.get(nextIndex);
+    node = change.value.document.refindNode(path, node.key);
+    if (!node) {
+      path = [];
+      child = null;
     } else {
-      node = change.value.document.refindNode(path, node.key);
-      if (!node) {
-        path = [];
-        child = null;
-      } else {
-        path = change.value.document.refindPath(path, node.key);
-        child = node.nodes.find(function (c) {
-          return !normalizedKeys.includes(c.key);
-        });
-      }
+      path = change.value.document.refindPath(path, node.key);
+      child = node.getFirstInvalidDescendant(schema);
     }
   }
 
@@ -52815,6 +53635,60 @@ var Changes$7 = _extends({}, Changes, Changes$1, Changes$2, Changes$3, Changes$4
  */
 
 var debug$3 = Debug('slate:operation:apply');
+
+/**
+ * Apply adjustments to affected ranges (selections, decorations);
+ * accepts (value, checking function(range) -> bool, applying function(range) -> range)
+ * returns value with affected ranges updated
+ *
+ * @param {Value} value
+ * @param {Function} checkAffected
+ * @param {Function} adjustRange
+ * @return {Value}
+ */
+
+function applyRangeAdjustments(value, checkAffected, adjustRange) {
+  // check selection, apply adjustment if affected
+  if (value.selection && checkAffected(value.selection)) {
+    value = value.set('selection', adjustRange(value.selection));
+  }
+  if (!value.decorations) return value;
+
+  // check all ranges, apply adjustment if affected
+  var decorations = value.decorations.map(function (decoration) {
+    return checkAffected(decoration) ? adjustRange(decoration) : decoration;
+  }).filter(function (decoration) {
+    return decoration.anchorKey !== null;
+  });
+  return value.set('decorations', decorations);
+}
+
+/**
+ * clear any atomic ranges (in decorations) if they contain the point (key, offset, offset-end?)
+ * specified
+ *
+ * @param {Value} value
+ * @param {String} key
+ * @param {Number} offset
+ * @param {Number?} offsetEnd
+ * @return {Value}
+ */
+
+function clearAtomicRangesIfContains(value, key, offset) {
+  var offsetEnd = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+  return applyRangeAdjustments(value, function (range) {
+    if (!range.isAtomic) return false;
+    var startKey = range.startKey,
+        startOffset = range.startOffset,
+        endKey = range.endKey,
+        endOffset = range.endOffset;
+
+    return startKey == key && startOffset < offset && (endKey != key || endOffset > offset) || offsetEnd && startKey == key && startOffset < offsetEnd && (endKey != key || endOffset > offsetEnd);
+  }, function (range) {
+    return range.deselect();
+  });
+}
 
 /**
  * Applying functions.
@@ -52886,13 +53760,7 @@ var APPLIERS = {
         text = operation.text,
         marks = operation.marks;
     var _value3 = value,
-        document = _value3.document,
-        selection = _value3.selection;
-    var _selection = selection,
-        anchorKey = _selection.anchorKey,
-        focusKey = _selection.focusKey,
-        anchorOffset = _selection.anchorOffset,
-        focusOffset = _selection.focusOffset;
+        document = _value3.document;
 
     var node = document.assertPath(path);
 
@@ -52900,15 +53768,32 @@ var APPLIERS = {
     node = node.insertText(offset, text, marks);
     document = document.updateNode(node);
 
-    // Update the selection
-    if (anchorKey == node.key && anchorOffset >= offset) {
-      selection = selection.moveAnchor(text.length);
-    }
-    if (focusKey == node.key && focusOffset >= offset) {
-      selection = selection.moveFocus(text.length);
-    }
+    value = value.set('document', document);
 
-    value = value.set('document', document).set('selection', selection);
+    // if insert happens within atomic ranges, clear
+    value = clearAtomicRangesIfContains(value, node.key, offset);
+
+    // Update the selection, decorations
+    value = applyRangeAdjustments(value, function (_ref) {
+      var anchorKey = _ref.anchorKey,
+          anchorOffset = _ref.anchorOffset,
+          isBackward = _ref.isBackward,
+          isAtomic = _ref.isAtomic;
+      return anchorKey == node.key && (anchorOffset > offset || anchorOffset == offset && (!isAtomic || !isBackward));
+    }, function (range) {
+      return range.moveAnchor(text.length);
+    });
+
+    value = applyRangeAdjustments(value, function (_ref2) {
+      var focusKey = _ref2.focusKey,
+          focusOffset = _ref2.focusOffset,
+          isBackward = _ref2.isBackward,
+          isAtomic = _ref2.isAtomic;
+      return focusKey == node.key && (focusOffset > offset || focusOffset == offset && (!isAtomic || isBackward));
+    }, function (range) {
+      return range.moveFocus(text.length);
+    });
+
     return value;
   },
 
@@ -52926,8 +53811,7 @@ var APPLIERS = {
 
     var withPath = path.slice(0, path.length - 1).concat([path[path.length - 1] - 1]);
     var _value4 = value,
-        document = _value4.document,
-        selection = _value4.selection;
+        document = _value4.document;
 
     var one = document.assertPath(withPath);
     var two = document.assertPath(path);
@@ -52938,35 +53822,24 @@ var APPLIERS = {
     // Perform the merge in the document.
     parent = parent.mergeNode(oneIndex, twoIndex);
     document = document.updateNode(parent);
+    value = value.set('document', document);
 
-    // If the nodes are text nodes and the selection is inside the second node
-    // update it to refer to the first node instead.
     if (one.object == 'text') {
-      var _selection2 = selection,
-          anchorKey = _selection2.anchorKey,
-          anchorOffset = _selection2.anchorOffset,
-          focusKey = _selection2.focusKey,
-          focusOffset = _selection2.focusOffset;
-
-      var normalize = false;
-
-      if (anchorKey == two.key) {
-        selection = selection.moveAnchorTo(one.key, one.text.length + anchorOffset);
-        normalize = true;
-      }
-
-      if (focusKey == two.key) {
-        selection = selection.moveFocusTo(one.key, one.text.length + focusOffset);
-        normalize = true;
-      }
-
-      if (normalize) {
-        selection = selection.normalize(document);
-      }
+      value = applyRangeAdjustments(value,
+      // If the nodes are text nodes and the range is inside the second node:
+      function (_ref3) {
+        var anchorKey = _ref3.anchorKey,
+            focusKey = _ref3.focusKey;
+        return anchorKey == two.key || focusKey == two.key;
+      },
+      // update it to refer to the first node instead:
+      function (range) {
+        if (range.anchorKey == two.key) range = range.moveAnchorTo(one.key, one.text.length + range.anchorOffset);
+        if (range.focusKey == two.key) range = range.moveFocusTo(one.key, one.text.length + range.focusOffset);
+        return range.normalize(document);
+      });
     }
 
-    // Update the document and selection.
-    value = value.set('document', document).set('selection', selection);
     return value;
   },
 
@@ -53063,47 +53936,39 @@ var APPLIERS = {
     var _value7 = value,
         document = _value7.document,
         selection = _value7.selection;
-    var _selection3 = selection,
-        startKey = _selection3.startKey,
-        endKey = _selection3.endKey;
 
     var node = document.assertPath(path);
 
-    // If the selection is set, check to see if it needs to be updated.
-    if (selection.isSet) {
-      var hasStartNode = node.hasNode(startKey);
-      var hasEndNode = node.hasNode(endKey);
+    if (selection.isSet || value.decorations !== null) {
       var first = node.object == 'text' ? node : node.getFirstText() || node;
       var last = node.object == 'text' ? node : node.getLastText() || node;
       var prev = document.getPreviousText(first.key);
       var next = document.getNextText(last.key);
 
-      // If the start point was in this node, update it to be just before/after.
-      if (hasStartNode) {
-        if (prev) {
-          selection = selection.moveStartTo(prev.key, prev.text.length);
-        } else if (next) {
-          selection = selection.moveStartTo(next.key, 0);
-        } else {
-          selection = selection.deselect();
-        }
-      }
+      value = applyRangeAdjustments(value,
+      // If the start or end point was in this node
+      function (_ref4) {
+        var startKey = _ref4.startKey,
+            endKey = _ref4.endKey;
+        return node.hasNode(startKey) || node.hasNode(endKey);
+      },
+      // update it to be just before/after
+      function (range) {
+        var _range = range,
+            startKey = _range.startKey,
+            endKey = _range.endKey;
 
-      // If the end point was in this node, update it to be just before/after.
-      if (selection.isSet && hasEndNode) {
-        if (prev) {
-          selection = selection.moveEndTo(prev.key, prev.text.length);
-        } else if (next) {
-          selection = selection.moveEndTo(next.key, 0);
-        } else {
-          selection = selection.deselect();
-        }
-      }
 
-      // If the selection wasn't deselected, normalize it.
-      if (selection.isSet) {
-        selection = selection.normalize(document);
-      }
+        if (node.hasNode(startKey)) {
+          range = prev ? range.moveStartTo(prev.key, prev.text.length) : next ? range.moveStartTo(next.key, 0) : range.deselect();
+        }
+        if (node.hasNode(endKey)) {
+          range = prev ? range.moveEndTo(prev.key, prev.text.length) : next ? range.moveEndTo(next.key, 0) : range.deselect();
+        }
+        // If the range wasn't deselected, normalize it.
+        if (range.isSet) return range.normalize(document);
+        return range;
+      });
     }
 
     // Remove the node from the document.
@@ -53112,8 +53977,8 @@ var APPLIERS = {
     parent = parent.removeNode(index);
     document = document.updateNode(parent);
 
-    // Update the document and selection.
-    value = value.set('document', document).set('selection', selection);
+    // Update the document and range.
+    value = value.set('document', document);
     return value;
   },
 
@@ -53134,35 +53999,39 @@ var APPLIERS = {
 
     var rangeOffset = offset + length;
     var _value8 = value,
-        document = _value8.document,
-        selection = _value8.selection;
-    var _selection4 = selection,
-        anchorKey = _selection4.anchorKey,
-        focusKey = _selection4.focusKey,
-        anchorOffset = _selection4.anchorOffset,
-        focusOffset = _selection4.focusOffset;
+        document = _value8.document;
+
 
     var node = document.assertPath(path);
 
-    if (anchorKey == node.key) {
-      if (anchorOffset >= rangeOffset) {
-        selection = selection.moveAnchor(-length);
-      } else if (anchorOffset > offset) {
-        selection = selection.moveAnchorTo(anchorKey, offset);
-      }
-    }
+    // if insert happens within atomic ranges, clear
+    value = clearAtomicRangesIfContains(value, node.key, offset, offset + length);
 
-    if (focusKey == node.key) {
-      if (focusOffset >= rangeOffset) {
-        selection = selection.moveFocus(-length);
-      } else if (focusOffset > offset) {
-        selection = selection.moveFocusTo(focusKey, offset);
-      }
-    }
+    value = applyRangeAdjustments(value,
+    // if anchor of range is here
+    function (_ref5) {
+      var anchorKey = _ref5.anchorKey;
+      return anchorKey == node.key;
+    },
+    // adjust if it is in or past the removal range
+    function (range) {
+      return range.anchorOffset >= rangeOffset ? range.moveAnchor(-length) : range.anchorOffset > offset ? range.moveAnchorTo(range.anchorKey, offset) : range;
+    });
+
+    value = applyRangeAdjustments(value,
+    // if focus of range is here
+    function (_ref6) {
+      var focusKey = _ref6.focusKey;
+      return focusKey == node.key;
+    },
+    // adjust if it is in or past the removal range
+    function (range) {
+      return range.focusOffset >= rangeOffset ? range.moveFocus(-length) : range.focusOffset > offset ? range.moveFocusTo(range.focusKey, offset) : range;
+    });
 
     node = node.removeText(offset, length);
     document = document.updateNode(node);
-    value = value.set('document', document).set('selection', selection);
+    value = value.set('document', document);
     return value;
   },
 
@@ -53276,8 +54145,7 @@ var APPLIERS = {
         position = operation.position,
         properties = operation.properties;
     var _value12 = value,
-        document = _value12.document,
-        selection = _value12.selection;
+        document = _value12.document;
 
     // Calculate a few things...
 
@@ -53294,37 +54162,44 @@ var APPLIERS = {
       }
     }
     document = document.updateNode(parent);
-
-    // Determine whether we need to update the selection...
-    var _selection5 = selection,
-        startKey = _selection5.startKey,
-        endKey = _selection5.endKey,
-        startOffset = _selection5.startOffset,
-        endOffset = _selection5.endOffset;
-
     var next = document.getNextText(node.key);
-    var normalize = false;
 
-    // If the start point is after or equal to the split, update it.
-    if (node.key == startKey && position <= startOffset) {
-      selection = selection.moveStartTo(next.key, startOffset - position);
-      normalize = true;
-    }
+    value = applyRangeAdjustments(value,
+    // check if range is affected
+    function (_ref7) {
+      var startKey = _ref7.startKey,
+          startOffset = _ref7.startOffset,
+          endKey = _ref7.endKey,
+          endOffset = _ref7.endOffset;
+      return node.key == startKey && position <= startOffset || node.key == endKey && position <= endOffset;
+    },
+    // update its start / end as needed
+    function (range) {
+      var _range2 = range,
+          startKey = _range2.startKey,
+          startOffset = _range2.startOffset,
+          endKey = _range2.endKey,
+          endOffset = _range2.endOffset;
 
-    // If the end point is after or equal to the split, update it.
-    if (node.key == endKey && position <= endOffset) {
-      selection = selection.moveEndTo(next.key, endOffset - position);
-      normalize = true;
-    }
+      var normalize = false;
 
-    // Normalize the selection if we changed it, since the methods we use might
-    // leave it in a non-normalized value.
-    if (normalize) {
-      selection = selection.normalize(document);
-    }
+      if (node.key == startKey && position <= startOffset) {
+        range = range.moveStartTo(next.key, startOffset - position);
+        normalize = true;
+      }
+
+      if (node.key == endKey && position <= endOffset) {
+        range = range.moveEndTo(next.key, endOffset - position);
+        normalize = true;
+      }
+
+      // Normalize the selection if we changed it
+      if (normalize) return range.normalize(document);
+      return range;
+    });
 
     // Return the updated value.
-    value = value.set('document', document).set('selection', selection);
+    value = value.set('document', document);
     return value;
   }
 };
@@ -53368,28 +54243,13 @@ var debug$4 = Debug('slate:change');
  */
 
 var Change = function () {
-  createClass(Change, null, [{
-    key: 'isChange',
 
-    /**
-     * Check if `any` is a `Change`.
-     *
-     * @param {Any} any
-     * @return {Boolean}
-     */
-
-    value: function isChange(any) {
-      return !!(any && any[MODEL_TYPES.CHANGE]);
-    }
-
-    /**
-     * Create a new `Change` with `attrs`.
-     *
-     * @param {Object} attrs
-     *   @property {Value} value
-     */
-
-  }]);
+  /**
+   * Create a new `Change` with `attrs`.
+   *
+   * @param {Object} attrs
+   *   @property {Value} value
+   */
 
   function Change(attrs) {
     classCallCheck(this, Change);
@@ -53406,6 +54266,13 @@ var Change = function () {
    * Object.
    *
    * @return {String}
+   */
+
+  /**
+   * Check if `any` is a `Change`.
+   *
+   * @param {Any} any
+   * @return {Boolean}
    */
 
   createClass(Change, [{
@@ -53592,6 +54459,7 @@ var Change = function () {
  * Attach a pseudo-symbol for type checking.
  */
 
+Change.isChange = isType.bind(null, 'CHANGE');
 Change.prototype[MODEL_TYPES.CHANGE] = true;
 
 /**
@@ -53670,9 +54538,8 @@ exports.useMemoization = useMemoization;
 exports.default = index;
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"debug":429,"direction":33,"esrever":35,"immutable":62,"is-empty":63,"is-plain-object":67,"lodash/isEqual":219,"lodash/mergeWith":231,"lodash/omit":232,"lodash/pick":233,"slate-dev-logger":407,"slate-schema-violations":427}],429:[function(require,module,exports){
-arguments[4][412][0].apply(exports,arguments)
-},{"./debug":430,"_process":241,"dup":412}],430:[function(require,module,exports){
-arguments[4][413][0].apply(exports,arguments)
-},{"dup":413,"ms":238}]},{},[1]);
+},{"debug":431,"direction":33,"esrever":35,"immutable":62,"is-empty":63,"is-plain-object":67,"lodash/isEqual":219,"lodash/mergeWith":231,"lodash/omit":232,"lodash/pick":233,"slate-dev-logger":408,"slate-schema-violations":429}],431:[function(require,module,exports){
+arguments[4][414][0].apply(exports,arguments)
+},{"./debug":432,"_process":241,"dup":414}],432:[function(require,module,exports){
+arguments[4][415][0].apply(exports,arguments)
+},{"dup":415,"ms":238}]},{},[1]);
