@@ -38,11 +38,11 @@
     "mocha": "^3.0.1",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
-    "slate": "^0.33.0",
+    "slate": "^0.34.0",
     "slate-hyperprint": "^2.2.4",
-    "slate-hyperscript": "^0.5.6",
-    "slate-react": "^0.12.0",
-    "slate-schema-violations": "^0.1.4"
+    "slate-hyperscript": "^0.5.15",
+    "slate-react": "^0.12.9",
+    "slate-schema-violations": "^0.1.13"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
