@@ -5,7 +5,7 @@ export default (
     <value>
         <document>
             <code_block>
-                <unknown-inline>This node must be removed.</unknown-inline>
+                <unknown-inline>This node must be converted.</unknown-inline>
                 {'multiple\nlines\nof\ncode'}
                 <italic> and marks</italic>
             </code_block>
