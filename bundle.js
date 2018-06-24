@@ -1362,59 +1362,57 @@ function schema(opts) {
 }
 
 /**
- * A rule that ensure code blocks only contain lines of code, and no marks
+ * Return a list of group of nodes matching the given filter.
  */
-function onlyLine(opts, change, context) {
-    var isLine = function isLine(n) {
-        return n.type === opts.lineType;
-    };
-
-    var nonLines = context.node.nodes.filterNot(isLine);
-
-    nonLines.forEach(function (invalidNode) {
-        var text = invalidNode.text;
-
-        if (text.length > 0) {
-            // Convert text nodes to code lines
-            var codeLines = (0, _utils.deserializeCode)(opts, text).nodes;
-
-            // Insert them in place of the invalid node
-            var parent = change.value.document.getParent(invalidNode.key);
-            var invalidNodeIndex = parent.nodes.indexOf(invalidNode);
-
-            codeLines.forEach(function (codeLine, index) {
-                change.insertNodeByKey(parent.key, invalidNodeIndex + index, codeLine, {
-                    normalize: false
-                });
-            });
-        }
-
-        // Remove the text
-        change.removeNodeByKey(invalidNode.key, { normalize: false });
-    });
-
-    return change;
-}
-
-/**
- * Return a list of group of code lines. Used to wrap them together in
- * independent code blocks.
- */
-function getSuccessiveCodeLines(opts, nodes) {
-    var isLine = function isLine(n) {
-        return n.type === opts.lineType;
-    };
-
-    var nonLines = nodes.takeUntil(isLine);
+function getSuccessiveNodes(nodes, match) {
+    var nonLines = nodes.takeUntil(match);
     var afterNonLines = nodes.skip(nonLines.size);
     if (afterNonLines.isEmpty()) {
         return (0, _immutable.List)();
     }
 
-    var firstGroup = afterNonLines.takeWhile(isLine);
+    var firstGroup = afterNonLines.takeWhile(match);
     var restOfNodes = afterNonLines.skip(firstGroup.size);
 
-    return (0, _immutable.List)([firstGroup]).concat(getSuccessiveCodeLines(opts, restOfNodes));
+    return (0, _immutable.List)([firstGroup]).concat(getSuccessiveNodes(restOfNodes, match));
+}
+
+/**
+ * A rule that ensure code blocks only contain lines of code, and no marks
+ */
+function onlyLine(opts, change, context) {
+    var isNotLine = function isNotLine(n) {
+        return n.type !== opts.lineType;
+    };
+    var nonLineGroups = getSuccessiveNodes(context.node.nodes, isNotLine);
+
+    nonLineGroups.filter(function (group) {
+        return !group.isEmpty();
+    }).forEach(function (nonLineGroup) {
+        // Convert text to code lines
+        var text = nonLineGroup.map(function (n) {
+            return n.text;
+        }).join('');
+        var codeLines = (0, _utils.deserializeCode)(opts, text).nodes;
+
+        // Insert them in place of the invalid node
+        var first = nonLineGroup.first();
+        var parent = change.value.document.getParent(first.key);
+        var invalidNodeIndex = parent.nodes.indexOf(first);
+
+        codeLines.forEach(function (codeLine, index) {
+            change.insertNodeByKey(parent.key, invalidNodeIndex + index, codeLine, {
+                normalize: false
+            });
+        });
+
+        // Remove the block
+        nonLineGroup.forEach(function (n) {
+            return change.removeNodeByKey(n.key, { normalize: false });
+        });
+    });
+
+    return change;
 }
 
 /**
@@ -1425,7 +1423,11 @@ function noOrphanLine(opts, change, context) {
     var parent = context.parent;
 
 
-    var linesGroup = getSuccessiveCodeLines(opts, parent.nodes);
+    var isLine = function isLine(n) {
+        return n.type === opts.lineType;
+    };
+
+    var linesGroup = getSuccessiveNodes(parent.nodes, isLine);
 
     linesGroup.forEach(function (group) {
         var container = _slate.Block.create({ type: opts.containerType, nodes: [] });
