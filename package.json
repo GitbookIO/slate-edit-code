@@ -13,14 +13,14 @@
   },
   "peerDependencies": {
     "immutable": "^3.8.2",
-    "slate": "^0.37.7",
-    "slate-react": "^0.15.9",
-    "slate-schema-violations": "^0.1.32"
+    "slate": "^0.40.2",
+    "slate-react": "^0.18.3",
+    "slate-schema-violations": "^0.1.39"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.6",
+    "babel-eslint": "^9.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -33,16 +33,16 @@
     "expect": "^23.5.0",
     "flow-bin": "^0.79.1",
     "gh-pages": "^1.2.0",
-    "http-server": "^0.9.0",
+    "http-server": "^0.11.1",
     "immutable": "^3.8.2",
-    "mocha": "^3.0.1",
+    "mocha": "^5.2.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "slate": "^0.37.7",
+    "slate": "^0.40.2",
     "slate-hyperprint": "^2.2.4",
-    "slate-hyperscript": "^0.8.2",
-    "slate-react": "^0.15.9",
-    "slate-schema-violations": "^0.1.32"
+    "slate-hyperscript": "^0.10.2",
+    "slate-react": "^0.18.3",
+    "slate-schema-violations": "^0.1.39"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
