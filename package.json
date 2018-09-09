@@ -6,21 +6,21 @@
   "repository": "git://github.com/GitbookIO/slate-edit-code.git",
   "main": "./dist/index.js",
   "dependencies": {
-    "detect-indent": "^4.0.0",
+    "detect-indent": "^5.0.0",
     "detect-newline": "^2.1.0",
-    "ends-with": "^0.2.0",
-    "is-hotkey": "^0.1.1"
+    "ends-with": "^1.0.1",
+    "is-hotkey": "^0.1.3"
   },
   "peerDependencies": {
-    "immutable": "^3.8.1",
-    "slate": "^0.33.0",
-    "slate-react": "^0.12.0",
-    "slate-schema-violations": "^0.1.4"
+    "immutable": "^3.8.2",
+    "slate": "^0.40.2",
+    "slate-react": "^0.18.5",
+    "slate-schema-violations": "^0.1.39"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.2",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^9.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -40,11 +40,11 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "prettier": "^1.13.3",
-    "slate": "^0.34.0",
+    "slate": "^0.40.2",
     "slate-hyperprint": "^2.2.4",
-    "slate-hyperscript": "^0.5.15",
-    "slate-react": "^0.12.9",
-    "slate-schema-violations": "^0.1.13"
+    "slate-hyperscript": "^0.10.2",
+    "slate-react": "^0.18.5",
+    "slate-schema-violations": "^0.1.39"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",

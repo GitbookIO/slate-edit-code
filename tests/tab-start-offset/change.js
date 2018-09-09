@@ -6,7 +6,7 @@ export default function(plugin, change) {
         node => node.type == 'code_block'
     );
 
-    change.collapseToStartOf(block).moveOffsetsTo(0);
+    change.moveToStartOfNode(block).moveTo(0);
 
     return plugin.onKeyDown(simulateKey('tab'), change, {});
 }
