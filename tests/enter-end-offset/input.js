@@ -6,7 +6,8 @@ export default (
         <document>
             <code_block>
                 <code_line>
-                    Some code<cursor />
+                    Some code
+                    <cursor />
                 </code_line>
             </code_block>
         </document>
