@@ -3878,9 +3878,9 @@ slate-prop-types@^0.4.61:
   version "0.4.61"
   resolved "http://registry.npm.taobao.org/slate-prop-types/download/slate-prop-types-0.4.61.tgz#141c109bed81b130dd03ab86dd7541b28d6d962a"
 
-slate-react@^0.18.3:
-  version "0.18.3"
-  resolved "http://registry.npm.taobao.org/slate-react/download/slate-react-0.18.3.tgz#fb057b06ff4b70a2825d4ac9aead342fe991c2e9"
+slate-react@^0.18.5:
+  version "0.18.5"
+  resolved "http://registry.npm.taobao.org/slate-react/download/slate-react-0.18.5.tgz#089ae30cd19b7600a9b528b5ab0525038b500142"
   dependencies:
     debug "^3.1.0"
     get-window "^1.1.1"

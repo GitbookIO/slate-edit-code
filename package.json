@@ -14,7 +14,7 @@
   "peerDependencies": {
     "immutable": "^3.8.2",
     "slate": "^0.40.2",
-    "slate-react": "^0.18.3",
+    "slate-react": "^0.18.5",
     "slate-schema-violations": "^0.1.39"
   },
   "devDependencies": {
@@ -43,7 +43,7 @@
     "slate": "^0.40.2",
     "slate-hyperprint": "^2.2.4",
     "slate-hyperscript": "^0.10.2",
-    "slate-react": "^0.18.3",
+    "slate-react": "^0.18.5",
     "slate-schema-violations": "^0.1.39"
   },
   "scripts": {
