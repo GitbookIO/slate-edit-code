@@ -25,23 +25,14 @@ npm install slate-edit-code
 
 This plugin uses the following structure for code blocks:
 
-``` yaml
-nodes:
-  - object: block
-    type: code_block
-    nodes:
-      - object: block
-        type: code_line
-        nodes:
-          - text: "A code block is made of..."
-      - object: block
-        type: code_line
-        nodes:
-          - text: "...several code lines"
-
+```html
+<code_block>
+  <code_line>A code block is made of</code_line>
+  <code_line>several code lines</code_line>
+</code_block>
 ```
 
-The plugin automatically converts multiline texts in `code_blocks` into the appropriate number of `code_lines`.
+Texts inside `code_blocks` that contain newlines `\n` are automatically split into the appropriate number of `code_lines`.
 
 
 ### Simple Usage

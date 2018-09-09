@@ -6,8 +6,14 @@ export default (
         <document>
             <code_block>
                 <code_line>Line 1</code_line>
-                <code_line>{'    '}Li</code_line>
-                <code_line>{'    '}ne 2</code_line>
+                <code_line>
+                    {'    '}
+                    Li
+                </code_line>
+                <code_line>
+                    {'    '}
+                    ne 2
+                </code_line>
             </code_block>
         </document>
     </value>

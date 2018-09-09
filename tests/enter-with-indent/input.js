@@ -7,7 +7,10 @@ export default (
             <code_block>
                 <code_line>Line 1</code_line>
                 <code_line>
-                    {'    '}Li<cursor />ne 2
+                    {'    '}
+                    Li
+                    <cursor />
+                    ne 2
                 </code_line>
             </code_block>
         </document>

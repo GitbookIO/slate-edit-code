@@ -6,7 +6,8 @@ export default (
         <document>
             <code_block>
                 <code_line>
-                    <anchor />Line 1
+                    <anchor />
+                    Line 1
                 </code_line>
                 <code_line>
                     Line 2<focus />

@@ -10,7 +10,10 @@ export default (
             <paragraph />
             <code_block>
                 <code_line>ne 1</code_line>
-                <code_line>{'    '}Line 2</code_line>
+                <code_line>
+                    {'    '}
+                    Line 2
+                </code_line>
             </code_block>
         </document>
     </value>
