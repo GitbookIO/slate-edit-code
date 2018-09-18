@@ -1,5 +1,5 @@
 {
-  "name": "slate-edit-code",
+  "name": "@gitbook/slate-edit-code",
   "description": "A Slate plugin to handle code blocks editing.",
   "version": "0.15.5",
   "license": "Apache-2.0",
