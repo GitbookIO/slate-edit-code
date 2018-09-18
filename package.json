@@ -13,9 +13,9 @@
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
-    "slate": "^0.33.0",
-    "slate-react": "^0.12.0",
-    "slate-schema-violations": "^0.1.4"
+    "@gitbook/slate": "^0.34.7",
+    "@gitbook/slate-react": "^0.13.4",
+    "@gitbook/slate-schema-violations": "^0.1.20"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -40,11 +40,11 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "prettier": "^1.13.3",
-    "slate": "^0.34.0",
+    "@gitbook/slate": "^0.34.7",
     "slate-hyperprint": "^2.2.4",
-    "slate-hyperscript": "^0.5.15",
-    "slate-react": "^0.12.9",
-    "slate-schema-violations": "^0.1.13"
+    "@gitbook/slate-hyperscript": "^0.5.22",
+    "@gitbook/slate-react": "^0.13.4",
+    "@gitbook/slate-schema-violations": "^0.1.20"
   },
   "scripts": {
     "prepublish": "babel ./lib --out-dir ./dist",
