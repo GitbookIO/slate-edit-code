@@ -1349,6 +1349,9 @@ function schema(opts) {
                     case _slateSchemaViolations.PARENT_INVALID:
                     case _slateSchemaViolations.PARENT_TYPE_INVALID:
                         return noOrphanLine(opts, change, context);
+                    case _slateSchemaViolations.CHILD_INVALID:
+                    case _slateSchemaViolations.CHILD_OBJECT_INVALID:
+                        return onlyTextInCode(opts, change, context);
                     default:
                         return undefined;
                 }
@@ -1415,6 +1418,24 @@ function onlyLine(opts, change, context) {
     });
 
     return change;
+}
+
+/**
+ * A rule that ensure code lines only contain text
+ */
+function onlyTextInCode(opts, change, context) {
+    var node = context.node;
+
+
+    if (node.object === 'inline' || node.object === 'block') {
+        node.nodes.forEach(function (child) {
+            change.unwrapNodeByKey(child.key, { normalize: false });
+        });
+
+        return change;
+    }
+
+    return undefined;
 }
 
 /**
