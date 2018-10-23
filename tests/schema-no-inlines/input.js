@@ -5,10 +5,12 @@ export default (
     <value>
         <document>
             <code_block>
-                <code_line>Some</code_line>
-                <code_line>{' code'}</code_line>
-                <code_line />
+                <code_line>
+                    Some <inline type="link">link</inline> in code
+                </code_line>
             </code_block>
         </document>
     </value>
 );
+
+// BITE
