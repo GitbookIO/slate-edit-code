@@ -2,7 +2,7 @@
 import { Value } from '@gitbook/slate';
 import hyperscript from '../hyperscript';
 
-export default Value.fromJSON(
+export default Value.fromJS(
     {
         document: (
             <document>
