@@ -1,14 +1,14 @@
+> ⚠️  This repository is archived and has moved to [GitBook's fork](https://github.com/GitbookIO/slate) of [ianstormtaylor/slate](https://github.com/ianstormtaylor/slate).
+> Previous versions are still [available on NPM](https://www.npmjs.com/package/slate-edit-table)
+> All the versions using GitBook's fork of slate are now published under the `@gitbook` NPM scope.
+> To learn more about why we forked Slate, read [our manifest](https://github.com/GitbookIO/slate/blob/master/Forked.md)
+
 # slate-edit-code
 
 [![NPM version](https://badge.fury.io/js/slate-edit-code.svg)](http://badge.fury.io/js/slate-edit-code)
 [![Linux Build Status](https://travis-ci.org/GitbookIO/slate-edit-code.png?branch=master)](https://travis-ci.org/GitbookIO/slate-edit-code)
 
 A Slate plugin to handle code block editing.
-
-> ⚠️  This repository is now using GitBook's fork of [ianstormtaylor/slate](https://github.com/ianstormtaylor/slate).
-> Previous versions are still [available on NPM](https://www.npmjs.com/package/slate-edit-code)
-> All the versions using GitBook's fork of slate are now published under the `@gitbook` NPM scope.
-> To learn more about why we forked Slate, read [our manifest](https://github.com/GitbookIO/slate/blob/master/Readme.md)
 
 ### Install
 
